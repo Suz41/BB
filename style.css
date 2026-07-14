@@ -1,4 +1,25 @@
-/* Modern CSS Reset & Typography styling to mirror the image */
+/* Design System for the Meme Creator Workspace */
+
+:root {
+    --bg-dark: #07080b;
+    --glass-bg: rgba(15, 17, 26, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-highlight: rgba(255, 255, 255, 0.08);
+    --glass-blur: 24px;
+    
+    --text-light: #f3f4f6;
+    --text-muted: #8b92a2;
+    --primary: #6366f1;
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+    
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Space Grotesk', monospace;
+    
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base resets */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,112 +27,379 @@
 }
 
 body {
-    background-color: #ededeb; /* Subtle warm grey to contrast the cream card */
-    color: #0b0b0b;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-ui);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* The Card Container mirroring bb.png layout */
-.card {
-    background-color: #faf8f5; /* Warm off-white paper canvas background */
+/* Glowing Ambient Orbs background */
+.bg-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+}
+
+.orb-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, #6366f1 0%, rgba(0,0,0,0) 70%);
+}
+
+.orb-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, #ec4899 0%, rgba(0,0,0,0) 70%);
+}
+
+/* App Container Layout */
+.app-container {
+    position: relative;
+    z-index: 10;
+    width: 95vw;
+    max-width: 1200px;
+    height: 85vh;
+    min-height: 680px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    display: flex;
+    overflow: hidden;
+}
+
+/* Editor Panel (Left side) */
+.editor-panel {
+    width: 420px;
+    border-right: 1px solid var(--glass-border);
+    background: rgba(8, 9, 14, 0.4);
+    display: flex;
+    flex-direction: column;
+    padding: 35px 30px;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.logo-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.4rem;
+    font-family: var(--font-heading);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+}
+
+.editor-header h2 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.input-group input[type="text"],
+.input-group textarea,
+.input-group select {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--glass-border);
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: var(--text-light);
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input-group textarea {
+    resize: none;
+}
+
+.input-group input[type="text"]:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+}
+
+.customization-row {
+    display: flex;
+    gap: 15px;
+}
+
+.half {
+    width: 50%;
+}
+
+.color-picker-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--glass-border);
+    padding: 6px 12px;
+    border-radius: 12px;
+    height: 46px;
+    gap: 10px;
+}
+
+.color-picker-wrapper input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: none;
+}
+
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+}
+
+.color-hex {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Action Buttons styling */
+.action-buttons {
+    margin-top: 10px;
+}
+
+.btn {
     width: 100%;
-    max-width: 620px;
-    aspect-ratio: 3 / 4; /* Portrait layout */
-    padding: 60px 50px 50px 50px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.btn-gradient {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 10px 20px rgba(236, 72, 153, 0.2);
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(236, 72, 153, 0.35);
+}
+
+.editor-footer {
+    border-top: 1px solid var(--glass-border);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.editor-footer p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Live Card Preview Panel (Right side) */
+.preview-panel {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 40px;
+}
+
+.preview-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.preview-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+/* Perfect replica styling for the poster card */
+.card {
+    background-color: #faf8f5; /* Initial classic warm cream */
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 3 / 4;
+    padding: 42px 35px 35px 35px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    border-radius: 4px;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
 }
 
-/* Top Header Area */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-bottom: 4px solid #0b0b0b;
-    padding-bottom: 12px;
+    border-bottom: 3.5px solid #000000;
+    padding-bottom: 10px;
 }
 
 .brand-title {
-    color: #e52d27; /* Rich Bokyabot Red */
-    font-family: 'Space Grotesk', sans-serif;
+    color: #e52d27;
+    font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: 2px;
+    font-size: 0.95rem;
+    letter-spacing: 1.5px;
 }
 
 .entry-number {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    color: #0b0b0b;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    color: #000000;
 }
 
-/* Quote text body */
 .quote-container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    margin-top: 40px;
+    gap: 25px;
+    margin-top: 30px;
     flex-grow: 1;
     justify-content: center;
-    padding-bottom: 60px; /* Leave space for bottom logo */
+    padding-bottom: 45px;
 }
 
 .quote-line {
-    font-size: 2.85rem;
+    font-size: 2rem;
     font-weight: 800;
     line-height: 1.25;
-    letter-spacing: -0.8px;
-    color: #0b0b0b;
+    letter-spacing: -0.6px;
+    color: #000000;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    word-break: break-word;
 }
 
-/* Footer Logo */
-.footer {
+.card-footer {
     position: absolute;
-    bottom: 40px;
-    right: 45px;
+    bottom: 30px;
+    right: 35px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
 }
 
 .logo-svg {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
 }
 
-/* Responsiveness for smaller screens */
-@media (max-width: 500px) {
+/* Responsive constraints */
+@media (max-width: 900px) {
+    .app-container {
+        flex-direction: column;
+        height: auto;
+        width: 100vw;
+        border-radius: 0;
+        border: none;
+    }
+    
+    .editor-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+        padding: 25px;
+    }
+    
+    .preview-panel {
+        padding: 40px 20px;
+    }
+    
     .card {
-        padding: 40px 30px 35px 30px;
-        aspect-ratio: auto;
-        min-height: 520px;
-    }
-
-    .quote-line {
-        font-size: 2.1rem;
-    }
-
-    .brand-title {
-        font-size: 1rem;
-    }
-
-    .entry-number {
-        font-size: 0.95rem;
-    }
-
-    .logo-svg {
-        width: 40px;
-        height: 40px;
+        max-width: 380px;
     }
 }
