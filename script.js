@@ -1,16 +1,14 @@
-// Bokyabot Meme Generator Controller
+// Bokyabot Meme Generator Controller (No Entry Number Version)
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. DOM Elements
     const inputBrand = document.getElementById('input-brand');
-    const inputEntry = document.getElementById('input-entry');
     const inputLine1 = document.getElementById('input-line1');
     const inputLine2 = document.getElementById('input-line2');
     const inputColor = document.getElementById('input-color');
     const inputBg = document.getElementById('input-bg');
     
     const cardBrand = document.getElementById('card-brand');
-    const cardEntry = document.getElementById('card-entry');
     const cardLine1 = document.getElementById('card-line1');
     const cardLine2 = document.getElementById('card-line2');
     const cardLogoPath = document.getElementById('card-logo-path');
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Real-time Live Binding & Synchronisation
     function updatePreview() {
         cardBrand.textContent = inputBrand.value.toUpperCase();
-        cardEntry.textContent = inputEntry.value.toUpperCase();
         cardLine1.textContent = inputLine1.value;
         cardLine2.textContent = inputLine2.value;
         
@@ -36,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Set listeners for all controls
-    [inputBrand, inputEntry, inputLine1, inputLine2, inputColor, inputBg].forEach(element => {
+    [inputBrand, inputLine1, inputLine2, inputColor, inputBg].forEach(element => {
         element.addEventListener('input', updatePreview);
         element.addEventListener('change', updatePreview);
     });
@@ -99,13 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = brandColor;
         ctx.fillText(inputBrand.value.toUpperCase(), 100, 120);
 
-        // Draw ENTRY # number
-        ctx.font = "bold 42px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = mainTextColor;
-        ctx.textAlign = 'right';
-        ctx.fillText(inputEntry.value.toUpperCase(), 1100, 120);
-        ctx.textAlign = 'left'; // reset align
-
         // Draw the solid header divider line
         ctx.lineWidth = 14;
         ctx.strokeStyle = mainTextColor;
@@ -152,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const dataUrl = canvas.toDataURL('image/png');
             const link = document.createElement('a');
-            link.download = `${inputEntry.value.toLowerCase().replace(/[^a-z0-9]/g, '_')}_meme.png`;
+            link.download = `bokyabot_meme_${Date.now()}.png`;
             link.href = dataUrl;
             link.click();
         } catch (e) {
