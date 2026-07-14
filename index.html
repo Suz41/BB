@@ -3,126 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bokyabot Style Meme Generator</title>
+    <title>BOKYABOT</title>
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Space+Grotesk:wght@500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Background Glow Orbs -->
-    <div class="bg-glow">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
+    <div class="card">
+        <!-- Top header row and divider line -->
+        <header class="header">
+            <span class="brand-title">BOKYABOT</span>
+        </header>
+
+        <!-- Quote body matching original spacing -->
+        <div class="quote-container">
+            <h1 class="quote-line">You don't become an adult.</h1>
+            <h1 class="quote-line">You just start saying "Let's see."</h1>
+        </div>
+
+        <!-- Inline SVG drawing a precise replica of the handwritten Bokyabot cursive 'b' -->
+        <footer class="footer">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 30,85 
+                         C 35,70 58,25 58,15 
+                         C 58,5 45,5 40,25 
+                         C 35,45 35,75 35,82 
+                         C 35,88 43,90 52,82 
+                         C 61,74 68,60 68,52 
+                         C 68,44 60,42 54,48 
+                         C 48,54 50,70 60,70
+                         C 65,70 75,60 82,50" 
+                      fill="none" 
+                      stroke="#e52d27" 
+                      stroke-width="7.5" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"/>
+            </svg>
+        </footer>
     </div>
-
-    <!-- Main Workspace -->
-    <main class="app-container">
-        <!-- Editor Control Panel -->
-        <section class="editor-panel">
-            <header class="editor-header">
-                <div class="logo-badge">M</div>
-                <div>
-                    <h2>Meme Generator</h2>
-                    <p class="subtitle">Bokyabot Style Format</p>
-                </div>
-            </header>
-
-            <div class="form-container">
-                <div class="input-group">
-                    <label for="input-brand">Brand Name</label>
-                    <input type="text" id="input-brand" value="BOKYABOT" placeholder="e.g. BOKYABOT">
-                </div>
-
-                <div class="input-group">
-                    <label for="input-line1">Quote Line 1</label>
-                    <textarea id="input-line1" rows="2" placeholder="Line 1 text...">You don't become an adult.</textarea>
-                </div>
-
-                <div class="input-group">
-                    <label for="input-line2">Quote Line 2</label>
-                    <textarea id="input-line2" rows="2" placeholder="Line 2 text...">You just start saying "Let's see."</textarea>
-                </div>
-
-                <div class="customization-row">
-                    <div class="input-group half">
-                        <label for="input-color">Brand Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="input-color" value="#e52d27">
-                            <span class="color-hex">#e52d27</span>
-                        </div>
-                    </div>
-                    <div class="input-group half">
-                        <label for="input-bg">Paper Tint</label>
-                        <select id="input-bg">
-                            <option value="#faf8f5">Classic Warm Cream</option>
-                            <option value="#ffffff">Pure White</option>
-                            <option value="#f3f4f6">Modern Silver</option>
-                            <option value="#fef2f2">Soft Rose</option>
-                            <option value="#ecfdf5">Sage Mint</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="download-btn" class="btn btn-gradient">
-                        <i class="fa-solid fa-download"></i> Download Meme (PNG)
-                    </button>
-                </div>
-            </div>
-            
-            <footer class="editor-footer">
-                <p>Designed for meme pages. High-resolution export (1200x1600 px).</p>
-            </footer>
-        </section>
-
-        <!-- Live Card Preview Panel -->
-        <section class="preview-panel">
-            <div class="preview-wrapper">
-                <span class="preview-label">Live Preview</span>
-                <div class="card" id="meme-card">
-                    <!-- Top header row and divider line -->
-                    <header class="header">
-                        <span class="brand-title" id="card-brand">BOKYABOT</span>
-                    </header>
-
-                    <!-- Quote body matching original spacing -->
-                    <div class="quote-container">
-                        <h1 class="quote-line" id="card-line1">You don't become an adult.</h1>
-                        <h1 class="quote-line" id="card-line2">You just start saying "Let's see."</h1>
-                    </div>
-
-                    <!-- SVG Logo -->
-                    <footer class="card-footer">
-                        <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <path id="card-logo-path" d="M 30,85 
-                                     C 35,70 58,25 58,15 
-                                     C 58,5 45,5 40,25 
-                                     C 35,45 35,75 35,82 
-                                     C 35,88 43,90 52,82 
-                                     C 61,74 68,60 68,52 
-                                     C 68,44 60,42 54,48 
-                                     C 48,54 50,70 60,70
-                                     C 65,70 75,60 82,50" 
-                                  fill="none" 
-                                  stroke="#e52d27" 
-                                  stroke-width="7.5" 
-                                  stroke-linecap="round" 
-                                  stroke-linejoin="round"/>
-                        </svg>
-                    </footer>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Canvas for rendering high resolution downloads -->
-    <canvas id="export-canvas" style="display: none;"></canvas>
-
-    <!-- JS file -->
-    <script src="script.js"></script>
 </body>
 </html>
