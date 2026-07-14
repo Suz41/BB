@@ -3,9 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BB</title>
+    <title>BOKYABOT • Entry #001</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern CSS Reset & Typography styling to mirror the image */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ededeb; /* Subtle warm grey to contrast the cream card */
+            color: #0b0b0b;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* The Card Container mirroring bb.png layout */
+        .card {
+            background-color: #faf8f5; /* Warm off-white paper canvas background */
+            width: 100%;
+            max-width: 620px;
+            aspect-ratio: 3 / 4; /* Portrait layout */
+            padding: 60px 50px 50px 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        /* Top Header Area */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 4px solid #0b0b0b;
+            padding-bottom: 12px;
+        }
+
+        .brand-title {
+            color: #e52d27; /* Rich Bokyabot Red */
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+        }
+
+        .entry-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: #0b0b0b;
+        }
+
+        /* Quote text body */
+        .quote-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 40px;
+            flex-grow: 1;
+            justify-content: center;
+            padding-bottom: 60px; /* Leave space for bottom logo */
+        }
+
+        .quote-line {
+            font-size: 2.85rem;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.8px;
+            color: #0b0b0b;
+        }
+
+        /* Footer Logo */
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            right: 45px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .logo-svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        /* Responsiveness for smaller screens */
+        @media (max-width: 500px) {
+            .card {
+                padding: 40px 30px 35px 30px;
+                aspect-ratio: auto;
+                min-height: 520px;
+            }
+
+            .quote-line {
+                font-size: 2.1rem;
+            }
+
+            .brand-title {
+                font-size: 1rem;
+            }
+
+            .entry-number {
+                font-size: 0.95rem;
+            }
+
+            .logo-svg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>helo world</h1>
+    <div class="card">
+        <!-- Top header row and divider line -->
+        <header class="header">
+            <span class="brand-title">BOKYABOT</span>
+            <span class="entry-number">ENTRY #001</span>
+        </header>
+
+        <!-- Quote body matching original spacing -->
+        <div class="quote-container">
+            <h1 class="quote-line">You don't become an adult.</h1>
+            <h1 class="quote-line">You just start saying "Let's see."</h1>
+        </div>
+
+        <!-- Inline SVG drawing a precise replica of the handwritten Bokyabot cursive 'b' -->
+        <footer class="footer">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 30,85 
+                         C 35,70 58,25 58,15 
+                         C 58,5 45,5 40,25 
+                         C 35,45 35,75 35,82 
+                         C 35,88 43,90 52,82 
+                         C 61,74 68,60 68,52 
+                         C 68,44 60,42 54,48 
+                         C 48,54 50,70 60,70
+                         C 65,70 75,60 82,50" 
+                      fill="none" 
+                      stroke="#e52d27" 
+                      stroke-width="7.5" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"/>
+            </svg>
+        </footer>
+    </div>
 </body>
 </html>
