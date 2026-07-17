@@ -270,7 +270,7 @@ body {
     color: var(--text-primary);
     text-align: center;
     cursor: pointer;
-    width: 100%;
+    width: 80%;
     border-radius: 10px;
 }
 
