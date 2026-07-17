@@ -263,15 +263,15 @@ body {
 .support-banner {
     background-color: var(--bg-element);
     border: none;
-    margin: 0 10px;
-    padding: 10px 14px;
+    margin: 0;
+    padding: 12px 16px;
     font-size: 0.78rem;
     font-weight: 500;
     color: var(--text-primary);
     text-align: center;
     cursor: pointer;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 /* QR Section */
