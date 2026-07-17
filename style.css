@@ -221,7 +221,7 @@ body {
 .qr-section {
     padding: 16px 18px;
     display: grid;
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 80px 1fr;
     gap: 14px;
     align-items: center;
 }
@@ -229,8 +229,8 @@ body {
 .qr-container {
     background: #ffffff;
     padding: 0;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     justify-self: center;
 }
 
@@ -446,13 +446,13 @@ body {
     }
     
     .qr-section {
-        grid-template-columns: 65px 1fr;
+        grid-template-columns: 70px 1fr;
         gap: 12px;
     }
 
     .qr-container {
-        width: 65px;
-        height: 65px;
+        width: 70px;
+        height: 70px;
     }
     
     .ticket-screen {
