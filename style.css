@@ -187,7 +187,6 @@ body {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-size: 0.65rem;
-    font-weight: 600;
     letter-spacing: 0.5px;
     color: var(--text-secondary);
     margin-top: 24px;
