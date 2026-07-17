@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Share
     shareBtn.addEventListener('click', () => {
-        const shareText = `My Ticket: O' Romeo (Hindi, 2D) | Sat, 14 Feb @ 02:40 PM | PVR: Inorbit, Cyberabad | Booking ID: ${bookingId}`;
+        const shareText = `My Ticket: The Odyssey (English, IMAX 2D) | Thu, 23 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ${bookingId}`;
         if (navigator.share) {
             navigator.share({
-                title: "Your Ticket - O' Romeo",
+                title: "Your Ticket - The Odyssey",
                 text: shareText,
                 url: shareUrl
             }).catch(() => {});
