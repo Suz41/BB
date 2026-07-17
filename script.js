@@ -43,27 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
-    // 3. 3D Tilt Effect on Ticket Card (Desktop Only)
-    if (window.innerWidth > 768) {
-        ticketCard.addEventListener('mousemove', (e) => {
-            const rect = ticketCard.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within element
-            const y = e.clientY - rect.top;  // y position within element
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Calculate tilt angles (max 6 degrees)
-            const rotateY = ((x - centerX) / centerX) * 6;
-            const rotateX = -((y - centerY) / centerY) * 6;
-            
-            ticketCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-        });
-
-        ticketCard.addEventListener('mouseleave', () => {
-            ticketCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        });
-    }
+    // 3D Tilt Effect removed
 
     // 4. Clipboard & Share System
     const bookingId = "T9AFDXQ";
@@ -100,20 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Cinematic Trailer Modal System
     function openTrailer() {
         trailerModal.classList.add('active');
-        // Reset and play mock video progress animation
         const progress = document.querySelector('.progress-filled');
-        progress.style.width = '0%';
-        setTimeout(() => {
-            progress.style.transition = 'width 10s linear';
-            progress.style.width = '100%';
-        }, 50);
+        progress.style.width = '45%';
+        progress.style.transition = 'none';
     }
 
     function closeTrailer() {
         trailerModal.classList.remove('active');
-        const progress = document.querySelector('.progress-filled');
-        progress.style.transition = 'none';
-        progress.style.width = '0%';
     }
 
     watchTrailerBtn.addEventListener('click', (e) => {
@@ -132,25 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Play/Pause button in video modal
+    // Play/Pause button in video modal (static UI)
     const playPauseBtn = document.querySelector('.btn-play-pause');
-    let isPlaying = true;
+    let isPlaying = false;
     playPauseBtn.addEventListener('click', () => {
-        const progress = document.querySelector('.progress-filled');
         if (isPlaying) {
-            // Pause
-            const computedStyle = window.getComputedStyle(progress);
-            const currentWidth = computedStyle.width;
-            const parentWidth = window.getComputedStyle(progress.parentElement).width;
-            const percent = (parseFloat(currentWidth) / parseFloat(parentWidth)) * 100;
-            progress.style.transition = 'none';
-            progress.style.width = `${percent}%`;
             playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"></polygon></svg>';
             isPlaying = false;
         } else {
-            // Play
-            progress.style.transition = 'width 10s linear';
-            progress.style.width = '100%';
             playPauseBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
             isPlaying = true;
         }

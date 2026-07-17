@@ -18,7 +18,7 @@
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-display: 'Space Grotesk', sans-serif;
     
-    --transition-speed: 0.3s;
+    --transition-speed: 0s;
     --border-radius-lg: 24px;
     --border-radius-md: 16px;
     --border-radius-sm: 8px;
@@ -69,7 +69,6 @@ body {
     opacity: 0.4;
     z-index: 0;
     pointer-events: none;
-    animation: float 20s infinite ease-in-out;
 }
 
 .orb-1 {
@@ -118,7 +117,6 @@ body {
     flex-direction: column;
     gap: 20px;
     z-index: 10;
-    perspective: 1000px; /* Supporting 3D tilt */
 }
 
 /* Header Elements */
@@ -227,7 +225,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.1s ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    transition: box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
     border: 1px solid var(--accent-border);
 }
 
@@ -485,17 +483,9 @@ body {
     height: 100%;
 }
 
-/* Scanning Line Effect */
+/* Scanning Line Effect removed */
 .qr-scanner-line {
-    position: absolute;
-    width: calc(100% - 20px);
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--accent-red), transparent);
-    top: 10px;
-    left: 10px;
-    z-index: 2;
-    box-shadow: 0 0 8px var(--accent-red);
-    animation: scan 3s infinite ease-in-out;
+    display: none;
 }
 
 @keyframes scan {
@@ -712,7 +702,6 @@ body {
     width: 150%;
     height: 150%;
     background: radial-gradient(circle, rgba(220, 38, 38, 0.2) 0%, transparent 60%);
-    animation: pulse-visual 6s infinite ease-in-out;
 }
 
 @keyframes pulse-visual {
