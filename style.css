@@ -138,16 +138,19 @@ body {
     gap: 6px;
 }
 
-.title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .movie-title {
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.2;
+}
+
+.age-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
 }
 
 .age-badge {
