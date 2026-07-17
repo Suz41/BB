@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="style.css?v=1.0.2">
 </head>
 <body>
     <main class="app-container">
@@ -39,16 +39,7 @@
             <!-- Top Section: Poster & Details -->
             <div class="ticket-top">
                 <div class="poster-container">
-                    <div class="poster-art">
-                        <div class="poster-gradient"></div>
-                        <div class="poster-title-art">O' Romeo</div>
-                        <div class="poster-play-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="6,3 20,12 6,21"></polygon>
-                            </svg>
-                        </div>
-                    </div>
-                    <button class="watch-trailer-btn">Watch Trailer</button>
+                    <img class="poster-img" src="romeo_poster.jpg" alt="O' Romeo Movie Poster">
                 </div>
 
                 <div class="movie-details">
@@ -176,37 +167,7 @@
         </div>
     </div>
 
-    <!-- Trailer Modal -->
-    <div class="modal-overlay" id="trailerModal">
-        <div class="modal-container">
-            <button class="modal-close" id="modalCloseBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <div class="video-wrapper">
-                <div class="mock-player">
-                    <div class="player-visual-effect"></div>
-                    <div class="player-overlay">
-                        <h3>O' Romeo - Official Trailer</h3>
-                        <p>Hindi | 2024 | 2h 15m</p>
-                        <div class="player-controls">
-                            <button class="btn-play-pause">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="6,3 20,12 6,21"></polygon>
-                                </svg>
-                            </button>
-                            <div class="progress-bar">
-                                <div class="progress-filled"></div>
-                            </div>
-                            <span class="player-time">01:23 / 03:15</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>

@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const shareBtn = document.getElementById('shareBtn');
     const closeBtn = document.getElementById('closeBtn');
-    const watchTrailerBtn = document.querySelector('.watch-trailer-btn');
-    const posterContainer = document.querySelector('.poster-art');
-    const trailerModal = document.getElementById('trailerModal');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
     const supportBannerBtn = document.getElementById('supportBannerBtn');
     const supportDrawer = document.getElementById('supportDrawer');
     const toast = document.getElementById('toast');
@@ -42,36 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close
     closeBtn.addEventListener('click', () => {
         showToast('Ticket closed');
-    });
-
-    // Trailer Modal
-    function openTrailer() {
-        trailerModal.classList.add('active');
-    }
-
-    function closeTrailer() {
-        trailerModal.classList.remove('active');
-    }
-
-    watchTrailerBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openTrailer();
-    });
-
-    posterContainer.addEventListener('click', openTrailer);
-    modalCloseBtn.addEventListener('click', closeTrailer);
-    trailerModal.addEventListener('click', (e) => {
-        if (e.target === trailerModal) closeTrailer();
-    });
-
-    // Play/Pause
-    const playPauseBtn = document.querySelector('.btn-play-pause');
-    let isPlaying = false;
-    playPauseBtn.addEventListener('click', () => {
-        isPlaying = !isPlaying;
-        playPauseBtn.innerHTML = isPlaying
-            ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>'
-            : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"></polygon></svg>';
     });
 
     // Support Drawer
