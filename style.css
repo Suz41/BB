@@ -108,7 +108,7 @@ body {
 
 /* Top Section */
 .ticket-top {
-    padding: 20px 18px 16px 18px;
+    padding: 16px 18px 12px 18px;
     display: grid;
     grid-template-columns: 80px 1fr auto;
     gap: 12px;
@@ -153,9 +153,8 @@ body {
     gap: 6px;
     font-size: 0.72rem;
     color: var(--text-secondary);
-    margin-top: -4px;
+    margin-top: 0;
     padding: 0 18px;
-    padding-left: 24px;
 }
 
 .age-badge-img {
@@ -237,7 +236,7 @@ body {
 
 /* QR Section */
 .qr-section {
-    padding: 16px 18px;
+    padding: 12px 18px;
     display: grid;
     grid-template-columns: 80px 1fr;
     gap: 14px;
@@ -292,7 +291,7 @@ body {
 .info-banner {
     background-color: var(--bg-element);
     margin: 0;
-    padding: 7.5px 14px;
+    padding: 10px 14px;
     font-size: 0.75rem;
     line-height: 1.4;
     color: var(--text-secondary);
@@ -303,7 +302,7 @@ body {
 /* Footer Pricing */
 .ticket-footer {
     border-top: 1px solid var(--accent-border);
-    padding: 14px 18px;
+    padding: 12px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
