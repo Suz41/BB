@@ -1,17 +1,34 @@
-"use strict";
+declare class QRCode {
+    static CorrectLevel: {
+        L: number;
+        M: number;
+        Q: number;
+        H: number;
+    };
+    constructor(element: HTMLElement, options: {
+        text: string;
+        width?: number;
+        height?: number;
+        colorDark?: string;
+        colorLight?: string;
+        correctLevel?: number;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const shareBtn = document.getElementById('shareBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const supportBannerBtn = document.getElementById('supportBannerBtn');
-    const supportDrawer = document.getElementById('supportDrawer');
-    const toast = document.getElementById('toast');
-    const actionDownload = document.getElementById('actionDownload');
-    const actionEmail = document.getElementById('actionEmail');
-    const actionCancel = document.getElementById('actionCancel');
-    const actionHelp = document.getElementById('actionHelp');
+    const shareBtn = document.getElementById('shareBtn') as HTMLElement | null;
+    const closeBtn = document.getElementById('closeBtn') as HTMLElement | null;
+    const supportBannerBtn = document.getElementById('supportBannerBtn') as HTMLElement | null;
+    const supportDrawer = document.getElementById('supportDrawer') as HTMLElement | null;
+    const toast = document.getElementById('toast') as HTMLElement | null;
+    const actionDownload = document.getElementById('actionDownload') as HTMLElement | null;
+    const actionEmail = document.getElementById('actionEmail') as HTMLElement | null;
+    const actionCancel = document.getElementById('actionCancel') as HTMLElement | null;
+    const actionHelp = document.getElementById('actionHelp') as HTMLElement | null;
+
     // Toast System
-    let toastTimeout;
-    function showToast(message) {
+    let toastTimeout: number | undefined;
+    function showToast(message: string) {
         if (toast) {
             toast.textContent = message;
             toast.classList.add('show');
@@ -20,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 2500);
+            }, 2500) as unknown as number;
         }
     }
+
     // Booking ID Generation (uses ?id= param if present, else generates random one)
     const urlParams = new URLSearchParams(window.location.search);
     let bookingId = urlParams.get('id');
@@ -33,14 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
             bookingId += chars.charAt(Math.floor(Math.random() * chars.length));
         }
     }
+
     // Update booking ID in UI
-    const bookingIdEl = document.querySelector('.booking-id');
+    const bookingIdEl = document.querySelector('.booking-id') as HTMLElement | null;
     if (bookingIdEl) {
         bookingIdEl.textContent = `BOOKING ID: ${bookingId}`;
     }
+
     // Generate dynamic QR code encoding the verification link
-    const qrContainer = document.getElementById('qrContainer');
+    const qrContainer = document.getElementById('qrContainer') as HTMLElement | null;
     const shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
+    
     if (qrContainer && typeof QRCode !== 'undefined') {
         qrContainer.innerHTML = '';
         new QRCode(qrContainer, {
@@ -51,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
         });
-        const qrImage = qrContainer.querySelector('img');
-        const qrCanvas = qrContainer.querySelector('canvas');
+        const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
+        const qrCanvas = qrContainer.querySelector('canvas') as HTMLCanvasElement | null;
         if (qrImage) {
             qrImage.classList.add('qr-svg');
             qrImage.style.imageRendering = 'pixelated';
@@ -61,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             qrCanvas.style.display = 'none';
         }
     }
+
     // Share
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
@@ -70,41 +92,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: "Your Ticket - The Odyssey",
                     text: shareText,
                     url: shareUrl
-                }).catch(() => { });
-            }
-            else {
+                }).catch(() => {});
+            } else {
                 navigator.clipboard.writeText(`${shareText} | Link: ${shareUrl}`)
                     .then(() => showToast('Ticket details copied!'))
                     .catch(() => showToast('Sharing failed'));
             }
         });
     }
+
     // Close
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
             showToast('Ticket closed');
         });
     }
+
     // Support Drawer
     function openDrawer() {
         if (supportDrawer) {
             supportDrawer.classList.add('active');
         }
     }
+
     function closeDrawer() {
         if (supportDrawer) {
             supportDrawer.classList.remove('active');
         }
     }
+
     if (supportBannerBtn) {
         supportBannerBtn.addEventListener('click', openDrawer);
     }
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
-            if (e.target === supportDrawer)
-                closeDrawer();
+            if (e.target === supportDrawer) closeDrawer();
         });
     }
+
     if (actionDownload) {
         actionDownload.addEventListener('click', () => {
             closeDrawer();
@@ -112,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => showToast('PDF ticket downloaded!'), 1500);
         });
     }
+
     if (actionEmail) {
         actionEmail.addEventListener('click', () => {
             closeDrawer();
@@ -119,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => showToast('Email sent!'), 1500);
         });
     }
+
     if (actionCancel) {
         actionCancel.addEventListener('click', () => {
             closeDrawer();
@@ -128,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     if (actionHelp) {
         actionHelp.addEventListener('click', () => {
             closeDrawer();

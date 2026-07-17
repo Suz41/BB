@@ -1,0 +1,24 @@
+{
+  "name": "bb",
+  "version": "1.0.0",
+  "description": "A premium, interactive, and fully responsive mobile ticket dashboard built from scratch using modern web standards. Recreated exactly from the design specifications of `t.jpg` and enhanced with a modern aesthetic, micro-animations, and full theme personalization.",
+  "main": "qrcode.min.js",
+  "scripts": {
+    "build": "node node_modules/typescript/bin/tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suz41/BB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Suz41/BB/issues"
+  },
+  "homepage": "https://github.com/Suz41/BB#readme",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
