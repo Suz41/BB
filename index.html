@@ -63,8 +63,15 @@
                 </div>
             </div>
 
+            <!-- Perforated Tear Line -->
+            <div class="perforation">
+                <div class="cutout cutout-left"></div>
+                <div class="tear-line"></div>
+                <div class="cutout cutout-right"></div>
+            </div>
+
             <!-- Support Banner -->
-            <div class="support-banner">
+            <div class="support-banner" id="supportBannerBtn">
                 <span>Tap for support, details & more actions</span>
             </div>
 
@@ -137,6 +144,84 @@
             <span>Find Venue</span>
         </button>
     </main>
+
+    <!-- Support Drawer -->
+    <div class="drawer-overlay" id="supportDrawer">
+        <div class="drawer-container">
+            <div class="drawer-header">
+                <div class="drawer-handle"></div>
+                <h3>Support & Actions</h3>
+            </div>
+            <div class="drawer-body">
+                <button class="drawer-item" id="actionDownload">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF Ticket
+                </button>
+                <button class="drawer-item" id="actionEmail">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Email Ticket
+                </button>
+                <button class="drawer-item" id="actionHelp">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Help & Support
+                </button>
+                <button class="drawer-item cancel-booking-btn" id="actionCancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    Cancel Booking
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div class="modal-overlay" id="trailerModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalCloseBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="video-wrapper">
+                <div class="mock-player">
+                    <div class="player-visual-effect"></div>
+                    <div class="player-overlay">
+                        <h3>O' Romeo - Official Trailer</h3>
+                        <p>Hindi | 2024 | 2h 15m</p>
+                        <div class="player-controls">
+                            <button class="btn-play-pause">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="6,3 20,12 6,21"></polygon>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-filled"></div>
+                            </div>
+                            <span class="player-time">01:23 / 03:15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
     <script src="script.js"></script>
 </body>
