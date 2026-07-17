@@ -232,44 +232,46 @@ body {
     color: var(--text-secondary);
 }
 
-/* Perforation Divider */
-.perforation {
+/* Tear Section with Support Banner */
+.tear-section {
     position: relative;
-    height: 20px;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    justify-content: center;
+    padding: 8px 0;
 }
 
 .cutout {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background-color: var(--bg-app);
     position: absolute;
     z-index: 5;
+    flex-shrink: 0;
 }
 
 .cutout-left {
-    left: -9px;
+    left: -10px;
 }
 
 .cutout-right {
-    right: -9px;
+    right: -10px;
 }
 
 /* Support Banner */
 .support-banner {
     background-color: var(--bg-element);
     border: none;
-    margin: 0 18px;
-    padding: 12px 14px;
+    margin: 0 10px;
+    padding: 10px 14px;
     font-size: 0.78rem;
     font-weight: 500;
     color: var(--text-primary);
     text-align: center;
     cursor: pointer;
-    width: auto;
+    width: 100%;
+    border-radius: 8px;
 }
 
 /* QR Section */
