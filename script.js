@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Share
     shareBtn.addEventListener('click', () => {
-        const shareText = `My Ticket: The Odyssey (English, IMAX 2D) | Thu, 23 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ${bookingId}`;
+        const shareText = `My Ticket: The Odyssey (English, IMAX 2D) | Fri, 17 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ${bookingId}`;
         if (navigator.share) {
             navigator.share({
                 title: "Your Ticket - The Odyssey",
