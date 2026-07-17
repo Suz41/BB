@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         qrContainer.innerHTML = '';
         new QRCode(qrContainer, {
             text: shareUrl,
-            width: 120,
-            height: 120,
+            width: 80,
+            height: 80,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
