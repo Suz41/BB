@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3D Tilt Effect removed
 
     // 4. Clipboard & Share System
-    const bookingId = "T9AFDXQ";
-    const shareText = "My Ticket: O' Romeo (Hindi, 2D) | Sat, 14 Feb @ 02:40 PM | PVR: Inorbit, Cyberabad | Booking ID: T9AFDXQ";
+    const bookingId = "ET00480917";
+    const shareText = "My Ticket: The Odyssey (English, IMAX 2D) | Thu, 23 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ET00480917";
 
     copyBookingIdBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     shareBtn.addEventListener('click', () => {
         if (navigator.share) {
             navigator.share({
-                title: "Your Ticket - O' Romeo",
+                title: "Your Ticket - The Odyssey",
                 text: shareText,
                 url: window.location.href
             }).catch(() => {
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (doubleCheck) {
             showToast('Processing cancellation...');
             setTimeout(() => {
-                showToast('Booking cancelled. Refund of ₹ 367.76 initiated!');
+                showToast('Booking cancelled. Refund of ₹ 2962.84 initiated!');
                 ticketCard.style.opacity = '0.5';
                 ticketCard.style.pointerEvents = 'none';
             }, 2000);
