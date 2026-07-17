@@ -329,12 +329,13 @@ body {
 /* Info Banner */
 .info-banner {
     background-color: var(--bg-element);
-    margin: 0 18px;
+    margin: 0;
     padding: 10px 14px;
     font-size: 0.75rem;
     line-height: 1.4;
     color: var(--text-secondary);
     text-align: center;
+    width: 100%;
 }
 
 /* Footer Pricing */
