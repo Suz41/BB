@@ -111,7 +111,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if (actionDownload) {
-        actionDownload.addEventListener('click', () => { closeDrawer(); });
+        actionDownload.addEventListener('click', () => {
+            closeDrawer();
+            const ticketCard = document.querySelector('.ticket-card');
+            if (ticketCard && typeof html2canvas !== 'undefined') {
+                html2canvas(ticketCard, {
+                    backgroundColor: null,
+                    scale: 2,
+                    useCORS: true
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `ticket-${bookingId}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showToast('Ticket downloaded!');
+                }).catch(() => {
+                    showToast('Download failed');
+                });
+            }
+        });
     }
     if (actionEmail) {
         actionEmail.addEventListener('click', () => { closeDrawer(); });
