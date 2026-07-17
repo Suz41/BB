@@ -42,13 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
     
     if (qrContainer && typeof QRCode !== 'undefined') {
-        QRCode.toDataURL(shareUrl, { margin: 0 }, function (err, url) {
-            if (err) {
-                console.error(err);
-            } else {
-                qrContainer.innerHTML = `<img class="qr-svg" src="${url}" alt="QR Code" style="image-rendering: pixelated; width: 100%; height: 100%; display: block;">`;
-            }
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+            text: shareUrl,
+            width: 100,
+            height: 100,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
         });
+        const qrImage = qrContainer.querySelector('img');
+        const qrCanvas = qrContainer.querySelector('canvas');
+        if (qrImage) {
+            qrImage.classList.add('qr-svg');
+            qrImage.style.imageRendering = 'pixelated';
+        }
+        if (qrCanvas) {
+            qrCanvas.style.display = 'none';
+        }
     }
 
     // Share
