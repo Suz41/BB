@@ -172,7 +172,7 @@ body {
     text-transform: uppercase;
     color: var(--text-secondary);
     margin-top: 24px;
-    margin-left: 4px;
+    margin-left: 6px;
 }
 
 /* Tear Section with Support Banner */
@@ -232,7 +232,7 @@ body {
     width: 80px;
     height: 80px;
     justify-self: center;
-    margin-left: 12px;
+    margin-left: 18px;
 }
 
 .qr-svg {
