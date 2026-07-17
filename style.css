@@ -419,33 +419,6 @@ body {
     font-weight: 700;
 }
 
-/* Find Venue Button */
-.find-venue-btn {
-    width: 100%;
-    padding: 16px 24px;
-    background-color: var(--bg-card);
-    border: 1px solid var(--accent-border);
-    border-radius: var(--border-radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    cursor: pointer;
-    box-shadow: var(--card-shadow);
-}
-
-.find-venue-btn svg {
-    width: 20px;
-    height: 20px;
-}
-
-.find-venue-btn:hover {
-    background-color: var(--bg-element);
-}
-
 /* Bottom Actions Drawer */
 .drawer-overlay {
     position: fixed;
