@@ -2,24 +2,16 @@
 :root {
     --bg-app: #e2e2e4;
     --bg-card: #ffffff;
-    --bg-element: #f3f3f5;
-    --bg-element-hover: #e4e4e7;
-    
-    --text-primary: #18181b;
-    --text-secondary: #71717a;
+    --bg-element: #f5f5f5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
     --text-on-accent: #ffffff;
-    
     --accent-red: #d32f2f;
-    --accent-red-hover: #b71c1c;
     --accent-border: rgba(0, 0, 0, 0.08);
-    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03);
-    
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    
-    --transition-speed: 0s;
-    --border-radius-lg: 24px;
-    --border-radius-md: 16px;
-    --border-radius-sm: 8px;
+    --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --border-radius-lg: 16px;
+    --border-radius-md: 10px;
 }
 
 * {
@@ -36,39 +28,39 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
-    position: relative;
-    padding: 24px;
+    padding: 20px;
 }
 
 /* App Container */
 .app-container {
     width: 100%;
-    max-width: 440px;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    z-index: 10;
+    gap: 14px;
 }
 
-/* Header Elements */
+/* Header */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 4px;
+    padding: 0 2px;
+}
+
+.header-left {
+    width: 36px;
 }
 
 .header-center {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .header-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    letter-spacing: -0.02em;
     color: var(--text-primary);
 }
 
@@ -84,74 +76,61 @@ body {
 }
 
 .share-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 }
 
 .close-btn {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    border: 2px solid #ef4444;
-    background-color: transparent;
+    border: 1.5px solid #ef4444;
+    background: transparent;
     color: #ef4444;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
 .close-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 }
 
-.close-btn:hover {
-    background-color: #ef4444;
-    color: #ffffff;
-}
-
-/* Ticket Card Styling */
+/* Ticket Card */
 .ticket-card {
     background-color: var(--bg-card);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--card-shadow);
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--accent-border);
 }
 
-/* Top Section of Ticket */
+/* Top Section */
 .ticket-top {
-    padding: 28px 24px 20px 24px;
+    padding: 20px 18px 16px 18px;
     display: grid;
-    grid-template-columns: 105px 1fr auto;
-    gap: 16px;
+    grid-template-columns: 85px 1fr auto;
+    gap: 12px;
     align-items: start;
-    position: relative;
 }
 
-/* Poster Styling */
+/* Poster */
 .poster-container {
-    width: 105px;
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--border-radius-md);
+    width: 85px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-    border: 1px solid var(--accent-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .poster-art {
-    height: 125px;
+    height: 100px;
     position: relative;
-    background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
+    background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 50%, #4a1a1a 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 10px;
+    padding: 6px;
     cursor: pointer;
     overflow: hidden;
 }
@@ -162,27 +141,26 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.75) 100%);
     z-index: 1;
 }
 
 .poster-title-art {
     font-weight: 700;
-    font-size: 0.95rem;
-    color: #bae6fd;
+    font-size: 0.75rem;
+    color: #ffffff;
     z-index: 2;
     line-height: 1.1;
-    margin-bottom: 2px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .poster-play-btn {
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    width: 32px;
-    height: 32px;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.9);
     color: #d32f2f;
@@ -190,164 +168,132 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2;
-    opacity: 0.75;
 }
 
 .poster-play-btn svg {
-    width: 14px;
-    height: 14px;
-    margin-left: 2px;
+    width: 10px;
+    height: 10px;
+    margin-left: 1px;
 }
 
 .watch-trailer-btn {
     background-color: var(--accent-red);
     color: var(--text-on-accent);
     border: none;
-    padding: 8px 4px;
-    font-size: 0.72rem;
+    padding: 5px 4px;
+    font-size: 0.6rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     cursor: pointer;
     width: 100%;
 }
 
-.watch-trailer-btn:hover {
-    background-color: var(--accent-red-hover);
-}
-
-/* Movie Details Styling */
+/* Movie Details */
 .movie-details {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 6px;
-    height: 100%;
+    gap: 4px;
 }
 
 .movie-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.01em;
 }
 
 .movie-rating {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-secondary);
 }
 
-.movie-meta {
-    font-size: 0.88rem;
+.movie-meta,
+.movie-venue {
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    font-weight: 450;
 }
 
 .movie-time {
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-primary);
-    font-size: 0.88rem;
 }
 
-.movie-venue {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    font-weight: 450;
-}
-
-/* M-Ticket Badge (Vertical Text) */
+/* M-Ticket Badge */
 .m-ticket-badge {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     color: var(--text-secondary);
-    padding: 4px 0;
-    opacity: 0.8;
 }
 
 /* Perforation Divider */
 .perforation {
     position: relative;
-    height: 24px;
+    height: 20px;
     display: flex;
     align-items: center;
     overflow: hidden;
 }
 
 .cutout {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background-color: var(--bg-app);
     position: absolute;
     z-index: 5;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .cutout-left {
-    left: -10px;
-    border-right: 1px solid var(--accent-border);
+    left: -9px;
 }
 
 .cutout-right {
-    right: -10px;
-    border-left: 1px solid var(--accent-border);
+    right: -9px;
 }
 
 .tear-line {
     width: 100%;
-    border-top: 2px dashed var(--accent-border);
-    margin: 0 16px;
+    border-top: 1.5px dashed var(--accent-border);
+    margin: 0 14px;
 }
 
-/* Support Action Banner */
+/* Support Banner */
 .support-banner {
     background-color: var(--bg-element);
-    color: var(--text-primary);
     border: none;
-    border-radius: var(--border-radius-md);
-    margin: 0 24px;
-    padding: 14px 18px;
-    font-size: 0.88rem;
+    margin: 0 18px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
     font-weight: 500;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    color: var(--text-primary);
+    text-align: center;
     cursor: pointer;
     width: auto;
 }
 
-.support-banner:hover {
-    background-color: var(--bg-element-hover);
-}
-
-.chevron-icon {
-    width: 18px;
-    height: 18px;
-    color: var(--text-secondary);
-}
-
-/* QR Code Section layout */
+/* QR Section */
 .qr-section {
+    padding: 16px 18px;
     display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 20px;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
     align-items: center;
-    padding: 20px 24px;
 }
 
 .qr-container {
     background: #ffffff;
-    border-radius: var(--border-radius-md);
-    padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 6px;
     border: 1px solid rgba(0,0,0,0.06);
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 110px;
 }
 
 .qr-svg {
@@ -358,62 +304,59 @@ body {
 .qr-details {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 3px;
 }
 
 .ticket-count {
-    font-weight: 500;
-    font-size: 0.88rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }
 
 .ticket-screen {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
 }
 
 .ticket-seat {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
 .booking-id {
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-top: 4px;
 }
 
-/* Info notification banner */
+/* Info Banner */
 .info-banner {
     background-color: var(--bg-element);
-    margin: 0 24px;
-    padding: 12px 16px;
-    font-size: 0.8rem;
-    line-height: 1.5;
+    margin: 0 18px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    line-height: 1.4;
     color: var(--text-secondary);
-    font-weight: 450;
     text-align: center;
 }
 
-/* Ticket Footer Pricing section */
+/* Footer Pricing */
 .ticket-footer {
     border-top: 1px solid var(--accent-border);
-    padding: 20px 24px;
+    padding: 14px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--bg-element);
 }
 
 .footer-label {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
 }
 
 .footer-value {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
@@ -424,7 +367,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(9, 9, 11, 0.6);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     z-index: 200;
     display: flex;
@@ -441,16 +384,14 @@ body {
 
 .drawer-container {
     width: 100%;
-    max-width: 440px;
+    max-width: 360px;
     background-color: var(--bg-card);
     border-top-left-radius: var(--border-radius-lg);
     border-top-right-radius: var(--border-radius-lg);
-    border: 1px solid var(--accent-border);
-    border-bottom: none;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
     transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    padding: 20px 24px 32px 24px;
+    transition: transform 0.3s ease;
+    padding: 16px 18px 28px 18px;
 }
 
 .drawer-overlay.active .drawer-container {
@@ -461,64 +402,60 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .drawer-handle {
-    width: 36px;
-    height: 4px;
-    background-color: var(--accent-border);
+    width: 32px;
+    height: 3px;
+    background-color: #ddd;
     border-radius: 2px;
 }
 
 .drawer-header h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 
 .drawer-body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .drawer-item {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 16px;
+    gap: 12px;
+    padding: 14px;
     background-color: var(--bg-element);
-    border: 1px solid var(--accent-border);
+    border: none;
     border-radius: var(--border-radius-md);
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     text-align: left;
+    width: 100%;
 }
 
 .drawer-item svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     color: var(--text-secondary);
 }
 
 .drawer-item:hover {
-    background-color: var(--bg-element-hover);
+    background-color: #eaeaea;
 }
 
 .cancel-booking-btn {
     color: #ef4444;
-    border-color: rgba(239, 68, 68, 0.15);
 }
 
 .cancel-booking-btn svg {
     color: #ef4444;
-}
-
-.cancel-booking-btn:hover {
-    background-color: #fef2f2;
 }
 
 /* Trailer Modal */
@@ -528,7 +465,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(9, 9, 11, 0.85);
+    background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     z-index: 200;
     display: flex;
@@ -546,10 +483,9 @@ body {
 
 .modal-container {
     width: 100%;
-    max-width: 500px;
-    background-color: #18181b;
+    max-width: 400px;
+    background-color: #1a1a1a;
     border-radius: var(--border-radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
     position: relative;
     transform: scale(0.9);
@@ -561,14 +497,14 @@ body {
 
 .modal-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
     z-index: 10;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: none;
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -578,12 +514,11 @@ body {
 
 .modal-close:hover {
     background-color: #ef4444;
-    border-color: #ef4444;
 }
 
 .modal-close svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .video-wrapper {
@@ -594,7 +529,7 @@ body {
 .mock-player {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -606,7 +541,7 @@ body {
     position: absolute;
     width: 150%;
     height: 150%;
-    background: radial-gradient(circle, rgba(220, 38, 38, 0.2) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 60%);
 }
 
 .player-overlay {
@@ -614,38 +549,38 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 24px;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
     z-index: 5;
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .player-overlay h3 {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 
 .player-overlay p {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: rgba(255, 255, 255, 0.7);
 }
 
 .player-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 8px;
+    gap: 10px;
+    margin-top: 6px;
 }
 
 .btn-play-pause {
     background-color: #ffffff;
-    color: #09090b;
+    color: #0a0a0a;
     border: none;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -654,13 +589,13 @@ body {
 }
 
 .btn-play-pause svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 .progress-bar {
     flex-grow: 1;
-    height: 4px;
+    height: 3px;
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     overflow: hidden;
@@ -673,24 +608,23 @@ body {
 }
 
 .player-time {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* Toast Styling */
+/* Toast */
 .toast {
     position: fixed;
-    bottom: 40px;
+    bottom: 32px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background-color: #18181b;
+    background-color: #1a1a1a;
     color: #ffffff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.88rem;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 0.82rem;
     font-weight: 500;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     opacity: 0;
     pointer-events: none;
     z-index: 300;
@@ -701,46 +635,40 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 480px) {
+/* Mobile responsive */
+@media (max-width: 400px) {
     body {
-        padding: 16px;
+        padding: 14px;
     }
     
     .ticket-top {
-        padding: 20px 18px 16px 18px;
-        grid-template-columns: 85px 1fr auto;
-        gap: 12px;
+        grid-template-columns: 75px 1fr auto;
+        gap: 10px;
     }
     
     .poster-container {
-        width: 85px;
+        width: 75px;
     }
     
     .poster-art {
-        height: 105px;
+        height: 90px;
     }
     
     .movie-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
     .qr-section {
-        grid-template-columns: 110px 1fr;
-        gap: 14px;
+        grid-template-columns: 100px 1fr;
+        gap: 12px;
     }
     
     .qr-container {
-        width: 110px;
-        height: 110px;
+        width: 100px;
+        height: 100px;
     }
     
     .ticket-screen {
-        font-size: 1.3rem;
-    }
-    
-    .support-banner,
-    .info-banner {
-        margin: 0 18px;
+        font-size: 1.2rem;
     }
 }
