@@ -142,6 +142,7 @@ body {
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.2;
+    white-space: nowrap;
 }
 
 .age-text {
