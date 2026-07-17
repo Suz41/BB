@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (supportBannerBtn) {
-        supportBannerBtn.addEventListener('click', openDrawer);
+        supportBannerBtn.addEventListener('click', () => {});
     }
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
@@ -135,35 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (actionDownload) {
-        actionDownload.addEventListener('click', () => {
-            closeDrawer();
-            showToast('Preparing PDF download...');
-            setTimeout(() => showToast('PDF ticket downloaded!'), 1500);
-        });
+        actionDownload.addEventListener('click', () => { closeDrawer(); });
     }
 
     if (actionEmail) {
-        actionEmail.addEventListener('click', () => {
-            closeDrawer();
-            showToast('Sending confirmation email...');
-            setTimeout(() => showToast('Email sent!'), 1500);
-        });
+        actionEmail.addEventListener('click', () => { closeDrawer(); });
     }
 
     if (actionCancel) {
-        actionCancel.addEventListener('click', () => {
-            closeDrawer();
-            if (confirm("Cancel this booking? Cancellation charges may apply.")) {
-                showToast('Processing cancellation...');
-                setTimeout(() => showToast('Booking cancelled.'), 2000);
-            }
-        });
+        actionCancel.addEventListener('click', () => { closeDrawer(); });
     }
 
     if (actionHelp) {
-        actionHelp.addEventListener('click', () => {
-            closeDrawer();
-            showToast('Connecting to support...');
-        });
+        actionHelp.addEventListener('click', () => { closeDrawer(); });
     }
 });
