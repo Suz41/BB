@@ -169,7 +169,7 @@ body {
 
 .movie-meta,
 .movie-venue {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     overflow-wrap: break-word;
 }
@@ -190,7 +190,7 @@ body {
     text-transform: uppercase;
     color: var(--text-secondary);
     margin-top: 24px;
-    margin-left: 70px;
+    margin-left: 20px;
 }
 
 /* Tear Section with Support Banner */
