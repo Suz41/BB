@@ -386,16 +386,12 @@ body {
 
 /* Info notification banner */
 .info-banner {
-    background-color: var(--bg-element);
-    border-radius: var(--border-radius-md);
-    margin: 0 24px;
-    padding: 12px 16px;
-    font-size: 0.78rem;
-    line-height: 1.4;
+    padding: 12px 24px;
+    font-size: 0.8rem;
+    line-height: 1.5;
     color: var(--text-secondary);
     font-weight: 450;
     text-align: center;
-    border: 1px solid var(--accent-border);
 }
 
 /* Ticket Footer Pricing section */
