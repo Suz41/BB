@@ -135,7 +135,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2px;
+    gap: 6px;
 }
 
 .movie-title {
