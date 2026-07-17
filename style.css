@@ -258,12 +258,6 @@ body {
     right: -9px;
 }
 
-.tear-line {
-    width: 100%;
-    border-top: 1.5px dashed var(--accent-border);
-    margin: 0 14px;
-}
-
 /* Support Banner */
 .support-banner {
     background-color: var(--bg-element);
