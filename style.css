@@ -171,7 +171,6 @@ body {
 .movie-venue {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    white-space: nowrap;
 }
 
 .movie-time {
