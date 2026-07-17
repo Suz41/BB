@@ -118,7 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 html2canvas(ticketCard, {
                     backgroundColor: null,
                     scale: 2,
-                    useCORS: true
+                    useCORS: true,
+                    allowTaint: true
                 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = `ticket-${bookingId}.png`;

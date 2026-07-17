@@ -183,13 +183,14 @@ body {
 
 /* M-Ticket Badge */
 .m-ticket-badge {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
     font-size: 0.65rem;
     letter-spacing: 0.5px;
     color: var(--text-secondary);
     margin-top: 24px;
     margin-left: 20px;
+    transform: rotate(-90deg);
+    transform-origin: center center;
+    white-space: nowrap;
 }
 
 /* Tear Section with Support Banner */
