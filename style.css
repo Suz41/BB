@@ -232,6 +232,7 @@ body {
     width: 80px;
     height: 80px;
     justify-self: center;
+    margin-left: 6px;
 }
 
 .qr-svg {
