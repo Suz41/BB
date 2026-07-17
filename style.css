@@ -159,7 +159,7 @@ body {
 .movie-time {
     font-size: 0.8rem;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--text-secondary);
 }
 
 /* M-Ticket Badge */
