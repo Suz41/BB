@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     if (supportBannerBtn) {
-        supportBannerBtn.addEventListener('click', () => {});
+        supportBannerBtn.addEventListener('click', () => { openDrawer(); });
     }
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
