@@ -110,14 +110,14 @@ body {
 .ticket-top {
     padding: 20px 18px 16px 18px;
     display: grid;
-    grid-template-columns: 85px 1fr auto;
+    grid-template-columns: 70px 1fr auto;
     gap: 12px;
     align-items: start;
 }
 
 /* Poster */
 .poster-container {
-    width: 85px;
+    width: 70px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
