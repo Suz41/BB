@@ -582,36 +582,7 @@ body {
     font-family: var(--font-display);
 }
 
-/* Find Venue Button */
-.find-venue-btn {
-    background-color: var(--bg-card);
-    color: var(--text-primary);
-    border: 1px solid var(--accent-border);
-    border-radius: var(--border-radius-md);
-    padding: 18px;
-    font-size: 1rem;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: var(--card-shadow);
-    transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
-    width: 100%;
-}
 
-.find-venue-btn svg {
-    width: 20px;
-    height: 20px;
-    color: var(--text-primary);
-}
-
-.find-venue-btn:hover {
-    transform: translateY(-2px);
-    background-color: var(--bg-element);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-}
 
 /* Modal Overlay & Cinematic Player */
 .modal-overlay {

@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const supportBannerBtn = document.getElementById('supportBannerBtn');
     const supportDrawer = document.getElementById('supportDrawer');
     const toast = document.getElementById('toast');
-    const findVenueBtn = document.getElementById('findVenueBtn');
-
     // Drawer Actions
     const actionDownload = document.getElementById('actionDownload');
     const actionEmail = document.getElementById('actionEmail');
@@ -156,8 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Booking cancelled. Refund of ₹ 367.76 initiated!');
                 ticketCard.style.opacity = '0.5';
                 ticketCard.style.pointerEvents = 'none';
-                findVenueBtn.style.opacity = '0.5';
-                findVenueBtn.style.pointerEvents = 'none';
             }, 2000);
         }
     });
@@ -167,11 +163,5 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Connecting to support desk...');
     });
 
-    // 7. Find Venue
-    findVenueBtn.addEventListener('click', () => {
-        showToast('Opening directions to PVR Inorbit, Cyberabad...');
-        setTimeout(() => {
-            window.open('https://maps.google.com/?q=PVR+Inorbit+Cyberabad', '_blank');
-        }, 1000);
-    });
+
 });
