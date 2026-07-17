@@ -72,15 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
         });
-        const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
         const qrCanvas = qrContainer.querySelector('canvas') as HTMLCanvasElement | null;
-        if (qrImage) {
-            qrImage.classList.add('qr-svg');
-            qrImage.style.imageRendering = 'pixelated';
-        }
+        const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
         if (qrCanvas) {
-            qrCanvas.style.display = 'none';
+            qrCanvas.style.width = '100%';
+            qrCanvas.style.height = '100%';
+            qrCanvas.style.display = 'block';
+            qrCanvas.style.imageRendering = 'pixelated';
         }
+        if (qrImage) {
+            qrImage.style.display = 'none';
+        }
+    } else {
+        console.warn('QRCode library is undefined');
     }
 
     // Share
