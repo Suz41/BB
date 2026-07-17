@@ -151,7 +151,7 @@ body {
     font-size: 0.72rem;
     color: var(--text-secondary);
     margin-top: 4px;
-    padding-left: 85px;
+    padding: 0 18px;
 }
 
 .age-badge-img {
