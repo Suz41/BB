@@ -151,13 +151,12 @@ body {
     font-size: 0.72rem;
     color: var(--text-secondary);
     margin-top: 4px;
+    padding-left: 85px;
 }
 
 .age-badge-img {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
 }
 
