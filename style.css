@@ -145,7 +145,7 @@ body {
 }
 
 .movie-rating {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
 }
