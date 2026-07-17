@@ -146,8 +146,8 @@ body {
 
 .movie-rating {
     font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .movie-meta,
@@ -254,12 +254,13 @@ body {
 
 .ticket-screen {
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .ticket-seat {
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 .booking-id {
