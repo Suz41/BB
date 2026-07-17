@@ -20,16 +20,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
+    // Booking ID Generation (uses ?id= param if present, else generates random one)
+    const urlParams = new URLSearchParams(window.location.search);
+    let bookingId = urlParams.get('id');
+    if (!bookingId) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        bookingId = '';
+        for (let i = 0; i < 7; i++) {
+            bookingId += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+    }
+
+    // Update booking ID in UI
+    const bookingIdEl = document.querySelector('.booking-id');
+    if (bookingIdEl) {
+        bookingIdEl.textContent = `BOOKING ID: ${bookingId}`;
+    }
+
+    // Generate dynamic QR code encoding the verification link
+    const qrContainer = document.getElementById('qrContainer');
+    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
+    
+    if (qrContainer && typeof QRCode !== 'undefined') {
+        QRCode.toString(shareUrl, { type: 'svg', margin: 0 }, function (err, svgString) {
+            if (err) {
+                console.error(err);
+            } else {
+                qrContainer.innerHTML = svgString;
+                const svgElement = qrContainer.querySelector('svg');
+                if (svgElement) {
+                    svgElement.classList.add('qr-svg');
+                    svgElement.setAttribute('shape-rendering', 'crispEdges');
+                }
+            }
+        });
+    }
+
     // Share
     shareBtn.addEventListener('click', () => {
+        const shareText = `My Ticket: O' Romeo (Hindi, 2D) | Sat, 14 Feb @ 02:40 PM | PVR: Inorbit, Cyberabad | Booking ID: ${bookingId}`;
         if (navigator.share) {
             navigator.share({
                 title: "Your Ticket - O' Romeo",
-                text: "My Ticket: O' Romeo (Hindi, 2D) | Sat, 14 Feb @ 02:40 PM | PVR: Inorbit, Cyberabad | Booking ID: T9AFDXQ",
-                url: window.location.href
+                text: shareText,
+                url: shareUrl
             }).catch(() => {});
         } else {
-            navigator.clipboard.writeText("My Ticket: O' Romeo (Hindi, 2D) | Sat, 14 Feb @ 02:40 PM | PVR: Inorbit, Cyberabad | Booking ID: T9AFDXQ")
+            navigator.clipboard.writeText(`${shareText} | Link: ${shareUrl}`)
                 .then(() => showToast('Ticket details copied!'))
                 .catch(() => showToast('Sharing failed'));
         }
