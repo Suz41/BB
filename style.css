@@ -386,7 +386,9 @@ body {
 
 /* Info notification banner */
 .info-banner {
-    padding: 12px 24px;
+    background-color: var(--bg-element);
+    margin: 0 24px;
+    padding: 12px 16px;
     font-size: 0.8rem;
     line-height: 1.5;
     color: var(--text-secondary);
@@ -413,6 +415,29 @@ body {
 .footer-value {
     font-size: 1.25rem;
     font-weight: 700;
+}
+
+/* Find Venue Button */
+.find-venue-btn {
+    width: 100%;
+    padding: 16px 24px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--border-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+}
+
+.find-venue-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Bottom Actions Drawer */
