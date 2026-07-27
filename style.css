@@ -146,39 +146,10 @@ body {
     white-space: nowrap;
 }
 
-.age-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    margin-top: 0;
-    padding: 0 18px;
-}
-
-.age-badge-img {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-}
-
 .movie-rating {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
-}
-
-.movie-meta,
-.movie-venue {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    overflow-wrap: break-word;
-}
-
-.movie-time {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
 }
 
 /* M-Ticket Badge */
