@@ -14,6 +14,7 @@ declare class QRCode {
         correctLevel?: number;
     });
 }
+declare let html2canvas: any;
 
 document.addEventListener('DOMContentLoaded', () => {
     const shareBtn = document.getElementById('shareBtn') as HTMLElement | null;
@@ -58,10 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingIdEl.textContent = `BOOKING ID: ${bookingId}`;
     }
 
+    // Dynamic Poster Image from URL query parameter
+    const posterUrl = urlParams.get('poster') || urlParams.get('img');
+    if (posterUrl) {
+        const posterImgEl = document.querySelector('.poster-img') as HTMLImageElement | null;
+        if (posterImgEl) {
+            posterImgEl.src = posterUrl;
+        }
+    }
+
     // Generate dynamic QR code encoding the verification link
-    const qrContainer = document.getElementById('qrContainer') as HTMLElement | null;
-    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
+    let shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
+    if (posterUrl) {
+        shareUrl += `&poster=${encodeURIComponent(posterUrl)}`;
+    }
     
+    const qrContainer = document.getElementById('qrContainer') as HTMLElement | null;
     if (qrContainer && typeof QRCode !== 'undefined') {
         qrContainer.innerHTML = '';
         new QRCode(qrContainer, {
@@ -90,10 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Share
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
-            const shareText = `My Ticket: The Odyssey (English, IMAX 2D) | Fri, 17 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ${bookingId}`;
+            const shareText = `My Ticket: Spider-Man: Brand New Day (English, 3D) | Thu, 30 Jul @ 08:00 AM | Prasads Multiplex: Hyderabad | Booking ID: ${bookingId}`;
             if (navigator.share) {
                 navigator.share({
-                    title: "Your Ticket - The Odyssey",
+                    title: "Your Ticket - Spider-Man: Brand New Day",
                     text: shareText,
                     url: shareUrl
                 }).catch(() => {});
@@ -119,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Close Drawer
     function closeDrawer() {
         if (supportDrawer) {
             supportDrawer.classList.remove('active');
@@ -126,8 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (supportBannerBtn) {
-        supportBannerBtn.addEventListener('click', () => {});
+        supportBannerBtn.addEventListener('click', () => {
+            openDrawer();
+        });
     }
+
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
             if (e.target === supportDrawer) closeDrawer();
@@ -135,18 +152,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (actionDownload) {
-        actionDownload.addEventListener('click', () => { closeDrawer(); });
+        actionDownload.addEventListener('click', () => {
+            closeDrawer();
+            const ticketCard = document.querySelector('.ticket-card') as HTMLElement | null;
+            if (ticketCard && typeof html2canvas !== 'undefined') {
+                html2canvas(ticketCard, {
+                    backgroundColor: null,
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                }).then((canvas: HTMLCanvasElement) => {
+                    const link = document.createElement('a');
+                    link.download = `ticket-${bookingId}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showToast('Ticket downloaded!');
+                }).catch(() => {
+                    showToast('Download failed');
+                });
+            }
+        });
     }
 
     if (actionEmail) {
-        actionEmail.addEventListener('click', () => { closeDrawer(); });
+        actionEmail.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
 
     if (actionCancel) {
-        actionCancel.addEventListener('click', () => { closeDrawer(); });
+        actionCancel.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
 
     if (actionHelp) {
-        actionHelp.addEventListener('click', () => { closeDrawer(); });
+        actionHelp.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
 });

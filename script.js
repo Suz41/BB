@@ -38,9 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bookingIdEl) {
         bookingIdEl.textContent = `BOOKING ID: ${bookingId}`;
     }
+    // Dynamic Poster Image from URL query parameter
+    const posterUrl = urlParams.get('poster') || urlParams.get('img');
+    if (posterUrl) {
+        const posterImgEl = document.querySelector('.poster-img');
+        if (posterImgEl) {
+            posterImgEl.src = posterUrl;
+        }
+    }
     // Generate dynamic QR code encoding the verification link
+    let shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
+    if (posterUrl) {
+        shareUrl += `&poster=${encodeURIComponent(posterUrl)}`;
+    }
     const qrContainer = document.getElementById('qrContainer');
-    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
     if (qrContainer && typeof QRCode !== 'undefined') {
         qrContainer.innerHTML = '';
         new QRCode(qrContainer, {
@@ -69,10 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Share
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
-            const shareText = `My Ticket: The Odyssey (English, IMAX 2D) | Fri, 17 Jul @ 07:00 PM | PVR: Nexus, Koramangala | Booking ID: ${bookingId}`;
+            const shareText = `My Ticket: Spider-Man: Brand New Day (English, 3D) | Thu, 30 Jul @ 08:00 AM | Prasads Multiplex: Hyderabad | Booking ID: ${bookingId}`;
             if (navigator.share) {
                 navigator.share({
-                    title: "Your Ticket - The Odyssey",
+                    title: "Your Ticket - Spider-Man: Brand New Day",
                     text: shareText,
                     url: shareUrl
                 }).catch(() => { });
@@ -96,13 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
             supportDrawer.classList.add('active');
         }
     }
+    // Close Drawer
     function closeDrawer() {
         if (supportDrawer) {
             supportDrawer.classList.remove('active');
         }
     }
     if (supportBannerBtn) {
-        supportBannerBtn.addEventListener('click', () => { openDrawer(); });
+        supportBannerBtn.addEventListener('click', () => {
+            openDrawer();
+        });
     }
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
@@ -120,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     scale: 2,
                     useCORS: true,
                     allowTaint: true
-                }).then(canvas => {
+                }).then((canvas) => {
                     const link = document.createElement('a');
                     link.download = `ticket-${bookingId}.png`;
                     link.href = canvas.toDataURL('image/png');
@@ -133,12 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if (actionEmail) {
-        actionEmail.addEventListener('click', () => { closeDrawer(); });
+        actionEmail.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
     if (actionCancel) {
-        actionCancel.addEventListener('click', () => { closeDrawer(); });
+        actionCancel.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
     if (actionHelp) {
-        actionHelp.addEventListener('click', () => { closeDrawer(); });
+        actionHelp.addEventListener('click', () => {
+            closeDrawer();
+        });
     }
 });

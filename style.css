@@ -1,6 +1,6 @@
 /* Base Reset & Variables */
 :root {
-    --bg-app: #e2e2e4;
+    --bg-app: #000000;
     --bg-card: #ffffff;
     --bg-element: #f5f5f5;
     --text-primary: #1a1a1a;
@@ -61,13 +61,13 @@ body {
 .header-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .share-btn {
     background: none;
     border: none;
-    color: var(--text-primary);
+    color: #ffffff;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -110,9 +110,10 @@ body {
 .ticket-top {
     padding: 16px 18px 12px 18px;
     display: grid;
-    grid-template-columns: 80px 1fr auto;
+    grid-template-columns: 80px 1fr;
     gap: 12px;
     align-items: start;
+    position: relative;
 }
 
 /* Poster */
@@ -137,13 +138,14 @@ body {
     justify-content: center;
     gap: 6px;
     line-height: 1.5;
+    min-width: 0;
 }
 
 .movie-title {
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.2;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .age-text {
@@ -186,8 +188,9 @@ body {
     font-size: 0.65rem;
     letter-spacing: 0.5px;
     color: var(--text-secondary);
-    margin-top: 24px;
-    margin-left: 20px;
+    position: absolute;
+    right: 4px;
+    top: 40px;
     transform: rotate(-90deg);
     transform-origin: center center;
     white-space: nowrap;
