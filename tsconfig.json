@@ -8,5 +8,5 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["DOM", "ES2015"]
   },
-  "include": ["script.ts"]
+  "include": ["js/script.ts"]
 }
