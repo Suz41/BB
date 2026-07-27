@@ -61,11 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic Poster Image from URL query parameter
     const posterUrl = urlParams.get('poster') || urlParams.get('img');
-    if (posterUrl) {
-        const posterImgEl = document.querySelector('.poster-img') as HTMLImageElement | null;
-        if (posterImgEl) {
-            posterImgEl.src = posterUrl;
-        }
+    const posterImgEl = document.querySelector('.poster-img') as HTMLImageElement | null;
+    if (posterUrl && posterImgEl) {
+        posterImgEl.src = posterUrl;
     }
 
     // Generate dynamic QR code encoding the verification link
@@ -73,31 +71,64 @@ document.addEventListener('DOMContentLoaded', () => {
     if (posterUrl) {
         shareUrl += `&poster=${encodeURIComponent(posterUrl)}`;
     }
-    
+
     const qrContainer = document.getElementById('qrContainer') as HTMLElement | null;
-    if (qrContainer && typeof QRCode !== 'undefined') {
-        qrContainer.innerHTML = '';
-        new QRCode(qrContainer, {
-            text: shareUrl,
-            width: 80,
-            height: 80,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.M
+
+    // Helper to generate/regenerate QR Code
+    function renderQRCode(text: string) {
+        if (qrContainer && typeof QRCode !== 'undefined') {
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: text,
+                width: 80,
+                height: 80,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+            const qrCanvas = qrContainer.querySelector('canvas') as HTMLCanvasElement | null;
+            const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
+            if (qrCanvas) {
+                qrCanvas.style.width = '100%';
+                qrCanvas.style.height = '100%';
+                qrCanvas.style.display = 'block';
+                qrCanvas.style.imageRendering = 'pixelated';
+            }
+            if (qrImage) {
+                qrImage.style.display = 'none';
+            }
+        } else {
+            console.warn('QRCode library is undefined');
+        }
+    }
+
+    // Initial QR Code render
+    renderQRCode(shareUrl);
+
+    // Allow user to click the poster to insert a custom poster URL
+    if (posterImgEl) {
+        posterImgEl.style.cursor = 'pointer';
+        posterImgEl.title = 'Click to change poster image';
+        posterImgEl.addEventListener('click', () => {
+            const newPosterUrl = prompt('Enter a custom poster image URL:');
+            if (newPosterUrl !== null) {
+                const trimmedUrl = newPosterUrl.trim();
+                if (trimmedUrl) {
+                    posterImgEl.src = trimmedUrl;
+
+                    // Update URL in address bar without reloading
+                    const params = new URLSearchParams(window.location.search);
+                    params.set('poster', trimmedUrl);
+                    const newRelativePathQuery = `${window.location.pathname}?${params.toString()}`;
+                    history.replaceState(null, '', newRelativePathQuery);
+
+                    // Update shareUrl and regenerate QR Code
+                    shareUrl = `${window.location.origin}${newRelativePathQuery}`;
+                    renderQRCode(shareUrl);
+                    showToast('Poster updated! Copy browser URL to share.');
+                }
+            }
         });
-        const qrCanvas = qrContainer.querySelector('canvas') as HTMLCanvasElement | null;
-        const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
-        if (qrCanvas) {
-            qrCanvas.style.width = '100%';
-            qrCanvas.style.height = '100%';
-            qrCanvas.style.display = 'block';
-            qrCanvas.style.imageRendering = 'pixelated';
-        }
-        if (qrImage) {
-            qrImage.style.display = 'none';
-        }
-    } else {
-        console.warn('QRCode library is undefined');
     }
 
     // Share
