@@ -40,63 +40,7 @@ body {
     gap: 14px;
 }
 
-/* Header */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2px;
-}
 
-.header-left {
-    width: 36px;
-}
-
-.header-center {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.header-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #ffffff;
-}
-
-.share-btn {
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-}
-
-.share-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-.close-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1.5px solid #ef4444;
-    background: transparent;
-    color: #ef4444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.close-btn svg {
-    width: 14px;
-    height: 14px;
-}
 
 /* Ticket Card */
 .ticket-card {
@@ -148,22 +92,7 @@ body {
     white-space: normal;
 }
 
-.age-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    margin-top: 0;
-    padding: 0 18px;
-}
 
-.age-badge-img {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-}
 
 .movie-rating {
     font-size: 1.1rem;
@@ -257,10 +186,7 @@ body {
     margin-left: 50px;
 }
 
-.qr-svg {
-    width: 100%;
-    height: 100%;
-}
+
 
 .qr-details {
     display: flex;
@@ -453,7 +379,7 @@ body {
     }
     
     .ticket-top {
-        grid-template-columns: 75px 1fr auto;
+        grid-template-columns: 75px 1fr;
         gap: 10px;
     }
     
@@ -461,7 +387,7 @@ body {
         width: 75px;
     }
     
-    .poster-art {
+    .poster-img {
         height: 90px;
     }
     

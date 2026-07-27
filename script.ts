@@ -3,8 +3,6 @@ declare let html2canvas: any;
 declare let jspdf: any;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const shareBtn = document.getElementById('shareBtn') as HTMLElement | null;
-    const closeBtn = document.getElementById('closeBtn') as HTMLElement | null;
     const supportBannerBtn = document.getElementById('supportBannerBtn') as HTMLElement | null;
     const supportDrawer = document.getElementById('supportDrawer') as HTMLElement | null;
     const toast = document.getElementById('toast') as HTMLElement | null;
@@ -120,30 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Share
-    if (shareBtn) {
-        shareBtn.addEventListener('click', () => {
-            const shareText = `My Ticket: Spider-Man: Brand New Day (English, 3D) | Thu, 30 Jul @ 08:00 AM | Prasads Multiplex: Hyderabad | Booking ID: ${bookingId}`;
-            if (navigator.share) {
-                navigator.share({
-                    title: "Your Ticket - Spider-Man: Brand New Day",
-                    text: shareText,
-                    url: shareUrl
-                }).catch(() => {});
-            } else {
-                navigator.clipboard.writeText(`${shareText} | Link: ${shareUrl}`)
-                    .then(() => showToast('Ticket details copied!'))
-                    .catch(() => showToast('Sharing failed'));
-            }
-        });
-    }
 
-    // Close
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            showToast('Ticket closed');
-        });
-    }
 
     // Support Drawer
     function openDrawer() {
