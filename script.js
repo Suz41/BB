@@ -154,19 +154,28 @@ document.addEventListener('DOMContentLoaded', () => {
         actionDownload.addEventListener('click', () => {
             closeDrawer();
             const ticketCard = document.querySelector('.ticket-card');
-            if (ticketCard && typeof html2canvas !== 'undefined') {
+            if (ticketCard && typeof html2canvas !== 'undefined' && typeof jspdf !== 'undefined') {
                 html2canvas(ticketCard, {
                     backgroundColor: null,
                     scale: 2,
                     useCORS: true,
                     allowTaint: true
                 }).then((canvas) => {
-                    const link = document.createElement('a');
-                    link.download = `ticket-${bookingId}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    showToast('Ticket downloaded!');
-                }).catch(() => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = jspdf;
+                    // Set standard width for PDF in mm, and scale height proportionally
+                    const imgWidth = 80;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    const pdf = new jsPDF({
+                        orientation: 'p',
+                        unit: 'mm',
+                        format: [imgWidth, imgHeight]
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    pdf.save(`ticket-${bookingId}.pdf`);
+                    showToast('PDF Ticket downloaded!');
+                }).catch((err) => {
+                    console.error('PDF generation failed:', err);
                     showToast('Download failed');
                 });
             }
