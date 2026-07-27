@@ -1,19 +1,4 @@
-declare class QRCode {
-    static CorrectLevel: {
-        L: number;
-        M: number;
-        Q: number;
-        H: number;
-    };
-    constructor(element: HTMLElement, options: {
-        text: string;
-        width?: number;
-        height?: number;
-        colorDark?: string;
-        colorLight?: string;
-        correctLevel?: number;
-    });
-}
+declare let qrcode: any;
 declare let html2canvas: any;
 declare let jspdf: any;
 
@@ -75,31 +60,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const qrContainer = document.getElementById('qrContainer') as HTMLElement | null;
 
-    // Helper to generate/regenerate QR Code
+    // Helper to generate/regenerate QR Code as vector SVG
     function renderQRCode(text: string) {
-        if (qrContainer && typeof QRCode !== 'undefined') {
+        if (qrContainer && typeof qrcode !== 'undefined') {
             qrContainer.innerHTML = '';
-            new QRCode(qrContainer, {
-                text: text,
-                width: 80,
-                height: 80,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.M
+            
+            // Create QR code using auto-detected version (0) and High error correction level (H)
+            const qr = qrcode(0, 'H');
+            qr.addData(text);
+            qr.make();
+            
+            // Generate clean SVG markup (4px cell size, 0 margin, scalable vector format)
+            const svgString = qr.createSvgTag({
+                cellSize: 4,
+                margin: 0,
+                scalable: true
             });
-            const qrCanvas = qrContainer.querySelector('canvas') as HTMLCanvasElement | null;
-            const qrImage = qrContainer.querySelector('img') as HTMLImageElement | null;
-            if (qrCanvas) {
-                qrCanvas.style.width = '100%';
-                qrCanvas.style.height = '100%';
-                qrCanvas.style.display = 'block';
-                qrCanvas.style.imageRendering = 'pixelated';
-            }
-            if (qrImage) {
-                qrImage.style.display = 'none';
+            
+            qrContainer.innerHTML = svgString;
+            
+            // Configure SVG elements to scale perfectly inside our container
+            const svgEl = qrContainer.querySelector('svg') as SVGElement | null;
+            if (svgEl) {
+                svgEl.setAttribute('width', '100%');
+                svgEl.setAttribute('height', '100%');
+                svgEl.style.display = 'block';
             }
         } else {
-            console.warn('QRCode library is undefined');
+            console.warn('qrcode-generator library is undefined');
         }
     }
 
