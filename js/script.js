@@ -93,6 +93,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // Allow user to click QR code container to change QR data/url
+    if (qrContainer) {
+        qrContainer.style.cursor = 'pointer';
+        qrContainer.title = 'Click to edit QR Code content';
+        qrContainer.addEventListener('click', () => {
+            const newQrText = prompt('Enter new URL or text for the QR code:', shareUrl);
+            if (newQrText !== null && newQrText.trim() !== '') {
+                shareUrl = newQrText.trim();
+                renderQRCode(shareUrl);
+                showToast('QR Code updated!');
+            }
+        });
+    }
+
     // Support Drawer
     function openDrawer() {
         if (supportDrawer) {
