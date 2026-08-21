@@ -40,6 +40,22 @@ body {
     gap: 14px;
 }
 
+/* Editable text styling - clean focus without outline layout shift */
+[contenteditable="true"] {
+    outline: none;
+    border-radius: 2px;
+    transition: background-color 0.15s ease;
+}
+
+[contenteditable="true"]:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 
 
 /* Ticket Card */
