@@ -25,11 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     let bookingId = urlParams.get('id');
     if (!bookingId) {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        bookingId = '';
-        for (let i = 0; i < 7; i++) {
-            bookingId += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
+        bookingId = 'ET00513508';
     }
     // Update booking ID in UI
     const bookingIdEl = document.querySelector('.booking-id');
@@ -42,24 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (posterUrl && posterImgEl) {
         posterImgEl.src = posterUrl;
     }
-    // Generate dynamic QR code encoding the verification link
-    let shareUrl = `${window.location.origin}${window.location.pathname}?id=${bookingId}`;
-    if (posterUrl) {
-        shareUrl += `&poster=${encodeURIComponent(posterUrl)}`;
-    }
+    // Generate dynamic QR code encoding booking details
+    let shareUrl = `https://in.bookmyshow.com/order-summary/ET00513508/PVFF?bookingId=${bookingId}`;
     const qrContainer = document.getElementById('qrContainer');
     // Helper to generate/regenerate QR Code as vector SVG
     function renderQRCode(text) {
         if (qrContainer && typeof qrcode !== 'undefined') {
             qrContainer.innerHTML = '';
-            // Create QR code using auto-detected version (0) and High error correction level (H)
-            const qr = qrcode(0, 'H');
+            // Create QR code using auto-detected version (0) and Medium error correction level (M)
+            const qr = qrcode(0, 'M');
             qr.addData(text);
             qr.make();
-            // Generate clean SVG markup (4px cell size, 0 margin, scalable vector format)
+            // Generate clean SVG markup with margin for scannability
             const svgString = qr.createSvgTag({
                 cellSize: 4,
-                margin: 0,
+                margin: 1,
                 scalable: true
             });
             qrContainer.innerHTML = svgString;

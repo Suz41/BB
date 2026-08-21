@@ -179,11 +179,15 @@ body {
 
 .qr-container {
     background: #ffffff;
-    padding: 0;
-    width: 80px;
-    height: 80px;
+    padding: 4px;
+    width: 84px;
+    height: 84px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     justify-self: center;
-    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
