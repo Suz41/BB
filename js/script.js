@@ -226,6 +226,56 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFetchedData = null;
     let cachedNowPlaying = [];
 
+    // Extraction Status Elements
+    const extractionStatusBanner = document.getElementById('extractionStatusBanner');
+    const extractionStatusBadge = document.getElementById('extractionStatusBadge');
+    const extractionStatusText = document.getElementById('extractionStatusText');
+
+    const statusFieldTitle = document.getElementById('statusFieldTitle');
+    const statusFieldCity = document.getElementById('statusFieldCity');
+    const statusFieldVenue = document.getElementById('statusFieldVenue');
+    const statusFieldScreen = document.getElementById('statusFieldScreen');
+    const statusFieldMeta = document.getElementById('statusFieldMeta');
+    const statusFieldTime = document.getElementById('statusFieldTime');
+    const statusFieldSeats = document.getElementById('statusFieldSeats');
+    const statusFieldBookingId = document.getElementById('statusFieldBookingId');
+    const statusFieldPrice = document.getElementById('statusFieldPrice');
+
+    function setFieldTag(element, status) {
+        if (!element) return;
+        element.className = 'field-status-tag';
+        if (!status || status === 'missing') {
+            element.classList.add('tag-missing');
+            element.textContent = 'Missing';
+        } else if (status === 'verified') {
+            element.classList.add('tag-verified');
+            element.textContent = 'Verified';
+        } else if (status === 'inferred') {
+            element.classList.add('tag-inferred');
+            element.textContent = 'Inferred';
+        } else if (status === 'manual') {
+            element.classList.add('tag-manual');
+            element.textContent = 'Manual';
+        }
+    }
+
+    [
+        { input: fieldTitle, tag: statusFieldTitle },
+        { input: fieldVenue, tag: statusFieldVenue },
+        { input: fieldScreen, tag: statusFieldScreen },
+        { input: fieldMeta, tag: statusFieldMeta },
+        { input: fieldTime, tag: statusFieldTime },
+        { input: fieldSeats, tag: statusFieldSeats },
+        { input: fieldBookingId, tag: statusFieldBookingId },
+        { input: fieldPrice, tag: statusFieldPrice }
+    ].forEach(({ input, tag }) => {
+        if (input) {
+            input.addEventListener('input', () => {
+                setFieldTag(tag, 'manual');
+            });
+        }
+    });
+
     // ==========================================
     // Indian Cinema Venues Database (Clean BookMyShow Format)
     // ==========================================
@@ -783,7 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Helper: Find Cinema in database by URL, slug, cinema code, or name
-    function findCinema(searchStr, cityHint) {
+    function findCinema(searchStr, cityHint, allowFallback = false) {
         if (!searchStr) return null;
         const low = searchStr.toLowerCase();
 
@@ -818,8 +868,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 4. If cityHint is provided, return its premier theater
-        if (cityHint) {
+        // 4. Fallback only if explicitly requested
+        if (allowFallback && cityHint) {
             const cityData = getOrCreateCityTheaters(cityHint);
             if (cityData && cityData.theaters.length > 0) {
                 return { cityKey: normalizeCity(cityHint), theater: cityData.theaters[0] };
@@ -1136,258 +1186,41 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     }
 
-    // Comprehensive Universal Parser for BookMyShow URLs & SMS/WhatsApp Confirmations
+    // Unified BMS Parser delegating to dedicated BmsExtractor module
     function parseInputData(raw) {
-        const input = raw.trim();
-
-        // Extract any URL anywhere in the input (with or without https://)
-        const urlMatch = input.match(/(https?:\/\/[^\s]+|in\.bookmyshow\.com[^\s]+|bms\.bz[^\s]+)/i);
-        let targetUrl = urlMatch ? urlMatch[0] : null;
-        if (targetUrl && !targetUrl.startsWith('http')) {
-            targetUrl = 'https://' + targetUrl;
+        if (typeof BmsExtractor !== "undefined") {
+            return BmsExtractor.parseInput(raw);
         }
-
-        const extracted = {
-            isUrl: Boolean(targetUrl),
-            rawUrl: targetUrl,
-            movieQuery: '',
-            city: '',
-            theater: '',
-            theaterId: '',
-            format: '2D',
-            screen: 'AUDI 1',
-            seats: getRandomSeat(),
-            bookingId: '',
-            date: '',
-            time: '07:15 PM',
-            price: (Math.floor(350 + Math.random() * 250)).toFixed(2),
-            language: 'Hindi',
-            isTheaterOnlyUrl: false
+        return {
+            isUrl: false,
+            isValidBmsUrl: false,
+            rawUrl: null,
+            routeType: "unknown",
+            isBookingUrl: false,
+            isTheaterOnlyUrl: false,
+            bookingId: "",
+            orderCode: "",
+            movieQuery: "",
+            city: "",
+            status: "NEEDS_CONFIRMATION",
+            statusMessage: "Some fields require confirmation.",
+            fields: {
+                movieTitle: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                movieLanguage: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                cinemaName: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                cinemaLocation: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                bookingId: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                showDate: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                showTime: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                screen: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                seats: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                ticketPrice: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                convenienceFee: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                totalAmount: { value: null, source: "none", extractionStatus: "missing", confidence: 0 },
+                format: { value: null, source: "none", extractionStatus: "missing", confidence: 0 }
+            },
+            summary: { verifiedCount: 0, inferredCount: 0, missingCount: 13, manualCount: 0, totalFields: 13 }
         };
-
-        const lowerRaw = input.toLowerCase();
-
-        // 1. Detect Format keywords from URL or text
-        if (lowerRaw.includes('imax 3d') || lowerRaw.includes('imax-3d')) {
-            extracted.format = 'IMAX 3D';
-            extracted.screen = 'AUDI 1 (IMAX)';
-        } else if (lowerRaw.includes('imax 2d') || lowerRaw.includes('imax-2d') || lowerRaw.includes('imax')) {
-            extracted.format = 'IMAX 2D';
-            extracted.screen = 'AUDI 1 (IMAX)';
-        } else if (lowerRaw.includes('4dx 3d') || lowerRaw.includes('4dx-3d')) {
-            extracted.format = '4DX 3D';
-            extracted.screen = 'AUDI 4 (4DX)';
-        } else if (lowerRaw.includes('4dx')) {
-            extracted.format = '4DX';
-            extracted.screen = 'AUDI 4 (4DX)';
-        } else if (lowerRaw.includes('dolby atmos') || lowerRaw.includes('atmos')) {
-            extracted.format = 'Dolby Atmos';
-            extracted.screen = 'AUDI 1';
-        } else if (lowerRaw.includes('p[xl]') || lowerRaw.includes('pxl')) {
-            extracted.format = 'P[XL]';
-            extracted.screen = 'AUDI 1 (P[XL])';
-        } else if (lowerRaw.includes('3d')) {
-            extracted.format = '3D';
-            extracted.screen = 'AUDI 2 (3D)';
-        }
-
-        // 2. Detect Audi / Screen number from text if present
-        const mAudiNum = lowerRaw.match(/\b(?:audi|screen)\s*[:#-]?\s*(\d+[A-Za-z0-9\s]*?)(?:\)|,|\.|\s+on|\s+at|$)/i);
-        if (mAudiNum) {
-            const rawAudi = mAudiNum[0].replace(/[),.]/g, '').trim().toUpperCase();
-            extracted.screen = rawAudi;
-        }
-
-        // 3. Extract any ET... event or booking code
-        const etMatch = input.match(/\b(ET\d{6,10})\b/i);
-        if (etMatch) {
-            extracted.bookingId = etMatch[1].toUpperCase();
-        }
-
-        // 4. URL-specific parsing
-        if (extracted.isUrl && targetUrl) {
-            try {
-                const urlObj = new URL(targetUrl);
-                const pathname = urlObj.pathname.replace(/\/+$/, '');
-                const parts = pathname.split('/').filter(Boolean);
-                const stopWords = new Set(['movies', 'buytickets', 'events', 'explore', 'cinemas', 'in', 'cinema', 'booktickets']);
-
-                // 1. Date YYYYMMDD
-                for (let p of parts) {
-                    if (/^\d{8}$/.test(p)) {
-                        const parsedDate = parseBmsDate(p);
-                        if (parsedDate) extracted.date = parsedDate;
-                        break;
-                    }
-                }
-
-                // 2. Booking ID ET...
-                for (let p of parts) {
-                    if (/^ET\d+/i.test(p)) {
-                        extracted.bookingId = p.toUpperCase();
-                        break;
-                    }
-                }
-
-                // 3. URL Pattern Matching:
-                if (parts[0] === 'movies' && parts.length >= 3) {
-                    // Pattern: /movies/{city}/{movie-slug}/buytickets/{eventCode}/{date}
-                    // or /movies/{city}/{movie-slug}/{eventCode}
-                    extracted.city = parts[1].toLowerCase();
-                    extracted.movieQuery = cleanTitle(parts[2]);
-                } else if (parts[1] === 'movies' && parts.length >= 3) {
-                    // Pattern: /{city}/movies/{movie-slug}/{eventCode}
-                    extracted.city = parts[0].toLowerCase();
-                    extracted.movieQuery = cleanTitle(parts[2]);
-                } else if (parts.includes('cinemas')) {
-                    // Pattern: /cinemas/{city}/{cinema-slug}/{cinemaCode}
-                    extracted.isTheaterOnlyUrl = true;
-                    const cIdx = parts.indexOf('cinemas');
-                    if (parts[cIdx + 1]) extracted.city = parts[cIdx + 1].toLowerCase();
-                    if (parts[cIdx + 2]) {
-                        extracted.theater = formatTheaterSlug(parts[cIdx + 2]);
-                    }
-                } else if (parts[0] === 'buytickets' && parts[1]) {
-                    if (parts[2] && parts[2].startsWith('cinema-')) {
-                        // Pattern: /buytickets/{cinema-slug}/cinema-{cityCode}-{cinemaCode}-MT/{date}
-                        extracted.isTheaterOnlyUrl = true;
-                        extracted.theater = formatTheaterSlug(parts[1]);
-                        const mCity = parts[2].match(/cinema-([a-z]+)-/i);
-                        if (mCity) extracted.city = mCity[1].toLowerCase();
-                    } else {
-                        // Pattern: /buytickets/{movie-slug}-{city}/movie-{cityCode}-{eventCode}-MT/{date}
-                        const mMovie = parts[1].match(/^(.+?)-([a-z]+)$/i);
-                        if (mMovie) {
-                            extracted.movieQuery = cleanTitle(mMovie[1]);
-                            extracted.city = mMovie[2].toLowerCase();
-                        } else {
-                            extracted.movieQuery = cleanTitle(parts[1]);
-                        }
-                    }
-                }
-
-                // 4. Fallback search for movie slug if still empty and not theater only
-                if (!extracted.movieQuery && !extracted.isTheaterOnlyUrl) {
-                    for (let i = parts.length - 1; i >= 0; i--) {
-                        const p = parts[i].toLowerCase();
-                        if (!stopWords.has(p) && !/^ET\d+/i.test(p) && !/^\d{8}$/.test(p) && p !== extracted.city) {
-                            extracted.movieQuery = cleanTitle(parts[i]);
-                            break;
-                        }
-                    }
-                }
-
-                if (urlObj.searchParams.get('bookingId')) {
-                    extracted.bookingId = urlObj.searchParams.get('bookingId');
-                }
-            } catch (err) {
-                console.error('URL parse error:', err);
-            }
-        } else {
-            // Text / SMS parsing (e.g. Booking confirmation messages)
-            const mBid = input.match(/(?:booking\s*(?:id|no\.?)|ticket\s*(?:id|no\.?)|id)\s*[:#-]?\s*([A-Za-z0-9]+)/i);
-            if (mBid) extracted.bookingId = mBid[1].toUpperCase();
-
-            const mAmt = input.match(/(?:₹|rs\.?|inr|total\s*amount)\s*[:#-]?\s*([\d,]+(?:\.\d{1,2})?)/i);
-            if (mAmt) extracted.price = mAmt[1].replace(/,/g, '');
-
-            const mSeats = input.match(/(?:seats?|seat\s*no\.?)\s*[:#-]?\s*([A-Za-z0-9,\s-]+?)(?:\.|\s+booking|\s+total|\s+rs|\s+₹|$)/i);
-            if (mSeats) {
-                const s = mSeats[1].trim();
-                extracted.seats = s.toUpperCase().startsWith('SEAT') ? s.toUpperCase() : `SEAT - ${s.toUpperCase()}`;
-            }
-
-            const mTime = input.match(/(\d{1,2}:\d{2}\s*(?:am|pm))/i);
-            if (mTime) extracted.time = mTime[1].toUpperCase();
-
-            const mDate = input.match(/(?:date\s*[:#-]?\s*|on\s+)?([A-Za-z]{3},\s*\d{1,2}\s+[A-Za-z]{3}(?:,?\s*\d{4})?|\d{1,2}\s+[A-Za-z]{3}\s+\d{4})/i);
-            if (mDate) extracted.date = mDate[1].trim();
-
-            const mVenue = input.match(/(?:venue|theater|theatre|cinema)\s*[:#-]?\s*([^,]+?)(?:,\s*time|,\s*date|,\s*movie|,\s*seats?|$)/i);
-            if (mVenue) extracted.theater = mVenue[1].trim();
-
-            const mMovie = input.match(/(?:booking\s+for|movie|film)\s*[:#-]?\s*([^,]+?)(?:\s*\(([^)]+)\)|,\s*venue|,\s*date|,\s*time|\s+at\s+|\s+on\s+|$)/i);
-            if (mMovie) {
-                extracted.movieQuery = cleanTitle(mMovie[1]);
-                if (mMovie[2]) {
-                    const metaParts = mMovie[2].split(',').map(s => s.trim());
-                    if (metaParts.length >= 2) {
-                        extracted.language = metaParts[0];
-                        extracted.format = metaParts[1];
-                    } else if (metaParts.length === 1) {
-                        if (['2d', '3d', 'imax', 'imax 2d', 'imax 3d', '4dx'].includes(metaParts[0].toLowerCase())) {
-                            extracted.format = metaParts[0].toUpperCase();
-                        } else {
-                            extracted.language = metaParts[0];
-                        }
-                    }
-                }
-            } else if (!extracted.theater) {
-                extracted.movieQuery = cleanTitle(input);
-            }
-
-            // Find city from text if mentioned
-            for (const [alias, canonical] of Object.entries(CITY_ALIASES)) {
-                if (lowerRaw.includes(alias)) {
-                    extracted.city = canonical;
-                    break;
-                }
-            }
-        }
-
-        // Resolve City & Theater
-        const found = findCinema(targetUrl || input, extracted.city);
-        if (found) {
-            extracted.city = found.cityKey;
-            extracted.theater = found.theater.name;
-            extracted.theaterId = found.theater.id;
-        } else if (extracted.theater) {
-            extracted.theater = formatTheaterSlug(extracted.theater.replace(/\s+/g, '-'));
-            if (!extracted.city) extracted.city = 'mumbai';
-            extracted.theaterId = 'CINEMA';
-        } else if (extracted.city) {
-            const cityData = getOrCreateCityTheaters(extracted.city);
-            const premier = cityData.theaters[0];
-            extracted.theater = premier.name;
-            extracted.theaterId = premier.id;
-        } else {
-            extracted.city = 'mumbai';
-            const cityData = THEATERS_DB.mumbai;
-            extracted.theater = cityData.theaters[0].name;
-            extracted.theaterId = cityData.theaters[0].id;
-        }
-
-        extracted.language = extracted.language || (THEATERS_DB[extracted.city] && THEATERS_DB[extracted.city].language) || 'Hindi';
-
-        // Set Screen based on Format if still default
-        if (!extracted.screen || extracted.screen === 'AUDI 1') {
-            if (extracted.format.includes('IMAX')) {
-                extracted.screen = 'AUDI 1 (IMAX)';
-            } else if (extracted.format.includes('4DX')) {
-                extracted.screen = 'AUDI 4 (4DX)';
-            } else if (extracted.format.includes('3D')) {
-                extracted.screen = 'AUDI 2 (3D)';
-            } else {
-                extracted.screen = 'AUDI 1';
-            }
-        }
-
-        // Price estimation based on format
-        if (!extracted.price || extracted.price === '350.00') {
-            if (extracted.format.includes('IMAX')) {
-                extracted.price = (Math.floor(750 + Math.random() * 200)).toFixed(2);
-            } else if (extracted.format.includes('4DX')) {
-                extracted.price = (Math.floor(550 + Math.random() * 150)).toFixed(2);
-            } else {
-                extracted.price = (Math.floor(280 + Math.random() * 150)).toFixed(2);
-            }
-        }
-
-        if (!extracted.bookingId) {
-            extracted.bookingId = 'ET' + Math.floor(10000000 + Math.random() * 90000000);
-        }
-
-        return extracted;
     }
 
     // Modal Opening & Closing
@@ -1487,27 +1320,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // Fetch & Auto-Fill Core Engine
     // ==========================================
+    let isFetching = false;
+    let lastProcessedInput = "";
+    let inputDebounce = null;
+
     async function handleFetchDetails() {
-        const raw = bmsInput.value.trim();
+        const raw = bmsInput ? bmsInput.value.trim() : "";
         if (!raw) {
-            fetchStatusMsg.className = 'fetch-status-msg error';
-            fetchStatusMsg.textContent = 'Please paste a BookMyShow link, movie name, or booking text.';
+            if (fetchStatusMsg) {
+                fetchStatusMsg.className = "fetch-status-msg error";
+                fetchStatusMsg.textContent = "Please paste a BookMyShow link, movie name, or booking text.";
+            }
             return;
         }
 
+        if (isFetching) return;
+        isFetching = true;
+        lastProcessedInput = raw;
+
         // Loading UI
-        const btnText = btnFetchDetails.querySelector('.btn-text');
-        const btnLoader = btnFetchDetails.querySelector('.btn-loader');
-        btnText.style.display = 'none';
-        btnLoader.style.display = 'inline-block';
-        btnFetchDetails.disabled = true;
-        fetchStatusMsg.className = 'fetch-status-msg info';
-        fetchStatusMsg.textContent = 'Detecting movie, cinema & showtimes...';
+        const btnText = btnFetchDetails ? btnFetchDetails.querySelector(".btn-text") : null;
+        const btnLoader = btnFetchDetails ? btnFetchDetails.querySelector(".btn-loader") : null;
+        if (btnText) btnText.style.display = "none";
+        if (btnLoader) btnLoader.style.display = "inline-block";
+        if (btnFetchDetails) btnFetchDetails.disabled = true;
+
+        // Update extraction status: "Fetching booking information"
+        if (extractionStatusBanner && extractionStatusBadge && extractionStatusText) {
+            extractionStatusBanner.style.display = "flex";
+            extractionStatusBanner.className = "extraction-status-banner status-fetching";
+            extractionStatusBadge.className = "status-badge-pill pill-fetching";
+            extractionStatusBadge.textContent = "Fetching";
+            extractionStatusText.textContent = "Fetching booking information...";
+        }
+        if (fetchStatusMsg) {
+            fetchStatusMsg.textContent = "";
+        }
 
         try {
-            const parsed = parseInputData(raw);
+            // Run dedicated BMS extractor
+            const parsed = (typeof BmsExtractor !== "undefined")
+                ? await BmsExtractor.extract(raw)
+                : parseInputData(raw);
 
-            // Fetch TMDB Movie
+            // Fetch TMDB Movie metadata (ONLY if movieQuery exists and is NOT private order code)
             let tmdb = null;
             let nowPlayingMovies = [];
 
@@ -1523,72 +1379,121 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Determine Title: NEVER replace movieQuery with Ramayana if movieQuery exists!
-            let finalTitle = '';
+            // Determine Title (NEVER fabricate a title for empty booking URLs)
+            let finalTitle = "";
             if (tmdb && tmdb.title) {
                 finalTitle = tmdb.title;
+            } else if (parsed.fields && parsed.fields.movieTitle && parsed.fields.movieTitle.value) {
+                finalTitle = parsed.fields.movieTitle.value;
             } else if (parsed.movieQuery) {
                 finalTitle = parsed.movieQuery;
             } else if (nowPlayingMovies.length > 0) {
                 finalTitle = nowPlayingMovies[0].title;
                 tmdb = nowPlayingMovies[0];
-            } else {
-                finalTitle = 'Movie Ticket';
             }
 
             // Determine Language & Format
-            const finalLanguage = (tmdb && tmdb.language) ? tmdb.language : (parsed.language || 'Hindi');
-            const finalFormat = parsed.format || '2D';
+            const parsedLang = (parsed.fields && parsed.fields.movieLanguage) ? parsed.fields.movieLanguage.value : null;
+            const finalLanguage = (tmdb && tmdb.language) ? tmdb.language : (parsedLang || "Hindi");
+            const finalFormat = (parsed.fields && parsed.fields.format && parsed.fields.format.value) ? parsed.fields.format.value : "2D";
             const finalMeta = `${finalLanguage}, ${finalFormat}`;
 
             // Determine Poster
-            let finalPoster = (tmdb && tmdb.posterUrl) ? tmdb.posterUrl : generatePosterSvg(finalTitle);
+            let finalPoster = (tmdb && tmdb.posterUrl)
+                ? tmdb.posterUrl
+                : generatePosterSvg(finalTitle || "Movie Ticket");
 
-            // Determine Date & Time
-            const finalDate = parsed.date || (tmdb && tmdb.releaseDate ? tmdb.releaseDate : getCurrentFormattedDate());
-            const finalTime = `${finalDate} | ${parsed.time}`;
+            // Determine Date & Time (NEVER substitute movie release date for show date!)
+            const parsedDate = (parsed.fields && parsed.fields.showDate) ? parsed.fields.showDate.value : null;
+            const parsedTime = (parsed.fields && parsed.fields.showTime) ? parsed.fields.showTime.value : null;
+            let finalTimeStr = "";
+            if (parsedDate && parsedTime) {
+                finalTimeStr = `${parsedDate} | ${parsedTime}`;
+            } else if (parsedDate) {
+                finalTimeStr = parsedDate;
+            } else if (parsedTime) {
+                finalTimeStr = parsedTime;
+            }
 
-            // Populate City & Theater dropdowns
-            populateCityAndTheaterDropdowns(parsed.city, parsed.theaterId);
+            // Determine Venue (NEVER silently select the first cinema in a city if not detected)
+            const parsedVenue = (parsed.fields && parsed.fields.cinemaName) ? parsed.fields.cinemaName.value : null;
+            const parsedCity = (parsed.fields && parsed.fields.cinemaLocation)
+                ? parsed.fields.cinemaLocation.value
+                : (parsed.city || "");
+            const finalVenue = parsedVenue || "";
 
-            // Populate form fields with clean values (no full addresses, no extra tags)
+            // Screen
+            const finalScreen = (parsed.fields && parsed.fields.screen && parsed.fields.screen.value) ? parsed.fields.screen.value : "";
+
+            // Seats (Never fabricate random seats)
+            const finalSeats = (parsed.fields && parsed.fields.seats && parsed.fields.seats.value) ? parsed.fields.seats.value : "";
+
+            // Booking ID (Never fabricate random IDs)
+            const finalBookingId = (parsed.fields && parsed.fields.bookingId && parsed.fields.bookingId.value)
+                ? parsed.fields.bookingId.value
+                : (parsed.bookingId || "");
+
+            // Price (Never fabricate random prices)
+            const finalPrice = (parsed.fields && parsed.fields.totalAmount && parsed.fields.totalAmount.value)
+                ? parsed.fields.totalAmount.value
+                : ((parsed.fields && parsed.fields.ticketPrice && parsed.fields.ticketPrice.value) ? parsed.fields.ticketPrice.value : "");
+
+            // Populate City & Theater dropdowns only if city is known
+            if (parsedCity) {
+                populateCityAndTheaterDropdowns(parsedCity);
+            }
+
+            // Populate Form Fields with clean values (missing fields remain empty for user entry)
             fieldTitle.value = finalTitle;
             fieldMeta.value = finalMeta;
-            fieldTime.value = finalTime;
-            fieldScreen.value = parsed.screen;
-            fieldVenue.value = parsed.theater;
-            fieldSeats.value = parsed.seats;
-            fieldBookingId.value = parsed.bookingId;
-            fieldPrice.value = parsed.price;
+            fieldTime.value = finalTimeStr;
+            fieldScreen.value = finalScreen;
+            fieldVenue.value = finalVenue;
+            fieldSeats.value = finalSeats;
+            fieldBookingId.value = finalBookingId;
+            fieldPrice.value = finalPrice;
 
-            // Highlight matching format chip
-            document.querySelectorAll('#formatChips .chip-btn').forEach(b => {
-                b.classList.toggle('active', b.getAttribute('data-val') === finalFormat);
+            // Update Field Status Tags (Verified, Inferred, Missing)
+            if (parsed.fields) {
+                setFieldTag(statusFieldTitle, parsed.fields.movieTitle ? parsed.fields.movieTitle.extractionStatus : (finalTitle ? "inferred" : "missing"));
+                setFieldTag(statusFieldVenue, parsed.fields.cinemaName ? parsed.fields.cinemaName.extractionStatus : (finalVenue ? "inferred" : "missing"));
+                setFieldTag(statusFieldScreen, parsed.fields.screen ? parsed.fields.screen.extractionStatus : (finalScreen ? "inferred" : "missing"));
+                setFieldTag(statusFieldMeta, parsed.fields.format ? parsed.fields.format.extractionStatus : "inferred");
+                setFieldTag(statusFieldTime, (parsed.fields.showDate && parsed.fields.showDate.extractionStatus === "verified") ? "verified" : ((parsedDate || parsedTime) ? "inferred" : "missing"));
+                setFieldTag(statusFieldSeats, parsed.fields.seats ? parsed.fields.seats.extractionStatus : "missing");
+                setFieldTag(statusFieldBookingId, parsed.fields.bookingId ? parsed.fields.bookingId.extractionStatus : "missing");
+                setFieldTag(statusFieldPrice, parsed.fields.totalAmount ? parsed.fields.totalAmount.extractionStatus : "missing");
+                setFieldTag(statusFieldCity, parsed.fields.cinemaLocation ? parsed.fields.cinemaLocation.extractionStatus : (parsedCity ? "inferred" : "missing"));
+            }
+
+            // Highlight matching format chip if format known
+            document.querySelectorAll("#formatChips .chip-btn").forEach(b => {
+                b.classList.toggle("active", b.getAttribute("data-val") === finalFormat);
             });
 
-            // Highlight matching showtime chip
-            document.querySelectorAll('#timeChips .chip-btn').forEach(b => {
-                b.classList.toggle('active', b.getAttribute('data-val') === parsed.time);
+            // Highlight matching showtime chip if time known
+            document.querySelectorAll("#timeChips .chip-btn").forEach(b => {
+                b.classList.toggle("active", parsedTime ? b.getAttribute("data-val") === parsedTime : false);
             });
 
-            // Update preview card
+            // Update Preview Card
             previewPosterImg.src = finalPoster;
-            previewTitle.textContent = finalTitle;
+            previewTitle.textContent = finalTitle || "Movie Title (Enter above)";
             previewMeta.textContent = finalMeta;
-            previewVenue.textContent = fieldVenue.value;
-            previewDate.textContent = finalTime;
+            previewVenue.textContent = finalVenue || "Cinema Venue (Enter above)";
+            previewDate.textContent = finalTimeStr || "Show Date & Time (Enter above)";
 
             currentFetchedData = {
                 title: finalTitle,
                 meta: finalMeta,
-                time: finalTime,
-                venue: fieldVenue.value,
-                screen: parsed.screen,
-                seats: parsed.seats,
-                bookingId: parsed.bookingId,
-                price: parsed.price,
+                time: finalTimeStr,
+                venue: finalVenue,
+                screen: finalScreen,
+                seats: finalSeats,
+                bookingId: finalBookingId,
+                price: finalPrice,
                 posterUrl: finalPoster,
-                qrData: parsed.rawUrl || `https://in.bookmyshow.com/order-summary/${parsed.bookingId}`
+                qrData: parsed.rawUrl || (finalBookingId ? `https://in.bookmyshow.com/order-summary/${finalBookingId}` : "")
             };
 
             // Render "Now Showing" pills if cinema-only URL
@@ -1599,84 +1504,123 @@ document.addEventListener('DOMContentLoaded', () => {
                     previewPosterImg.src = selectedMovie.posterUrl;
                     finalPoster = selectedMovie.posterUrl;
 
-                    const currentFormat = (fieldMeta.value.split(',')[1] || '2D').trim();
+                    const currentFormat = (fieldMeta.value.split(",")[1] || "2D").trim();
                     fieldMeta.value = `${selectedMovie.language}, ${currentFormat}`;
                     previewMeta.textContent = fieldMeta.value;
+                    setFieldTag(statusFieldTitle, "manual");
 
                     currentFetchedData.title = selectedMovie.title;
                     currentFetchedData.meta = fieldMeta.value;
                     currentFetchedData.posterUrl = selectedMovie.posterUrl;
                 });
             } else if (nowShowingBox) {
-                nowShowingBox.style.display = 'none';
+                nowShowingBox.style.display = "none";
             }
 
-            // Display preview and form
-            previewCard.style.display = 'grid';
-            modalFormFields.style.display = 'flex';
-            fetchStatusMsg.className = 'fetch-status-msg success';
-            fetchStatusMsg.textContent = `✓ Auto-fetched: ${finalTitle} at ${parsed.theater}! Review & Apply.`;
+            // Display preview card & form fields
+            previewCard.style.display = "grid";
+            modalFormFields.style.display = "flex";
+
+            // Compact extraction status banner updates
+            if (extractionStatusBanner && extractionStatusBadge && extractionStatusText) {
+                extractionStatusBanner.style.display = "flex";
+
+                if (parsed.status === "LOGIN_REQUIRED" || parsed.requiresAuth) {
+                    extractionStatusBanner.className = "extraction-status-banner status-login";
+                    extractionStatusBadge.className = "status-badge-pill pill-login";
+                    extractionStatusBadge.textContent = "Login required";
+                    extractionStatusText.textContent = "Private booking details require authentication. Enter missing fields below or paste your confirmation SMS.";
+                } else if (parsed.status === "UNAVAILABLE") {
+                    extractionStatusBanner.className = "extraction-status-banner status-unavailable";
+                    extractionStatusBadge.className = "status-badge-pill pill-missing";
+                    extractionStatusBadge.textContent = "Booking information unavailable";
+                    extractionStatusText.textContent = "Could not load data from BookMyShow.";
+                } else if (parsed.summary && (parsed.summary.missingCount > 0 || parsed.summary.inferredCount > 0)) {
+                    extractionStatusBanner.className = "extraction-status-banner status-confirmation";
+                    extractionStatusBadge.className = "status-badge-pill pill-inferred";
+                    extractionStatusBadge.textContent = "Some fields require confirmation";
+                    extractionStatusText.textContent = `${parsed.summary.missingCount} field(s) require confirmation. Missing fields are labeled below.`;
+                } else {
+                    extractionStatusBanner.className = "extraction-status-banner status-retrieved";
+                    extractionStatusBadge.className = "status-badge-pill pill-verified";
+                    extractionStatusBadge.textContent = "Information retrieved";
+                    extractionStatusText.textContent = "All booking fields retrieved successfully.";
+                }
+            }
         } catch (err) {
-            console.error('Fetch error:', err);
-            fetchStatusMsg.className = 'fetch-status-msg error';
-            fetchStatusMsg.textContent = 'Could not fetch remote details. You can tweak fields manually below.';
-            modalFormFields.style.display = 'flex';
+            console.error("Fetch error:", err);
+            if (extractionStatusBanner && extractionStatusBadge && extractionStatusText) {
+                extractionStatusBanner.style.display = "flex";
+                extractionStatusBanner.className = "extraction-status-banner status-unavailable";
+                extractionStatusBadge.className = "status-badge-pill pill-missing";
+                extractionStatusBadge.textContent = "Booking information unavailable";
+                extractionStatusText.textContent = "Could not retrieve details. You can fill in the fields manually below.";
+            }
+            modalFormFields.style.display = "flex";
         } finally {
-            btnText.style.display = 'inline';
-            btnLoader.style.display = 'none';
-            btnFetchDetails.disabled = false;
+            if (btnText) btnText.style.display = "inline";
+            if (btnLoader) btnLoader.style.display = "none";
+            if (btnFetchDetails) btnFetchDetails.disabled = false;
+            isFetching = false;
         }
     }
 
     if (btnFetchDetails) {
-        btnFetchDetails.addEventListener('click', handleFetchDetails);
+        btnFetchDetails.addEventListener("click", (e) => {
+            e.preventDefault();
+            handleFetchDetails();
+        });
     }
 
     if (bmsInput) {
         // Trigger fetch on Enter key
-        bmsInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+        bmsInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
                 e.preventDefault();
                 handleFetchDetails();
             }
         });
 
         // Instant auto-fetch when user pastes a link
-        bmsInput.addEventListener('paste', () => {
+        bmsInput.addEventListener("paste", () => {
+            clearTimeout(inputDebounce);
             setTimeout(() => {
-                if (bmsInput.value.trim().length > 6) {
+                const val = bmsInput.value.trim();
+                if (val.length > 6 && val !== lastProcessedInput && !isFetching) {
                     handleFetchDetails();
                 }
-            }, 120);
+            }, 100);
         });
 
         // Debounced auto-fetch on typing or pasting
-        let inputDebounce = null;
-        bmsInput.addEventListener('input', () => {
+        bmsInput.addEventListener("input", () => {
             clearTimeout(inputDebounce);
             const val = bmsInput.value.trim();
-            if (val.length > 10 && (val.includes('bookmyshow') || val.includes('bms') || val.includes('http') || val.includes('ET00') || val.includes('cinema-'))) {
+            if (val.length > 10 && val !== lastProcessedInput && !isFetching &&
+                (val.includes("bookmyshow") || val.includes("bms") || val.includes("http") || val.includes("ET00") || val.includes("cinema-") || val.includes("booking"))) {
                 inputDebounce = setTimeout(() => {
-                    handleFetchDetails();
-                }, 600);
+                    if (!isFetching && bmsInput.value.trim() !== lastProcessedInput) {
+                        handleFetchDetails();
+                    }
+                }, 500);
             }
         });
     }
 
     // Apply button: writes the auto-filled details to the ticket card and updates QR code
     if (btnApplyDetails) {
-        btnApplyDetails.addEventListener('click', () => {
-            const titleVal = fieldTitle.value.trim() || 'Cinema Ticket';
-            const metaVal = fieldMeta.value.trim() || 'Hindi, 2D';
-            const timeVal = fieldTime.value.trim() || `${getCurrentFormattedDate()} | 07:15 PM`;
-            const venueVal = fieldVenue.value.trim() || 'PVR Cinemas';
-            const screenVal = fieldScreen.value.trim() || 'AUDI 1';
-            const seatsVal = fieldSeats.value.trim() || getRandomSeat();
-            const bookingIdVal = fieldBookingId.value.trim() || ('ET' + Math.floor(10000000 + Math.random() * 90000000));
-            const priceVal = fieldPrice.value.trim() || '350.00';
+        btnApplyDetails.addEventListener("click", () => {
+            const titleVal = fieldTitle.value.trim();
+            const metaVal = fieldMeta.value.trim() || "Hindi, 2D";
+            const timeVal = fieldTime.value.trim();
+            const venueVal = fieldVenue.value.trim();
+            const screenVal = fieldScreen.value.trim();
+            const seatsVal = fieldSeats.value.trim();
+            const bookingIdVal = fieldBookingId.value.trim();
+            const priceVal = fieldPrice.value.trim();
             const posterSrc = (currentFetchedData && currentFetchedData.posterUrl)
                 ? currentFetchedData.posterUrl
-                : generatePosterSvg(titleVal);
+                : generatePosterSvg(titleVal || "Movie Ticket");
 
             // 1. Update Poster
             if (posterImgEl) {
@@ -1684,81 +1628,97 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Update Movie Title (with rating span if provided)
-            const movieTitleEl = document.querySelector('.movie-title');
+            const movieTitleEl = document.querySelector(".movie-title");
             if (movieTitleEl) {
-                const ratingMatch = titleVal.match(/\s*(\([A-Za-z0-9+-]+\))\s*$/);
-                if (ratingMatch) {
-                    const rawTitle = titleVal.replace(ratingMatch[0], '').trim();
-                    const ratingTag = ratingMatch[1];
-                    movieTitleEl.innerHTML = `${rawTitle} <span class="movie-rating">${ratingTag}</span>`;
+                if (!titleVal) {
+                    movieTitleEl.textContent = "Movie Ticket";
                 } else {
-                    movieTitleEl.textContent = titleVal;
+                    const ratingMatch = titleVal.match(/\s*(\([A-Za-z0-9+-]+\))\s*$/);
+                    if (ratingMatch) {
+                        const rawTitle = titleVal.replace(ratingMatch[0], "").trim();
+                        const ratingTag = ratingMatch[1];
+                        movieTitleEl.innerHTML = `${rawTitle} <span class="movie-rating">${ratingTag}</span>`;
+                    } else {
+                        movieTitleEl.textContent = titleVal;
+                    }
                 }
             }
 
             // 3. Update Format / Language
-            const movieMetaEl = document.querySelector('.movie-meta');
+            const movieMetaEl = document.querySelector(".movie-meta");
             if (movieMetaEl) {
                 movieMetaEl.textContent = metaVal;
             }
 
             // 4. Update Time
-            const movieTimeEl = document.querySelector('.movie-time');
+            const movieTimeEl = document.querySelector(".movie-time");
             if (movieTimeEl) {
-                movieTimeEl.textContent = timeVal;
+                movieTimeEl.textContent = timeVal || "Show Time Pending";
             }
 
-            // 5. Update Venue (clean cinema name, e.g. "PVR: Phoenix Palladium, Lower Parel")
-            const movieVenueEl = document.querySelector('.movie-venue');
+            // 5. Update Venue
+            const movieVenueEl = document.querySelector(".movie-venue");
             if (movieVenueEl) {
-                movieVenueEl.textContent = venueVal;
+                movieVenueEl.textContent = venueVal || "Venue Pending";
             }
 
-            // 6. Update Screen / Audi in ticket details (clean screen, e.g. "AUDI 1" or "AUDI 1 (IMAX)")
-            const ticketScreenEl = document.querySelector('.ticket-screen');
+            // 6. Update Screen / Audi in ticket details
+            const ticketScreenEl = document.querySelector(".ticket-screen");
             if (ticketScreenEl) {
-                ticketScreenEl.textContent = screenVal;
+                ticketScreenEl.textContent = screenVal || "SCREEN PENDING";
             }
 
-            // 7. Update Seat
-            const ticketSeatEl = document.querySelector('.ticket-seat');
+            // 7. Update Seat (Never invent random seats)
+            const ticketSeatEl = document.querySelector(".ticket-seat");
             if (ticketSeatEl) {
-                ticketSeatEl.textContent = seatsVal.startsWith('SEAT') ? seatsVal : `SEAT - ${seatsVal}`;
+                if (seatsVal) {
+                    ticketSeatEl.textContent = seatsVal.toUpperCase().startsWith("SEAT") ? seatsVal.toUpperCase() : `SEAT - ${seatsVal.toUpperCase()}`;
+                } else {
+                    ticketSeatEl.textContent = "SEAT - PENDING";
+                }
             }
 
-            // 8. Update Booking ID
-            bookingId = bookingIdVal;
-            if (bookingIdEl) {
-                bookingIdEl.textContent = `BOOKING ID: ${bookingIdVal}`;
+            // 8. Update Booking ID (Never invent random ET ID)
+            if (bookingIdVal) {
+                bookingId = bookingIdVal;
+                if (bookingIdEl) {
+                    bookingIdEl.textContent = `BOOKING ID: ${bookingIdVal}`;
+                }
             }
 
-            // 9. Update Price
-            const footerValueEl = document.querySelector('.footer-value');
+            // 9. Update Price (Never invent random prices)
+            const footerValueEl = document.querySelector(".footer-value");
             if (footerValueEl) {
-                const cleanPrice = priceVal.replace(/[₹\s,]/g, '');
-                footerValueEl.innerHTML = `&#8377; ${cleanPrice}`;
+                if (priceVal) {
+                    const cleanPrice = priceVal.replace(/[₹\s,]/g, "");
+                    footerValueEl.innerHTML = `&#8377; ${cleanPrice}`;
+                } else {
+                    footerValueEl.innerHTML = `&#8377; --`;
+                }
             }
 
             // 10. Update QR Code
             if (currentFetchedData && currentFetchedData.qrData) {
                 shareUrl = currentFetchedData.qrData;
-            } else {
+            } else if (bookingIdVal) {
                 shareUrl = `https://in.bookmyshow.com/order-summary/${bookingIdVal}`;
             }
             renderQRCode(shareUrl);
 
             // 11. Update browser URL query params
             const params = new URLSearchParams(window.location.search);
-            params.set('id', bookingIdVal);
-            if (posterSrc && !posterSrc.startsWith('data:')) {
-                params.set('poster', posterSrc);
+            if (bookingIdVal) {
+                params.set("id", bookingIdVal);
+            }
+            if (posterSrc && !posterSrc.startsWith("data:")) {
+                params.set("poster", posterSrc);
             }
             const newQuery = `${window.location.pathname}?${params.toString()}`;
-            history.replaceState(null, '', newQuery);
+            history.replaceState(null, "", newQuery);
 
             // Close modal & confirm
             closeAutoFillModal();
-            showToast(`✓ Ticket updated: ${titleVal}!`);
+            showToast(`✓ Ticket updated: ${titleVal || "Ticket"}!`);
         });
     }
 });

@@ -44,8 +44,6 @@
                 </div>
             </div>
 
-
-
             <!-- Perforated Cuts with Support Banner -->
             <div class="tear-section">
                 <div class="cutout cutout-left"></div>
@@ -153,6 +151,12 @@
                     </button>
                 </div>
 
+                <!-- Compact Extraction Status Banner -->
+                <div class="extraction-status-banner" id="extractionStatusBanner" style="display: none;">
+                    <span class="status-badge-pill" id="extractionStatusBadge"></span>
+                    <span class="status-banner-text" id="extractionStatusText"></span>
+                </div>
+
                 <div class="fetch-status-msg" id="fetchStatusMsg"></div>
 
                 <!-- Now Showing at this Cinema (auto-populated when a cinema is detected) -->
@@ -179,13 +183,13 @@
                 <div class="modal-form-fields" id="modalFormFields" style="display: none;">
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label>Movie Title & Tagline</label>
+                            <label>Movie Title & Tagline <span class="field-status-tag" id="statusFieldTitle"></span></label>
                             <input type="text" id="fieldTitle" class="form-input">
                         </div>
 
                         <!-- City & Multiplex Dropdowns -->
                         <div class="form-group">
-                            <label>City</label>
+                            <label>City <span class="field-status-tag" id="statusFieldCity"></span></label>
                             <select id="selectCity" class="form-select"></select>
                         </div>
                         <div class="form-group">
@@ -194,18 +198,18 @@
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Theater / Venue</label>
+                            <label>Theater / Venue <span class="field-status-tag" id="statusFieldVenue"></span></label>
                             <input type="text" id="fieldVenue" class="form-input" placeholder="e.g. PVR: Phoenix Palladium, Lower Parel">
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Screen / Audi</label>
+                            <label>Screen / Audi <span class="field-status-tag" id="statusFieldScreen"></span></label>
                             <input type="text" id="fieldScreen" class="form-input" placeholder="e.g. AUDI 1">
                             <div class="quick-chip-group" id="screenChips"></div>
                         </div>
 
                         <div class="form-group">
-                            <label>Language & Format</label>
+                            <label>Language & Format <span class="field-status-tag" id="statusFieldMeta"></span></label>
                             <input type="text" id="fieldMeta" class="form-input" placeholder="e.g. Hindi, IMAX 2D">
                             <div class="quick-chip-group" id="formatChips">
                                 <button type="button" class="chip-btn" data-type="format" data-val="2D">2D</button>
@@ -219,7 +223,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Date & Time</label>
+                            <label>Date & Time <span class="field-status-tag" id="statusFieldTime"></span></label>
                             <input type="text" id="fieldTime" class="form-input" placeholder="e.g. Wed, 18 Nov, 2026 | 07:15 PM">
                             <div class="quick-chip-group" id="timeChips">
                                 <button type="button" class="chip-btn" data-type="time" data-val="10:15 AM">10:15 AM</button>
@@ -231,15 +235,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Seats & Tickets</label>
+                            <label>Seats & Tickets <span class="field-status-tag" id="statusFieldSeats"></span></label>
                             <input type="text" id="fieldSeats" class="form-input" placeholder="e.g. SEAT - K09">
                         </div>
                         <div class="form-group">
-                            <label>Booking ID</label>
+                            <label>Booking ID <span class="field-status-tag" id="statusFieldBookingId"></span></label>
                             <input type="text" id="fieldBookingId" class="form-input" placeholder="e.g. ET00513508">
                         </div>
                         <div class="form-group full-width">
-                            <label>Total Price (₹)</label>
+                            <label>Total Price (₹) <span class="field-status-tag" id="statusFieldPrice"></span></label>
                             <input type="text" id="fieldPrice" class="form-input" placeholder="e.g. 750.00">
                         </div>
                     </div>
@@ -255,6 +259,7 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <script src="js/bms-extractor.js?v=1.5.0"></script>
     <script src="js/script.js?v=1.5.0"></script>
 </body>
 </html>

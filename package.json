@@ -4,7 +4,8 @@
   "description": "A premium, interactive, and fully responsive mobile ticket dashboard built from scratch using modern web standards. Recreated exactly from the design specifications of `t.jpg` and enhanced with a modern aesthetic, micro-animations, and full theme personalization.",
   "main": "qrcode.min.js",
   "scripts": {
-    "build": "node node_modules/typescript/bin/tsc"
+    "build": "node node_modules/typescript/bin/tsc",
+    "test": "node test/bms-extractor.test.js"
   },
   "repository": {
     "type": "git",

@@ -607,6 +607,128 @@ body {
     color: #38bdf8;
 }
 
+/* Compact BMS Extraction Status Banner */
+.extraction-status-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-top: 4px;
+    transition: all 0.2s ease;
+}
+
+.extraction-status-banner.status-fetching {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+
+.extraction-status-banner.status-retrieved {
+    background: rgba(74, 222, 128, 0.12);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+}
+
+.extraction-status-banner.status-confirmation {
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+}
+
+.extraction-status-banner.status-login {
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #c084fc;
+}
+
+.extraction-status-banner.status-unavailable {
+    background: rgba(248, 113, 113, 0.12);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: #f87171;
+}
+
+.status-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.status-badge-pill.pill-verified {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+}
+
+.status-badge-pill.pill-inferred {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+.status-badge-pill.pill-missing {
+    background: rgba(248, 113, 113, 0.2);
+    color: #f87171;
+}
+
+.status-badge-pill.pill-manual {
+    background: rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+}
+
+.status-badge-pill.pill-login {
+    background: rgba(168, 85, 247, 0.2);
+    color: #d8b4fe;
+}
+
+.status-badge-pill.pill-fetching {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+}
+
+/* Field Level Status Tag */
+.form-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.field-status-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.field-status-tag.tag-verified {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+}
+
+.field-status-tag.tag-inferred {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+}
+
+.field-status-tag.tag-missing {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+}
+
+.field-status-tag.tag-manual {
+    background: rgba(148, 163, 184, 0.15);
+    color: #94a3b8;
+}
+
 /* Modal Preview Card */
 .modal-preview-card {
     background: #27272a;
