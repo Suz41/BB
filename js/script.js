@@ -230,61 +230,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Indian Cinema Venues Database (Clean BookMyShow Format)
     // ==========================================
     const THEATERS_DB = {
-        bengaluru: {
-            name: 'Bengaluru',
-            language: 'Kannada',
+        indore: {
+            name: 'Indore',
+            language: 'Hindi',
             theaters: [
                 {
-                    id: 'PVFF',
-                    name: 'PVR: Nexus, Koramangala',
-                    slugs: ['pvr-nexus-koramangala', 'pvr-nexus-formerly-forum-mall-koramangala-bengaluru', 'pvr-forum-mall-koramangala', 'nexus-koramangala'],
-                    keywords: ['koramangala', 'forum mall', 'nexus mall koramangala', 'forum koramangala', 'nexus koramangala'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)', 'AUDI 6 (P[XL])'],
+                    id: 'PVTI',
+                    name: 'PVR: Treasure Island, Indore',
+                    slugs: ['pvr-treasure-island-indore', 'treasure-island-indore', 'pvr-ti-mall-indore'],
+                    keywords: ['treasure island', 'ti mall', 'indore', 'mg road indore'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
                 },
                 {
-                    id: 'PVVG',
-                    name: 'PVR: Vega City, Bannerghatta Road',
-                    slugs: ['pvr-vega-city-bannerghatta-road', 'pvr-vega-city-mall-bannerghatta-road', 'vega-city-bannerghatta'],
-                    keywords: ['vega city', 'bannerghatta'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    id: 'INC21',
+                    name: 'INOX: C21 Mall, Indore',
+                    slugs: ['inox-c21-mall-indore', 'c21-mall-indore'],
+                    keywords: ['c21', 'c21 mall', 'ab road indore'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
                 },
                 {
-                    id: 'PVOR',
-                    name: 'PVR: Orion Mall, Rajajinagar',
-                    slugs: ['pvr-orion-mall-dr-rajkumar-road', 'pvr-orion-mall-rajajinagar', 'orion-mall'],
-                    keywords: ['orion mall', 'rajajinagar'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (P[XL])'],
-                    defaultFormat: '2D',
-                    defaultScreen: 'AUDI 1'
-                },
-                {
-                    id: 'PVPH',
-                    name: 'PVR: Phoenix Marketcity, Whitefield',
-                    slugs: ['pvr-phoenix-marketcity-whitefield', 'phoenix-marketcity-whitefield'],
-                    keywords: ['marketcity whitefield', 'whitefield', 'phoenix marketcity bengaluru'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
-                    defaultFormat: '2D',
-                    defaultScreen: 'AUDI 1'
-                },
-                {
-                    id: 'INMN',
-                    name: 'INOX: Mantri Square, Malleshwaram',
-                    slugs: ['inox-mantri-square-mall-malleswaram', 'inox-mantri-square-mall'],
-                    keywords: ['mantri square', 'malleshwaram', 'sampige'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (Insignia)'],
-                    defaultFormat: '2D',
-                    defaultScreen: 'AUDI 1'
-                },
-                {
-                    id: 'CNRN',
-                    name: 'Cinépolis: Royal Meenakshi, Hulimavu',
-                    slugs: ['cinepolis-royal-meenakshi-mall-hulimavu', 'cinepolis-royal-meenakshi-mall'],
-                    keywords: ['royal meenakshi', 'meenakshi mall', 'hulimavu'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'VIP AUDI 1'],
+                    id: 'CNML',
+                    name: 'Cinépolis: Malhar Mega Mall, Indore',
+                    slugs: ['cinepolis-malhar-mega-mall-indore', 'malhar-mall-indore'],
+                    keywords: ['malhar', 'malhar mega mall'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'VIP AUDI 1'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
                 }
@@ -405,6 +378,66 @@ document.addEventListener('DOMContentLoaded', () => {
                     slugs: ['pvr-priya-vasant-vihar', 'pvr-priya-cinema-vasant-vihar', 'priya-vasant-vihar'],
                     keywords: ['priya vasant vihar', 'vasant vihar', 'basant lok'],
                     screens: ['AUDI 1', 'AUDI 2', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                }
+            ]
+        },
+        bengaluru: {
+            name: 'Bengaluru',
+            language: 'Kannada',
+            theaters: [
+                {
+                    id: 'PVFF',
+                    name: 'PVR: Nexus, Koramangala',
+                    slugs: ['pvr-nexus-koramangala', 'pvr-nexus-formerly-forum-mall-koramangala-bengaluru', 'pvr-forum-mall-koramangala', 'nexus-koramangala'],
+                    keywords: ['koramangala', 'forum mall', 'nexus mall koramangala', 'forum koramangala', 'nexus koramangala'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)', 'AUDI 6 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: 'PVVG',
+                    name: 'PVR: Vega City, Bannerghatta Road',
+                    slugs: ['pvr-vega-city-bannerghatta-road', 'pvr-vega-city-mall-bannerghatta-road', 'vega-city-bannerghatta'],
+                    keywords: ['vega city', 'bannerghatta'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: 'PVOR',
+                    name: 'PVR: Orion Mall, Rajajinagar',
+                    slugs: ['pvr-orion-mall-dr-rajkumar-road', 'pvr-orion-mall-rajajinagar', 'orion-mall'],
+                    keywords: ['orion mall', 'rajajinagar'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: 'PVPH',
+                    name: 'PVR: Phoenix Marketcity, Whitefield',
+                    slugs: ['pvr-phoenix-marketcity-whitefield', 'phoenix-marketcity-whitefield'],
+                    keywords: ['marketcity whitefield', 'whitefield', 'phoenix marketcity bengaluru'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: 'INMN',
+                    name: 'INOX: Mantri Square, Malleshwaram',
+                    slugs: ['inox-mantri-square-mall-malleswaram', 'inox-mantri-square-mall'],
+                    keywords: ['mantri square', 'malleshwaram', 'sampige'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (Insignia)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: 'CNRN',
+                    name: 'Cinépolis: Royal Meenakshi, Hulimavu',
+                    slugs: ['cinepolis-royal-meenakshi-mall-hulimavu', 'cinepolis-royal-meenakshi-mall'],
+                    keywords: ['royal meenakshi', 'meenakshi mall', 'hulimavu'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'VIP AUDI 1'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
                 }
@@ -652,11 +685,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     defaultScreen: 'AUDI 1'
                 }
             ]
+        },
+        surat: {
+            name: 'Surat',
+            language: 'Gujarati',
+            theaters: [
+                {
+                    id: 'PVSR',
+                    name: 'PVR: Rahul Raj Mall, Surat',
+                    slugs: ['pvr-rahul-raj-mall-surat', 'rahul-raj-mall-surat'],
+                    keywords: ['rahul raj', 'surat', 'piplod'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                }
+            ]
+        },
+        bhopal: {
+            name: 'Bhopal',
+            language: 'Hindi',
+            theaters: [
+                {
+                    id: 'PVBP',
+                    name: 'PVR: Aura Mall, Bhopal',
+                    slugs: ['pvr-aura-mall-bhopal', 'aura-mall-bhopal'],
+                    keywords: ['aura mall', 'bhopal', 'gulmohar'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                }
+            ]
         }
     };
 
     // City Aliases mapping
     const CITY_ALIASES = {
+        'indore': 'indore', 'idr': 'indore',
         'bangalore': 'bengaluru', 'bang': 'bengaluru', 'blr': 'bengaluru',
         'mumbai': 'mumbai', 'mum': 'mumbai', 'bombay': 'mumbai',
         'delhi': 'delhi', 'ncr': 'delhi', 'new-delhi': 'delhi',
@@ -669,18 +733,53 @@ document.addEventListener('DOMContentLoaded', () => {
         'chandigarh': 'chandigarh', 'ixc': 'chandigarh',
         'kochi': 'kochi', 'cochin': 'kochi', 'cok': 'kochi',
         'lucknow': 'lucknow', 'lko': 'lucknow',
-        'jaipur': 'jaipur', 'jai': 'jaipur'
+        'jaipur': 'jaipur', 'jai': 'jaipur',
+        'surat': 'surat', 'bhopal': 'bhopal'
     };
 
     // Normalize City Key
     function normalizeCity(str) {
-        if (!str) return 'bengaluru';
+        if (!str) return 'mumbai';
         const clean = str.toLowerCase().replace(/[^a-z0-9-]/g, '');
         if (CITY_ALIASES[clean]) return CITY_ALIASES[clean];
         for (const [alias, canonical] of Object.entries(CITY_ALIASES)) {
             if (clean.includes(alias)) return canonical;
         }
-        return 'bengaluru';
+        return clean;
+    }
+
+    // Get or dynamically create realistic city multiplexes for any city in India
+    function getOrCreateCityTheaters(cityKey) {
+        const norm = normalizeCity(cityKey);
+        if (THEATERS_DB[norm]) return THEATERS_DB[norm];
+
+        const cityName = norm.charAt(0).toUpperCase() + norm.slice(1);
+        const dynamicEntry = {
+            name: cityName,
+            language: 'Hindi',
+            theaters: [
+                {
+                    id: `PVR-${norm.toUpperCase()}`,
+                    name: `PVR: Central Mall, ${cityName}`,
+                    slugs: [`pvr-${norm}`, `pvr-central-${norm}`],
+                    keywords: [norm, 'central mall'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                },
+                {
+                    id: `INX-${norm.toUpperCase()}`,
+                    name: `INOX: City Centre, ${cityName}`,
+                    slugs: [`inox-${norm}`, `inox-city-centre-${norm}`],
+                    keywords: [norm, 'city centre'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
+                }
+            ]
+        };
+        THEATERS_DB[norm] = dynamicEntry;
+        return dynamicEntry;
     }
 
     // Helper: Find Cinema in database by URL, slug, cinema code, or name
@@ -688,7 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!searchStr) return null;
         const low = searchStr.toLowerCase();
 
-        // 1. Check exact cinema code (e.g. PVFF, PVVD, PVLP, PRAS, AMB, INSC, etc.)
+        // 1. Check exact cinema code (e.g. PVTI, PVFF, PVVD, PVLP, PRAS, AMB, INSC, etc.)
         for (const [cityKey, cityObj] of Object.entries(THEATERS_DB)) {
             for (const t of cityObj.theaters) {
                 const codeRegex = new RegExp(`\\b${t.id}\\b`, 'i');
@@ -720,9 +819,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 4. If cityHint is provided, return its premier theater
-        const normCity = normalizeCity(cityHint);
-        if (THEATERS_DB[normCity] && THEATERS_DB[normCity].theaters.length > 0) {
-            return { cityKey: normCity, theater: THEATERS_DB[normCity].theaters[0] };
+        if (cityHint) {
+            const cityData = getOrCreateCityTheaters(cityHint);
+            if (cityData && cityData.theaters.length > 0) {
+                return { cityKey: normalizeCity(cityHint), theater: cityData.theaters[0] };
+            }
         }
 
         return null;
@@ -733,23 +834,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selectCity || !selectTheater) return;
 
         const cityKey = normalizeCity(activeCityKey);
+        getOrCreateCityTheaters(cityKey);
 
-        // Populate City select if empty
-        if (selectCity.options.length === 0) {
-            selectCity.innerHTML = '';
-            for (const [key, obj] of Object.entries(THEATERS_DB)) {
-                const opt = document.createElement('option');
-                opt.value = key;
-                opt.textContent = obj.name;
-                selectCity.appendChild(opt);
-            }
+        // Populate City select if needed
+        selectCity.innerHTML = '';
+        for (const [key, obj] of Object.entries(THEATERS_DB)) {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = obj.name;
+            selectCity.appendChild(opt);
         }
 
         selectCity.value = cityKey;
 
         // Populate Theaters select for this city
         selectTheater.innerHTML = '';
-        const cityData = THEATERS_DB[cityKey] || THEATERS_DB.bengaluru;
+        const cityData = THEATERS_DB[cityKey] || THEATERS_DB.mumbai;
         cityData.theaters.forEach(t => {
             const opt = document.createElement('option');
             opt.value = t.id;
@@ -827,8 +927,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dynamic SVG Poster Generator Fallback
     function generatePosterSvg(title, category = 'CINEMA') {
-        const cleanTitle = (title || 'Movie Ticket').replace(/[<>&"']/g, '');
-        const words = cleanTitle.split(' ');
+        const clean = (title || 'Movie Ticket').replace(/[<>&"']/g, '');
+        const words = clean.split(' ');
         let lines = [];
         let currentLine = '';
         for (let w of words) {
@@ -857,7 +957,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let s = str.toLowerCase();
         s = s.replace(/^(?:movie-|cinema-|event-)/i, '');
         s = s.replace(/-[a-z]{2,5}-\d{8}$/i, '');
-        s = s.replace(/-(?:bengaluru|bangalore|mumbai|delhi|hyderabad|chennai|pune|kolkata|chandigarh|ahmedabad|kochi|jaipur|lucknow)$/i, '');
+        s = s.replace(/-(?:bengaluru|bangalore|mumbai|delhi|hyderabad|chennai|pune|kolkata|chandigarh|ahmedabad|kochi|jaipur|lucknow|indore|surat|bhopal)$/i, '');
         s = s.replace(/-/g, ' ');
         s = s.replace(/\b(part|chapter)\s+(\d+)\b/gi, '$1 $2');
         s = s.replace(/\s+/g, ' ').trim();
@@ -924,7 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `SEAT - ${row}${num}`;
     }
 
-    // Fetch popular / now-playing Indian movies from TMDB
+    // Fetch popular / now-playing Indian movies from TMDB (ONLY used for theater-only showtimes links)
     async function fetchIndianNowPlaying() {
         if (cachedNowPlaying && cachedNowPlaying.length > 0) {
             return cachedNowPlaying;
@@ -1110,17 +1210,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const urlObj = new URL(targetUrl);
                 const pathname = urlObj.pathname.replace(/\/+$/, '');
                 const parts = pathname.split('/').filter(Boolean);
+                const stopWords = new Set(['movies', 'buytickets', 'events', 'explore', 'cinemas', 'in', 'cinema', 'booktickets']);
 
-                // Detect city from path segments
-                for (let p of parts) {
-                    const low = p.toLowerCase();
-                    if (CITY_ALIASES[low]) {
-                        extracted.city = CITY_ALIASES[low];
-                        break;
-                    }
-                }
-
-                // Detect 8-digit date YYYYMMDD
+                // 1. Date YYYYMMDD
                 for (let p of parts) {
                     if (/^\d{8}$/.test(p)) {
                         const parsedDate = parseBmsDate(p);
@@ -1129,57 +1221,57 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Check if this is a Cinema showtimes link without a movie:
-                // e.g. /buytickets/{cinema-slug}/cinema-{city}-{cinemaCode}-MT/{date}
-                // or /cinemas/{city}/{cinema-slug}/{cinemaCode}
-                const isCinemaOnly = pathname.includes('/cinemas/') ||
-                    (pathname.includes('/buytickets/') && pathname.includes('/cinema-'));
-
-                if (isCinemaOnly) {
-                    extracted.isTheaterOnlyUrl = true;
-                    const matchedCinema = findCinema(pathname, extracted.city);
-                    if (matchedCinema) {
-                        extracted.city = matchedCinema.cityKey;
-                        extracted.theater = matchedCinema.theater.name;
-                        extracted.theaterId = matchedCinema.theater.id;
-                        extracted.screen = matchedCinema.theater.defaultScreen || 'AUDI 1';
-                        extracted.format = matchedCinema.theater.defaultFormat || '2D';
-                    }
-                }
-
-                // Find ET code index in path
-                let etIndex = -1;
-                for (let i = 0; i < parts.length; i++) {
-                    if (/^ET\d+/i.test(parts[i])) {
-                        etIndex = i;
-                        extracted.bookingId = parts[i].toUpperCase();
+                // 2. Booking ID ET...
+                for (let p of parts) {
+                    if (/^ET\d+/i.test(p)) {
+                        extracted.bookingId = p.toUpperCase();
                         break;
                     }
                 }
 
-                // In BookMyShow movie URLs, segment immediately before ET... is ALWAYS the movie slug
-                if (etIndex > 0) {
-                    const candidate = parts[etIndex - 1];
-                    if (!CITY_ALIASES[candidate.toLowerCase()] && candidate !== 'movies' && candidate !== 'events' && candidate !== 'explore') {
-                        extracted.movieQuery = cleanTitle(candidate);
+                // 3. URL Pattern Matching:
+                if (parts[0] === 'movies' && parts.length >= 3) {
+                    // Pattern: /movies/{city}/{movie-slug}/buytickets/{eventCode}/{date}
+                    // or /movies/{city}/{movie-slug}/{eventCode}
+                    extracted.city = parts[1].toLowerCase();
+                    extracted.movieQuery = cleanTitle(parts[2]);
+                } else if (parts[1] === 'movies' && parts.length >= 3) {
+                    // Pattern: /{city}/movies/{movie-slug}/{eventCode}
+                    extracted.city = parts[0].toLowerCase();
+                    extracted.movieQuery = cleanTitle(parts[2]);
+                } else if (parts.includes('cinemas')) {
+                    // Pattern: /cinemas/{city}/{cinema-slug}/{cinemaCode}
+                    extracted.isTheaterOnlyUrl = true;
+                    const cIdx = parts.indexOf('cinemas');
+                    if (parts[cIdx + 1]) extracted.city = parts[cIdx + 1].toLowerCase();
+                    if (parts[cIdx + 2]) {
+                        extracted.theater = formatTheaterSlug(parts[cIdx + 2]);
+                    }
+                } else if (parts[0] === 'buytickets' && parts[1]) {
+                    if (parts[2] && parts[2].startsWith('cinema-')) {
+                        // Pattern: /buytickets/{cinema-slug}/cinema-{cityCode}-{cinemaCode}-MT/{date}
+                        extracted.isTheaterOnlyUrl = true;
+                        extracted.theater = formatTheaterSlug(parts[1]);
+                        const mCity = parts[2].match(/cinema-([a-z]+)-/i);
+                        if (mCity) extracted.city = mCity[1].toLowerCase();
+                    } else {
+                        // Pattern: /buytickets/{movie-slug}-{city}/movie-{cityCode}-{eventCode}-MT/{date}
+                        const mMovie = parts[1].match(/^(.+?)-([a-z]+)$/i);
+                        if (mMovie) {
+                            extracted.movieQuery = cleanTitle(mMovie[1]);
+                            extracted.city = mMovie[2].toLowerCase();
+                        } else {
+                            extracted.movieQuery = cleanTitle(parts[1]);
+                        }
                     }
                 }
 
-                // Pattern: buytickets movie URL (/buytickets/{movie-slug}-{city}/movie-{cityCode}-{eventCode}-MT/{date})
-                const buyMovieMatch = pathname.match(/buytickets\/([a-z0-9-]+?)(?:-([a-z]+))?\/movie-/i);
-                if (buyMovieMatch) {
-                    extracted.movieQuery = cleanTitle(buyMovieMatch[1]);
-                    if (buyMovieMatch[2] && CITY_ALIASES[buyMovieMatch[2].toLowerCase()]) {
-                        extracted.city = CITY_ALIASES[buyMovieMatch[2].toLowerCase()];
-                    }
-                }
-
-                // Fallback for movie query if not a cinema-only URL
+                // 4. Fallback search for movie slug if still empty and not theater only
                 if (!extracted.movieQuery && !extracted.isTheaterOnlyUrl) {
                     for (let i = parts.length - 1; i >= 0; i--) {
-                        const p = parts[i];
-                        if (!CITY_ALIASES[p.toLowerCase()] && !/^(?:movies|events|buytickets|cinemas|in|explore)$/i.test(p) && !/^ET\d+/i.test(p) && !/^\d{8}$/.test(p) && !p.startsWith('cinema-')) {
-                            extracted.movieQuery = cleanTitle(p);
+                        const p = parts[i].toLowerCase();
+                        if (!stopWords.has(p) && !/^ET\d+/i.test(p) && !/^\d{8}$/.test(p) && p !== extracted.city) {
+                            extracted.movieQuery = cleanTitle(parts[i]);
                             break;
                         }
                     }
@@ -1208,10 +1300,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const mTime = input.match(/(\d{1,2}:\d{2}\s*(?:am|pm))/i);
             if (mTime) extracted.time = mTime[1].toUpperCase();
 
-            const mDate = input.match(/(?:on\s+)?([A-Za-z]{3},\s*\d{1,2}\s+[A-Za-z]{3}(?:,?\s*\d{4})?)/i);
+            const mDate = input.match(/(?:date\s*[:#-]?\s*|on\s+)?([A-Za-z]{3},\s*\d{1,2}\s+[A-Za-z]{3}(?:,?\s*\d{4})?|\d{1,2}\s+[A-Za-z]{3}\s+\d{4})/i);
             if (mDate) extracted.date = mDate[1].trim();
 
-            const mMovie = input.match(/(?:booking\s+for|movie|film|for)\s+([A-Za-z0-9\s:''-]+?)(?:\s*\(([A-Za-z0-9\s,+-]+)\)|\s+at\s+|\s+on\s+)/i);
+            const mVenue = input.match(/(?:venue|theater|theatre|cinema)\s*[:#-]?\s*([^,]+?)(?:,\s*time|,\s*date|,\s*movie|,\s*seats?|$)/i);
+            if (mVenue) extracted.theater = mVenue[1].trim();
+
+            const mMovie = input.match(/(?:booking\s+for|movie|film)\s*[:#-]?\s*([^,]+?)(?:\s*\(([^)]+)\)|,\s*venue|,\s*date|,\s*time|\s+at\s+|\s+on\s+|$)/i);
             if (mMovie) {
                 extracted.movieQuery = cleanTitle(mMovie[1]);
                 if (mMovie[2]) {
@@ -1227,7 +1322,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-            } else {
+            } else if (!extracted.theater) {
                 extracted.movieQuery = cleanTitle(input);
             }
 
@@ -1240,19 +1335,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Resolve Theater & Cinema (Clean name only, no address)
+        // Resolve City & Theater
         const found = findCinema(targetUrl || input, extracted.city);
         if (found) {
             extracted.city = found.cityKey;
             extracted.theater = found.theater.name;
             extracted.theaterId = found.theater.id;
-        } else {
-            const cityKey = normalizeCity(extracted.city);
-            const cityData = THEATERS_DB[cityKey] || THEATERS_DB.bengaluru;
+        } else if (extracted.theater) {
+            extracted.theater = formatTheaterSlug(extracted.theater.replace(/\s+/g, '-'));
+            if (!extracted.city) extracted.city = 'mumbai';
+            extracted.theaterId = 'CINEMA';
+        } else if (extracted.city) {
+            const cityData = getOrCreateCityTheaters(extracted.city);
             const premier = cityData.theaters[0];
-            extracted.city = cityKey;
             extracted.theater = premier.name;
             extracted.theaterId = premier.id;
+        } else {
+            extracted.city = 'mumbai';
+            const cityData = THEATERS_DB.mumbai;
+            extracted.theater = cityData.theaters[0].name;
+            extracted.theaterId = cityData.theaters[0].id;
         }
 
         extracted.language = extracted.language || (THEATERS_DB[extracted.city] && THEATERS_DB[extracted.city].language) || 'Hindi';
@@ -1405,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const parsed = parseInputData(raw);
 
-            // Fetch TMDB Movie or Cinema Top Movies
+            // Fetch TMDB Movie
             let tmdb = null;
             let nowPlayingMovies = [];
 
@@ -1413,28 +1515,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 tmdb = await fetchTmdbDetails(parsed.movieQuery);
             }
 
-            // If no movie found or it is a cinema showtimes link, fetch trending Indian blockbusters!
-            if (!tmdb || parsed.isTheaterOnlyUrl) {
+            // ONLY if this is genuinely a cinema showtimes link with no movie in the URL, load now-playing:
+            if (parsed.isTheaterOnlyUrl && !tmdb) {
                 nowPlayingMovies = await fetchIndianNowPlaying();
-                if (nowPlayingMovies.length > 0 && !tmdb) {
-                    const top = nowPlayingMovies[0];
-                    tmdb = {
-                        title: top.title,
-                        language: top.language,
-                        posterUrl: top.posterUrl,
-                        releaseDate: top.releaseDate
-                    };
+                if (nowPlayingMovies.length > 0) {
+                    tmdb = nowPlayingMovies[0];
                 }
             }
 
-            // Determine Title
+            // Determine Title: NEVER replace movieQuery with Ramayana if movieQuery exists!
             let finalTitle = '';
             if (tmdb && tmdb.title) {
                 finalTitle = tmdb.title;
             } else if (parsed.movieQuery) {
                 finalTitle = parsed.movieQuery;
+            } else if (nowPlayingMovies.length > 0) {
+                finalTitle = nowPlayingMovies[0].title;
+                tmdb = nowPlayingMovies[0];
             } else {
-                finalTitle = 'Movie Experience';
+                finalTitle = 'Movie Ticket';
             }
 
             // Determine Language & Format
@@ -1492,8 +1591,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 qrData: parsed.rawUrl || `https://in.bookmyshow.com/order-summary/${parsed.bookingId}`
             };
 
-            // Render "Now Showing" pills if movies are available
-            if (nowPlayingMovies.length > 0) {
+            // Render "Now Showing" pills if cinema-only URL
+            if (parsed.isTheaterOnlyUrl && nowPlayingMovies.length > 0) {
                 renderNowShowingPills(nowPlayingMovies, (selectedMovie) => {
                     fieldTitle.value = selectedMovie.title;
                     previewTitle.textContent = selectedMovie.title;
