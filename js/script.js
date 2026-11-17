@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let cachedNowPlaying = [];
 
     // ==========================================
-    // Comprehensive Indian Cinema & Venues Database
+    // Indian Cinema Venues Database (Clean BookMyShow Format)
     // ==========================================
     const THEATERS_DB = {
         bengaluru: {
@@ -236,69 +236,57 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVFF',
-                    name: 'PVR: Nexus Mall (Formerly Forum), Koramangala',
-                    address: 'Hosur Rd, Chikku Lakshmaiah Layout, Koramangala, Bengaluru, Karnataka 560095',
+                    name: 'PVR: Nexus, Koramangala',
                     slugs: ['pvr-nexus-koramangala', 'pvr-nexus-formerly-forum-mall-koramangala-bengaluru', 'pvr-forum-mall-koramangala', 'nexus-koramangala'],
-                    keywords: ['koramangala', 'forum mall', 'nexus mall koramangala', 'forum koramangala'],
-                    formats: ['IMAX 2D', 'IMAX 3D', 'P[XL]', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 5', 'AUDI 6 (P[XL])', 'AUDI 7'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    keywords: ['koramangala', 'forum mall', 'nexus mall koramangala', 'forum koramangala', 'nexus koramangala'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)', 'AUDI 6 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVVG',
-                    name: 'PVR: Vega City Mall, Bannerghatta Road',
-                    address: 'Vega City Mall, Srinivas Nagar, Bannerghatta Main Rd, Bengaluru, Karnataka 560076',
+                    name: 'PVR: Vega City, Bannerghatta Road',
                     slugs: ['pvr-vega-city-bannerghatta-road', 'pvr-vega-city-mall-bannerghatta-road', 'vega-city-bannerghatta'],
                     keywords: ['vega city', 'bannerghatta'],
-                    formats: ['IMAX 2D', '4DX 3D', '4DX', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVOR',
                     name: 'PVR: Orion Mall, Rajajinagar',
-                    address: 'Orion Mall, Dr Rajkumar Rd, Rajajinagar, Bengaluru, Karnataka 560055',
                     slugs: ['pvr-orion-mall-dr-rajkumar-road', 'pvr-orion-mall-rajajinagar', 'orion-mall'],
                     keywords: ['orion mall', 'rajajinagar'],
-                    formats: ['P[XL]', 'Dolby Atmos', 'Gold Class', '2D', '3D'],
-                    screens: ['AUDI 1 (P[XL] 4K)', 'AUDI 2 (Gold Class)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'P[XL]',
-                    defaultScreen: 'AUDI 1 (P[XL] 4K)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVPH',
                     name: 'PVR: Phoenix Marketcity, Whitefield',
-                    address: 'Phoenix Marketcity, Whitefield Main Rd, Mahadevapura, Bengaluru, Karnataka 560048',
                     slugs: ['pvr-phoenix-marketcity-whitefield', 'phoenix-marketcity-whitefield'],
                     keywords: ['marketcity whitefield', 'whitefield', 'phoenix marketcity bengaluru'],
-                    formats: ['IMAX 2D', '4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INMN',
-                    name: 'INOX: Mantri Square Mall, Malleshwaram',
-                    address: 'Mantri Square Mall, Sampige Rd, Malleshwaram, Bengaluru, Karnataka 560003',
+                    name: 'INOX: Mantri Square, Malleshwaram',
                     slugs: ['inox-mantri-square-mall-malleswaram', 'inox-mantri-square-mall'],
                     keywords: ['mantri square', 'malleshwaram', 'sampige'],
-                    formats: ['Insignia VIP', '2D', '3D'],
-                    screens: ['AUDI 1 (Insignia)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'Insignia VIP',
-                    defaultScreen: 'AUDI 1 (Insignia)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (Insignia)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'CNRN',
-                    name: 'Cinépolis: Royal Meenakshi Mall, Hulimavu',
-                    address: 'Royal Meenakshi Mall, Hulimavu, Bannerghatta Main Rd, Bengaluru, Karnataka 560076',
+                    name: 'Cinépolis: Royal Meenakshi, Hulimavu',
                     slugs: ['cinepolis-royal-meenakshi-mall-hulimavu', 'cinepolis-royal-meenakshi-mall'],
                     keywords: ['royal meenakshi', 'meenakshi mall', 'hulimavu'],
-                    formats: ['VIP', '2D', '3D'],
-                    screens: ['AUDI 1 VIP', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'VIP AUDI 1'],
                     defaultFormat: '2D',
-                    defaultScreen: 'AUDI 1 VIP'
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -309,68 +297,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     id: 'PVLP',
                     name: 'PVR: Phoenix Palladium, Lower Parel',
-                    address: '462 Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013',
                     slugs: ['pvr-phoenix-palladium-lower-parel', 'pvr-phoenix-mills-lower-parel', 'phoenix-palladium-lower-parel'],
                     keywords: ['palladium', 'lower parel', 'phoenix mills'],
-                    formats: ['IMAX 2D', 'IMAX 3D', '4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4', 'AUDI 5', 'AUDI 6'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INMM',
-                    name: 'INOX Megaplex: Inorbit Mall, Malad West',
-                    address: 'Inorbit Mall, New Link Rd, Malad West, Mumbai, Maharashtra 400064',
+                    name: 'INOX: Inorbit Mall, Malad',
                     slugs: ['inox-megaplex-inorbit-mall-malad', 'inox-inorbit-mall-malad'],
                     keywords: ['inorbit malad', 'malad', 'megaplex malad'],
-                    formats: ['IMAX 2D', 'ScreenX', 'MX4D', 'Insignia VIP', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (ScreenX)', 'AUDI 3 (MX4D)', 'AUDI 4 (Insignia)', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 2 (ScreenX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVMB',
                     name: 'PVR Maison: Jio World Drive, BKC',
-                    address: 'Jio World Drive, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400051',
                     slugs: ['pvr-maison-jio-world-drive-bkc', 'pvr-jio-world-drive-bkc', 'jio-world-drive'],
                     keywords: ['jio world', 'bkc', 'maison'],
-                    formats: ['IMAX 2D', 'LUXE 2D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'Maison House 1', 'Maison House 2', 'Maison House 3'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'Maison House 1'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'CNEV',
                     name: 'Cinépolis: Viviana Mall, Thane',
-                    address: 'Viviana Mall, Eastern Express Hwy, Laxmi Nagar, Thane West, Mumbai, Maharashtra 400606',
                     slugs: ['cinepolis-viviana-mall-thane', 'viviana-mall-thane'],
                     keywords: ['viviana', 'thane'],
-                    formats: ['IMAX 2D', '4DX 3D', 'VIP', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3 VIP', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVEC',
-                    name: 'PVR ICON: Oberoi Mall, Goregaon East',
-                    address: 'Oberoi Mall, Western Express Hwy, Goregaon East, Mumbai, Maharashtra 400063',
+                    name: 'PVR: Oberoi Mall, Goregaon',
                     slugs: ['pvr-ecx-oberoi-mall-goregaon', 'pvr-icon-oberoi-mall-goregaon', 'oberoi-mall'],
                     keywords: ['oberoi mall', 'goregaon'],
-                    formats: ['P[XL]', 'Dolby Atmos', '2D', '3D'],
-                    screens: ['AUDI 1 (P[XL] Atmos)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'P[XL]',
-                    defaultScreen: 'AUDI 1 (P[XL] Atmos)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INNR',
-                    name: 'INOX Insignia: R City Mall, Ghatkopar',
-                    address: 'R City Mall, LBS Marg, Amrut Nagar, Ghatkopar West, Mumbai, Maharashtra 400086',
+                    name: 'INOX: R City Mall, Ghatkopar',
                     slugs: ['inox-insignia-at-r-city-ghatkopar', 'inox-r-city-ghatkopar', 'r-city-mall'],
                     keywords: ['r city', 'ghatkopar'],
-                    formats: ['Insignia VIP', 'Dolby Atmos', '2D', '3D'],
-                    screens: ['AUDI 1 (Insignia Laser)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'Insignia VIP',
-                    defaultScreen: 'AUDI 1 (Insignia Laser)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (Insignia)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -381,68 +357,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     id: 'PVVD',
                     name: 'PVR: Vegas Mall, Dwarka',
-                    address: 'Vegas Mall, Sector 14, Dwarka, New Delhi, Delhi 110078',
                     slugs: ['pvr-vegas-mall-dwarka', 'pvr-vegas-dwarka', 'vegas-mall-dwarka'],
                     keywords: ['vegas', 'dwarka'],
-                    formats: ['IMAX 2D', 'IMAX 3D', '4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVPA',
                     name: 'PVR: Select CITYWALK, Saket',
-                    address: 'Select CITYWALK, A-3 District Centre, Saket, New Delhi, Delhi 110017',
                     slugs: ['pvr-select-citywalk-saket', 'select-citywalk-saket'],
                     keywords: ['citywalk', 'saket'],
-                    formats: ['IMAX 2D', 'Gold Class', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX', 'AUDI 2 (Gold Class)', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'Gold Class 1'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVMO',
-                    name: 'PVR: DLF Mall of India, Noida',
-                    address: 'DLF Mall of India, Sector 18, Noida, Uttar Pradesh 201301',
+                    name: 'PVR: Mall of India, Noida',
                     slugs: ['pvr-mall-of-india-noida', 'pvr-dlf-mall-of-india-noida', 'dlf-mall-of-india'],
                     keywords: ['mall of india', 'noida sector 18', 'dlf noida'],
-                    formats: ['IMAX 2D', '4DX 3D', 'P[XL]', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3 (P[XL])', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INAM',
                     name: 'INOX: Ambience Mall, Gurugram',
-                    address: 'Ambience Mall, NH-8, Ambience Island, DLF Phase 3, Sector 24, Gurugram, Haryana 122002',
                     slugs: ['inox-ambience-mall-gurugram', 'inox-ambience-mall-gurgaon', 'ambience-mall-gurgaon'],
                     keywords: ['ambience mall', 'gurugram', 'gurgaon'],
-                    formats: ['BigPix', 'Insignia VIP', '2D', '3D'],
-                    screens: ['AUDI 1 (BigPix Laser)', 'AUDI 2 (Insignia)', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'BigPix',
-                    defaultScreen: 'AUDI 1 (BigPix Laser)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (BigPix)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVPR',
                     name: 'PVR Plaza: Connaught Place',
-                    address: 'H-Block, Connaught Circus, Connaught Place, New Delhi, Delhi 110001',
                     slugs: ['pvr-plaza-connaught-place', 'pvr-plaza-cp', 'plaza-cp'],
                     keywords: ['plaza cp', 'connaught place', 'plaza connaught'],
-                    formats: ['Dolby Atmos', '2D'],
-                    screens: ['AUDI 1 (Heritage Screen)'],
-                    defaultFormat: 'Dolby Atmos',
-                    defaultScreen: 'AUDI 1 (Heritage Screen)'
+                    screens: ['AUDI 1', 'AUDI 2'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVAP',
                     name: 'PVR Priya: Vasant Vihar',
-                    address: 'Basant Lok Community Centre, Vasant Vihar, New Delhi, Delhi 110057',
                     slugs: ['pvr-priya-vasant-vihar', 'pvr-priya-cinema-vasant-vihar', 'priya-vasant-vihar'],
                     keywords: ['priya vasant vihar', 'vasant vihar', 'basant lok'],
-                    formats: ['P[XL]', 'Dolby Atmos', '2D'],
-                    screens: ['AUDI 1 (P[XL] Laser Atmos)'],
-                    defaultFormat: 'P[XL]',
-                    defaultScreen: 'AUDI 1 (P[XL] Laser Atmos)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -452,58 +416,48 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PRAS',
-                    name: 'Prasads Multiplex: NTR Gardens',
-                    address: 'NTR Gardens, Necklace Road, Khairatabad, Hyderabad, Telangana 500004',
+                    name: 'Prasads Multiplex, Hyderabad',
                     slugs: ['prasads-multiplex-ntr-gardens', 'prasads-multiplex-hyderabad', 'prasads-imax-hyderabad', 'prasads-multiplex'],
                     keywords: ['prasads', 'ntr gardens', 'necklace road', 'khairatabad'],
-                    formats: ['PCX Laser', 'IMAX 2D', 'Dolby Atmos', '2D', '3D'],
-                    screens: ['AUDI 1 (Large Screen PCX Laser)', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 5', 'AUDI 6'],
-                    defaultFormat: 'PCX Laser',
-                    defaultScreen: 'AUDI 1 (Large Screen PCX Laser)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 1 (Large Screen PCX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'AMB',
-                    name: 'AMB Cinemas: Sarath City Capital Mall, Gachibowli',
-                    address: 'Sarath City Capital Mall, Gachibowli - Miyapur Rd, Whitefields, Hyderabad, Telangana 500084',
+                    name: 'AMB Cinemas: Gachibowli, Hyderabad',
                     slugs: ['amb-cinemas-gachibowli', 'amb-cinemas-sarath-city-capital-mall', 'amb-cinemas'],
                     keywords: ['amb cinemas', 'gachibowli', 'sarath city', 'amb'],
-                    formats: ['Laser VIP', 'Dolby Atmos', '2D', '3D'],
-                    screens: ['Screen 1 (Laser VIP)', 'Screen 2 (Dolby Atmos)', 'Screen 3', 'Screen 4', 'Screen 5'],
-                    defaultFormat: 'Laser VIP',
-                    defaultScreen: 'Screen 1 (Laser VIP)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'Screen 1 (Laser VIP)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVIN',
                     name: 'PVR: Inorbit Mall, Cyberabad',
-                    address: 'Inorbit Mall, Mindspace, Madhapur, Hitec City, Hyderabad, Telangana 500081',
                     slugs: ['pvr-inorbit-mall-cyberabad', 'pvr-inorbit-mall-madhapur', 'inorbit-mall-hyderabad'],
                     keywords: ['inorbit cyberabad', 'inorbit hyderabad', 'hitec city', 'madhapur'],
-                    formats: ['Dolby Atmos', '2D', '3D'],
-                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVIH',
-                    name: 'PVR: Next Galleria Mall, Irrum Manzil',
-                    address: 'Next Galleria Mall, Irrum Manzil Colony, Punjagutta, Hyderabad, Telangana 500082',
+                    name: 'PVR: Next Galleria, Irrum Manzil',
                     slugs: ['pvr-irrum-manzil-mall', 'pvr-next-galleria-irrum-manzil'],
                     keywords: ['irrum manzil', 'punjagutta', 'next galleria'],
-                    formats: ['4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 (4DX)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: '4DX 3D',
-                    defaultScreen: 'AUDI 1 (4DX)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'APAR',
                     name: 'Aparna Cinemas: Nallagandla',
-                    address: 'Aparna Mall, Nallagandla, Serilingampalle, Hyderabad, Telangana 500019',
                     slugs: ['aparna-cinemas-nalagandla', 'aparna-cinemas-nallagandla'],
                     keywords: ['aparna', 'nallagandla'],
-                    formats: ['4K Laser', '2D', '3D'],
-                    screens: ['Screen 1 4K Laser', 'Screen 2', 'Screen 3'],
-                    defaultFormat: '4K Laser',
-                    defaultScreen: 'Screen 1 4K Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'Screen 1 4K'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -513,44 +467,36 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVPL',
-                    name: 'PVR Palazzo: Nexus Vijaya Mall, Vadapalani',
-                    address: 'Nexus Vijaya Mall, Arcot Rd, Vadapalani, Chennai, Tamil Nadu 600026',
+                    name: 'PVR Palazzo: Nexus Vijaya, Vadapalani',
                     slugs: ['pvr-palazzo-nexus-vijaya-mall-vadapalani', 'palazzo-nexus-vijaya-mall', 'palazzo-chennai'],
                     keywords: ['palazzo', 'nexus vijaya', 'vadapalani'],
-                    formats: ['IMAX 2D', 'IMAX 3D', '2D', '3D'],
-                    screens: ['Palazzo 1 IMAX Laser', 'Palazzo 2', 'Palazzo 3', 'Palazzo 4', 'Palazzo 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'Palazzo 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'Palazzo 1 (IMAX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'SPIE',
                     name: 'PVR Sathyam: Royapettah',
-                    address: '8 Thiruvika Road, Royapettah, Chennai, Tamil Nadu 600014',
                     slugs: ['sathyam-cinemas-royapettah', 'pvr-sathyam-royapettah', 'sathyam-cinemas'],
                     keywords: ['sathyam', 'royapettah', 'sathyam cinemas'],
-                    formats: ['Dolby Atmos', '2D', '3D'],
-                    screens: ['Sathyam (Main Screen Dolby Atmos)', 'Santham', 'Subham', 'Serene'],
-                    defaultFormat: 'Dolby Atmos',
-                    defaultScreen: 'Sathyam (Main Screen Dolby Atmos)'
+                    screens: ['AUDI 1', 'AUDI 2', 'Sathyam Main Screen'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INMC',
                     name: 'INOX: The Marina Mall, OMR',
-                    address: 'The Marina Mall, Old Mahabalipuram Rd, Egattur, Chennai, Tamil Nadu 603103',
                     slugs: ['inox-marina-mall-omr', 'inox-the-marina-mall'],
                     keywords: ['marina mall', 'omr', 'egattur'],
-                    formats: ['BigPix', 'Insignia VIP', '2D', '3D'],
-                    screens: ['AUDI 1 (BigPix)', 'AUDI 2 (Insignia)', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'BigPix',
-                    defaultScreen: 'AUDI 1 (BigPix)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (BigPix)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVGM',
-                    name: 'PVR: The Grand Mall, Velachery',
-                    address: 'The Grand Mall, 137 Velachery - Tambaram Main Rd, Velachery, Chennai, Tamil Nadu 600042',
+                    name: 'PVR: Grand Mall, Velachery',
                     slugs: ['pvr-grand-mall-velachery', 'grand-mall-velachery'],
                     keywords: ['grand mall velachery', 'velachery'],
-                    formats: ['2D', '3D'],
                     screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
@@ -563,33 +509,27 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'INSC',
-                    name: 'INOX: South City Mall, Prince Anwar Shah Road',
-                    address: 'South City Mall, 375 Prince Anwar Shah Rd, Jadavpur, Kolkata, West Bengal 700068',
+                    name: 'INOX: South City Mall, Kolkata',
                     slugs: ['inox-south-city-mall', 'south-city-mall-kolkata', 'south-city-inox'],
                     keywords: ['south city', 'jadavpur', 'anwar shah'],
-                    formats: ['IMAX 2D', 'IMAX 3D', 'Insignia VIP', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (Insignia)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'INQM',
-                    name: 'INOX: Quest Mall, Park Circus',
-                    address: 'Quest Mall, 33 Syed Amir Ali Ave, Park Circus, Kolkata, West Bengal 700017',
+                    name: 'INOX: Quest Mall, Kolkata',
                     slugs: ['inox-quest-mall-park-circus', 'quest-mall-kolkata'],
                     keywords: ['quest mall', 'park circus'],
-                    formats: ['Insignia VIP', 'Dolby Atmos', '2D', '3D'],
-                    screens: ['AUDI 1 (Insignia Laser)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'Insignia VIP',
-                    defaultScreen: 'AUDI 1 (Insignia Laser)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (Insignia)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVMN',
-                    name: 'PVR: Mani Square Mall, EM Bypass',
-                    address: 'Mani Square Mall, 164/1 Maniktala Main Rd, EM Bypass, Kolkata, West Bengal 700054',
+                    name: 'PVR: Mani Square Mall, Kolkata',
                     slugs: ['pvr-mani-square-mall-em-bypass', 'mani-square-mall-kolkata'],
                     keywords: ['mani square', 'em bypass'],
-                    formats: ['2D', '3D'],
                     screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
@@ -602,36 +542,30 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVMC',
-                    name: 'PVR: Phoenix Marketcity, Viman Nagar',
-                    address: 'Phoenix Marketcity, Viman Nagar, Pune, Maharashtra 411014',
+                    name: 'PVR: Phoenix Marketcity, Pune',
                     slugs: ['pvr-phoenix-marketcity-viman-nagar', 'phoenix-marketcity-pune'],
                     keywords: ['viman nagar', 'marketcity pune', 'phoenix pune'],
-                    formats: ['IMAX 2D', '4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'CNWS',
-                    name: 'Cinépolis: Westend Mall, Aundh',
-                    address: 'Westend Mall, Harmony Society, Ward No. 8, Aundh, Pune, Maharashtra 411007',
+                    name: 'Cinépolis: Westend Mall, Pune',
                     slugs: ['cinepolis-westend-mall-aundh', 'westend-mall-aundh'],
                     keywords: ['westend', 'aundh'],
-                    formats: ['IMAX 2D', 'IMAX 3D', 'VIP', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX 3D', 'AUDI 2 VIP', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX 3D'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'PVPC',
-                    name: 'PVR: The Pavilion Mall, SB Road',
-                    address: 'The Pavilion Mall, Senapati Bapat Rd, Pune, Maharashtra 411016',
+                    name: 'PVR: The Pavilion, SB Road',
                     slugs: ['pvr-pavilion-mall-sb-road', 'the-pavilion-mall-pune'],
                     keywords: ['pavilion mall', 'senapati bapat', 'sb road'],
-                    formats: ['P[XL]', '2D', '3D'],
-                    screens: ['AUDI 1 (P[XL] Atmos)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: 'P[XL]',
-                    defaultScreen: 'AUDI 1 (P[XL] Atmos)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (P[XL])'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -641,25 +575,21 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVAC',
-                    name: 'PVR: Acropolis Mall, Thaltej',
-                    address: 'Acropolis Mall, Thaltej Cross Roads, SG Highway, Ahmedabad, Gujarat 380054',
+                    name: 'PVR: Acropolis Mall, Ahmedabad',
                     slugs: ['pvr-acropolis-mall-thaltej', 'acropolis-mall-ahmedabad'],
                     keywords: ['acropolis', 'thaltej', 'sg highway'],
-                    formats: ['4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 (4DX)', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
-                    defaultFormat: '4DX 3D',
-                    defaultScreen: 'AUDI 1 (4DX)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 },
                 {
                     id: 'CNAL',
-                    name: 'Cinépolis: Nexus Ahmedabad One, Vastrapur',
-                    address: 'Nexus Ahmedabad One Mall, Vastrapur, Ahmedabad, Gujarat 380015',
+                    name: 'Cinépolis: Nexus Ahmedabad One',
                     slugs: ['cinepolis-alpha-one-mall-vastrapur', 'nexus-ahmedabad-one'],
                     keywords: ['ahmedabad one', 'vastrapur', 'alpha one'],
-                    formats: ['VIP', '2D', '3D'],
-                    screens: ['AUDI 1 VIP', 'AUDI 2', 'AUDI 3', 'AUDI 4'],
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'VIP AUDI 1'],
                     defaultFormat: '2D',
-                    defaultScreen: 'AUDI 1 VIP'
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -669,14 +599,12 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVEL',
-                    name: 'PVR: Nexus Elante Mall, Industrial Area',
-                    address: 'Nexus Elante Mall, Industrial Area Phase 1, Chandigarh 160002',
+                    name: 'PVR: Elante Mall, Chandigarh',
                     slugs: ['pvr-elante-mall-industrial-area', 'nexus-elante-mall-chandigarh', 'elante-mall'],
                     keywords: ['elante', 'industrial area phase 1'],
-                    formats: ['4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 (4DX)', 'AUDI 2', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: '4DX 3D',
-                    defaultScreen: 'AUDI 1 (4DX)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -686,14 +614,12 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVLL',
-                    name: 'PVR: LuLu Mall, Edappally',
-                    address: 'LuLu International Shopping Mall, Old NH 47, Edappally, Kochi, Kerala 682024',
+                    name: 'PVR: LuLu Mall, Kochi',
                     slugs: ['pvr-lulu-mall-edappally', 'lulu-mall-kochi'],
                     keywords: ['lulu mall kochi', 'edappally', 'lulu kochi'],
-                    formats: ['P[XL]', '4DX 3D', '2D', '3D'],
-                    screens: ['AUDI 1 (P[XL] 4K)', 'AUDI 2 (4DX)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'P[XL]',
-                    defaultScreen: 'AUDI 1 (P[XL] 4K)'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (P[XL])', 'AUDI 4 (4DX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -703,14 +629,12 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'PVPP',
-                    name: 'PVR: Phoenix Palassio, Gomti Nagar',
-                    address: 'Phoenix Palassio, Sector 7, Gomti Nagar Extension, Lucknow, Uttar Pradesh 226010',
+                    name: 'PVR: Phoenix Palassio, Lucknow',
                     slugs: ['pvr-phoenix-palassio-amar-shaheed-path', 'phoenix-palassio-lucknow'],
                     keywords: ['palassio', 'gomti nagar', 'amar shaheed'],
-                    formats: ['IMAX 2D', 'LUXE 2D', '2D', '3D'],
-                    screens: ['AUDI 1 IMAX Laser', 'AUDI 2 (LUXE)', 'AUDI 3', 'AUDI 4', 'AUDI 5'],
-                    defaultFormat: 'IMAX 2D',
-                    defaultScreen: 'AUDI 1 IMAX Laser'
+                    screens: ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 1 (IMAX)'],
+                    defaultFormat: '2D',
+                    defaultScreen: 'AUDI 1'
                 }
             ]
         },
@@ -720,11 +644,9 @@ document.addEventListener('DOMContentLoaded', () => {
             theaters: [
                 {
                     id: 'INCP',
-                    name: 'INOX: Crystal Palm Mall, Sahkar Circle',
-                    address: 'Crystal Palm Mall, Sahkar Circle, Sardar Patel Marg, C-Scheme, Jaipur, Rajasthan 302001',
+                    name: 'INOX: Crystal Palm, Jaipur',
                     slugs: ['inox-crystal-palm-mall', 'crystal-palm-mall-jaipur'],
                     keywords: ['crystal palm', 'sahkar circle', 'c-scheme'],
-                    formats: ['2D', '3D'],
                     screens: ['AUDI 1', 'AUDI 2', 'AUDI 3'],
                     defaultFormat: '2D',
                     defaultScreen: 'AUDI 1'
@@ -851,10 +773,11 @@ document.addEventListener('DOMContentLoaded', () => {
         screenChipsContainer.innerHTML = '';
 
         const screens = theater.screens || ['AUDI 1', 'AUDI 2', 'AUDI 3', 'AUDI 4'];
-        screens.forEach((sc, idx) => {
+        screens.forEach((sc) => {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'chip-btn' + (idx === 0 ? ' active' : '');
+            const isActive = (fieldScreen && fieldScreen.value.trim() === sc);
+            btn.className = 'chip-btn' + (isActive ? ' active' : '');
             btn.setAttribute('data-type', 'screen');
             btn.setAttribute('data-val', sc);
             btn.textContent = sc;
@@ -862,24 +785,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 screenChipsContainer.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                fieldScreen.value = sc;
-                updateVenueAddressWithScreen();
+                if (fieldScreen) fieldScreen.value = sc;
             });
             screenChipsContainer.appendChild(btn);
         });
-    }
-
-    // Synchronize Venue input string with the current screen audi
-    function updateVenueAddressWithScreen() {
-        if (!fieldVenue) return;
-        const screenVal = fieldScreen ? fieldScreen.value.trim() : 'AUDI 1';
-        let base = fieldVenue.value.replace(/\s*\([^)]*\)$/, '').trim();
-        if (screenVal) {
-            fieldVenue.value = `${base} (${screenVal})`;
-        }
-        if (previewVenue) {
-            previewVenue.textContent = fieldVenue.value;
-        }
     }
 
     // City & Theater dropdown change handlers
@@ -890,9 +799,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const cityData = THEATERS_DB[cityKey];
             if (cityData && cityData.theaters.length > 0) {
                 const t = cityData.theaters[0];
-                fieldVenue.value = `${t.name}, ${t.address}`;
-                fieldScreen.value = t.defaultScreen;
-                updateVenueAddressWithScreen();
+                fieldVenue.value = t.name;
+                if (previewVenue) previewVenue.textContent = t.name;
 
                 // Update default language for this city
                 const currentFormat = (fieldMeta.value.split(',')[1] || '2D').trim();
@@ -909,10 +817,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cityData) {
                 const t = cityData.theaters.find(th => th.id === selectTheater.value);
                 if (t) {
-                    fieldVenue.value = `${t.name}, ${t.address}`;
-                    fieldScreen.value = t.defaultScreen;
+                    fieldVenue.value = t.name;
+                    if (previewVenue) previewVenue.textContent = t.name;
                     renderScreenChips(t);
-                    updateVenueAddressWithScreen();
                 }
             }
         });
@@ -1153,38 +1060,38 @@ document.addEventListener('DOMContentLoaded', () => {
             bookingId: '',
             date: '',
             time: '07:15 PM',
-            price: (Math.floor(350 + Math.random() * 500)).toFixed(2),
+            price: (Math.floor(350 + Math.random() * 250)).toFixed(2),
             language: 'Hindi',
             isTheaterOnlyUrl: false
         };
 
         const lowerRaw = input.toLowerCase();
 
-        // 1. Detect Format keywords
+        // 1. Detect Format keywords from URL or text
         if (lowerRaw.includes('imax 3d') || lowerRaw.includes('imax-3d')) {
             extracted.format = 'IMAX 3D';
-            extracted.screen = 'AUDI 1 IMAX Laser';
+            extracted.screen = 'AUDI 1 (IMAX)';
         } else if (lowerRaw.includes('imax 2d') || lowerRaw.includes('imax-2d') || lowerRaw.includes('imax')) {
             extracted.format = 'IMAX 2D';
-            extracted.screen = 'AUDI 1 IMAX Laser';
+            extracted.screen = 'AUDI 1 (IMAX)';
         } else if (lowerRaw.includes('4dx 3d') || lowerRaw.includes('4dx-3d')) {
             extracted.format = '4DX 3D';
-            extracted.screen = 'AUDI 2 (4DX)';
+            extracted.screen = 'AUDI 4 (4DX)';
         } else if (lowerRaw.includes('4dx')) {
             extracted.format = '4DX';
-            extracted.screen = 'AUDI 2 (4DX)';
+            extracted.screen = 'AUDI 4 (4DX)';
         } else if (lowerRaw.includes('dolby atmos') || lowerRaw.includes('atmos')) {
             extracted.format = 'Dolby Atmos';
-            extracted.screen = 'AUDI 1 (Dolby Atmos)';
+            extracted.screen = 'AUDI 1';
         } else if (lowerRaw.includes('p[xl]') || lowerRaw.includes('pxl')) {
             extracted.format = 'P[XL]';
-            extracted.screen = 'AUDI 1 (P[XL] 4K)';
+            extracted.screen = 'AUDI 1 (P[XL])';
         } else if (lowerRaw.includes('3d')) {
             extracted.format = '3D';
             extracted.screen = 'AUDI 2 (3D)';
         }
 
-        // 2. Detect Audi / Screen number
+        // 2. Detect Audi / Screen number from text if present
         const mAudiNum = lowerRaw.match(/\b(?:audi|screen)\s*[:#-]?\s*(\d+[A-Za-z0-9\s]*?)(?:\)|,|\.|\s+on|\s+at|$)/i);
         if (mAudiNum) {
             const rawAudi = mAudiNum[0].replace(/[),.]/g, '').trim().toUpperCase();
@@ -1233,10 +1140,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const matchedCinema = findCinema(pathname, extracted.city);
                     if (matchedCinema) {
                         extracted.city = matchedCinema.cityKey;
-                        extracted.theater = `${matchedCinema.theater.name}, ${matchedCinema.theater.address}`;
+                        extracted.theater = matchedCinema.theater.name;
                         extracted.theaterId = matchedCinema.theater.id;
-                        extracted.screen = matchedCinema.theater.defaultScreen;
-                        extracted.format = matchedCinema.theater.defaultFormat;
+                        extracted.screen = matchedCinema.theater.defaultScreen || 'AUDI 1';
+                        extracted.format = matchedCinema.theater.defaultFormat || '2D';
                     }
                 }
 
@@ -1333,39 +1240,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Resolve Theater & Cinema
+        // Resolve Theater & Cinema (Clean name only, no address)
         const found = findCinema(targetUrl || input, extracted.city);
         if (found) {
             extracted.city = found.cityKey;
-            extracted.theater = `${found.theater.name}, ${found.theater.address}`;
+            extracted.theater = found.theater.name;
             extracted.theaterId = found.theater.id;
-            if (extracted.format === '2D' && found.theater.defaultFormat) {
-                extracted.format = found.theater.defaultFormat;
-            }
-            if (extracted.screen === 'AUDI 1' && found.theater.defaultScreen) {
-                extracted.screen = found.theater.defaultScreen;
-            }
         } else {
             const cityKey = normalizeCity(extracted.city);
             const cityData = THEATERS_DB[cityKey] || THEATERS_DB.bengaluru;
             const premier = cityData.theaters[0];
             extracted.city = cityKey;
-            extracted.theater = `${premier.name}, ${premier.address}`;
+            extracted.theater = premier.name;
             extracted.theaterId = premier.id;
-            extracted.format = premier.defaultFormat;
-            extracted.screen = premier.defaultScreen;
         }
 
         extracted.language = extracted.language || (THEATERS_DB[extracted.city] && THEATERS_DB[extracted.city].language) || 'Hindi';
 
+        // Set Screen based on Format if still default
+        if (!extracted.screen || extracted.screen === 'AUDI 1') {
+            if (extracted.format.includes('IMAX')) {
+                extracted.screen = 'AUDI 1 (IMAX)';
+            } else if (extracted.format.includes('4DX')) {
+                extracted.screen = 'AUDI 4 (4DX)';
+            } else if (extracted.format.includes('3D')) {
+                extracted.screen = 'AUDI 2 (3D)';
+            } else {
+                extracted.screen = 'AUDI 1';
+            }
+        }
+
         // Price estimation based on format
         if (!extracted.price || extracted.price === '350.00') {
             if (extracted.format.includes('IMAX')) {
-                extracted.price = (Math.floor(750 + Math.random() * 300)).toFixed(2);
+                extracted.price = (Math.floor(750 + Math.random() * 200)).toFixed(2);
             } else if (extracted.format.includes('4DX')) {
-                extracted.price = (Math.floor(600 + Math.random() * 200)).toFixed(2);
+                extracted.price = (Math.floor(550 + Math.random() * 150)).toFixed(2);
             } else {
-                extracted.price = (Math.floor(300 + Math.random() * 250)).toFixed(2);
+                extracted.price = (Math.floor(280 + Math.random() * 150)).toFixed(2);
             }
         }
 
@@ -1423,11 +1335,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (previewDate) previewDate.textContent = fieldTime.value;
         });
     }
-    if (fieldScreen) {
-        fieldScreen.addEventListener('input', () => {
-            updateVenueAddressWithScreen();
-        });
-    }
 
     // Interactive Format Chips
     document.querySelectorAll('#formatChips .chip-btn').forEach(btn => {
@@ -1443,13 +1350,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Auto-adjust screen to match format
             if (val.includes('IMAX')) {
-                fieldScreen.value = 'AUDI 1 IMAX Laser';
+                fieldScreen.value = 'AUDI 1 (IMAX)';
             } else if (val.includes('4DX')) {
-                fieldScreen.value = 'AUDI 2 (4DX)';
+                fieldScreen.value = 'AUDI 4 (4DX)';
             } else if (val.includes('3D')) {
                 fieldScreen.value = 'AUDI 2 (3D)';
-            } else if (val.includes('Atmos') || val.includes('P[XL]')) {
-                fieldScreen.value = 'AUDI 1 (Dolby Atmos)';
             } else {
                 fieldScreen.value = 'AUDI 1';
             }
@@ -1460,7 +1365,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     b.classList.toggle('active', b.getAttribute('data-val') === fieldScreen.value);
                 });
             }
-            updateVenueAddressWithScreen();
         });
     });
 
@@ -1548,12 +1452,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate City & Theater dropdowns
             populateCityAndTheaterDropdowns(parsed.city, parsed.theaterId);
 
-            // Populate form fields
+            // Populate form fields with clean values (no full addresses, no extra tags)
             fieldTitle.value = finalTitle;
             fieldMeta.value = finalMeta;
             fieldTime.value = finalTime;
             fieldScreen.value = parsed.screen;
-            fieldVenue.value = `${parsed.theater} (${parsed.screen})`;
+            fieldVenue.value = parsed.theater;
             fieldSeats.value = parsed.seats;
             fieldBookingId.value = parsed.bookingId;
             fieldPrice.value = parsed.price;
@@ -1612,7 +1516,7 @@ document.addEventListener('DOMContentLoaded', () => {
             previewCard.style.display = 'grid';
             modalFormFields.style.display = 'flex';
             fetchStatusMsg.className = 'fetch-status-msg success';
-            fetchStatusMsg.textContent = `✓ Auto-fetched: ${finalTitle} at ${parsed.theater.split(',')[0]}! Review & Apply.`;
+            fetchStatusMsg.textContent = `✓ Auto-fetched: ${finalTitle} at ${parsed.theater}! Review & Apply.`;
         } catch (err) {
             console.error('Fetch error:', err);
             fetchStatusMsg.className = 'fetch-status-msg error';
@@ -1666,11 +1570,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const titleVal = fieldTitle.value.trim() || 'Cinema Ticket';
             const metaVal = fieldMeta.value.trim() || 'Hindi, 2D';
             const timeVal = fieldTime.value.trim() || `${getCurrentFormattedDate()} | 07:15 PM`;
-            const venueVal = fieldVenue.value.trim() || 'PVR Cinemas (AUDI 1)';
+            const venueVal = fieldVenue.value.trim() || 'PVR Cinemas';
             const screenVal = fieldScreen.value.trim() || 'AUDI 1';
             const seatsVal = fieldSeats.value.trim() || getRandomSeat();
             const bookingIdVal = fieldBookingId.value.trim() || ('ET' + Math.floor(10000000 + Math.random() * 90000000));
-            const priceVal = fieldPrice.value.trim() || '450.00';
+            const priceVal = fieldPrice.value.trim() || '350.00';
             const posterSrc = (currentFetchedData && currentFetchedData.posterUrl)
                 ? currentFetchedData.posterUrl
                 : generatePosterSvg(titleVal);
@@ -1705,13 +1609,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 movieTimeEl.textContent = timeVal;
             }
 
-            // 5. Update Venue
+            // 5. Update Venue (clean cinema name, e.g. "PVR: Phoenix Palladium, Lower Parel")
             const movieVenueEl = document.querySelector('.movie-venue');
             if (movieVenueEl) {
                 movieVenueEl.textContent = venueVal;
             }
 
-            // 6. Update Screen / Audi in ticket details
+            // 6. Update Screen / Audi in ticket details (clean screen, e.g. "AUDI 1" or "AUDI 1 (IMAX)")
             const ticketScreenEl = document.querySelector('.ticket-screen');
             if (ticketScreenEl) {
                 ticketScreenEl.textContent = screenVal;
