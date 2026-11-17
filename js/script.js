@@ -367,9 +367,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Comprehensive Universal Parser
     function parseInputData(raw) {
         const input = raw.trim();
+
+        // Extract any URL anywhere in the input (with or without https://)
+        const urlMatch = input.match(/(https?:\/\/[^\s]+|in\.bookmyshow\.com[^\s]+|bms\.bz[^\s]+)/i);
+        let targetUrl = urlMatch ? urlMatch[0] : null;
+        if (targetUrl && !targetUrl.startsWith('http')) {
+            targetUrl = 'https://' + targetUrl;
+        }
+
         const extracted = {
-            isUrl: input.startsWith('http'),
-            rawUrl: input.startsWith('http') ? input : null,
+            isUrl: Boolean(targetUrl),
+            rawUrl: targetUrl,
             movieQuery: '',
             city: '',
             theater: '',
@@ -419,9 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
             extracted.bookingId = etMatch[1].toUpperCase();
         }
 
-        if (extracted.isUrl) {
+        if (extracted.isUrl && targetUrl) {
             try {
-                const urlObj = new URL(input);
+                const urlObj = new URL(targetUrl);
                 const pathname = urlObj.pathname.replace(/\/+$/, '');
                 const parts = pathname.split('/').filter(Boolean);
 
