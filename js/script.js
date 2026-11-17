@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const actionEmail = document.getElementById('actionEmail');
     const actionCancel = document.getElementById('actionCancel');
     const actionHelp = document.getElementById('actionHelp');
+
     // Toast System
     let toastTimeout;
     function showToast(message) {
@@ -21,55 +22,58 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2500);
         }
     }
-    // Booking ID Generation (uses ?id= param if present, else generates random one)
+
+    // Booking ID Generation
     const urlParams = new URLSearchParams(window.location.search);
     let bookingId = urlParams.get('id');
     if (!bookingId) {
         bookingId = 'ET00513508';
     }
+
     // Update booking ID in UI
     const bookingIdEl = document.querySelector('.booking-id');
     if (bookingIdEl) {
         bookingIdEl.textContent = `BOOKING ID: ${bookingId}`;
     }
+
     // Dynamic Poster Image from URL query parameter
     const posterUrl = urlParams.get('poster') || urlParams.get('img');
     const posterImgEl = document.querySelector('.poster-img');
     if (posterUrl && posterImgEl) {
         posterImgEl.src = posterUrl;
     }
+
     // Generate dynamic QR code encoding booking details
     let shareUrl = `https://in.bookmyshow.com/order-summary/ET00513508/PVFF?bookingId=${bookingId}`;
     const qrContainer = document.getElementById('qrContainer');
+
     // Helper to generate/regenerate QR Code as vector SVG
     function renderQRCode(text) {
         if (qrContainer && typeof qrcode !== 'undefined') {
             qrContainer.innerHTML = '';
-            // Create QR code using auto-detected version (0) and Medium error correction level (M)
             const qr = qrcode(0, 'M');
             qr.addData(text);
             qr.make();
-            // Generate clean SVG markup with margin for scannability
             const svgString = qr.createSvgTag({
                 cellSize: 4,
                 margin: 1,
                 scalable: true
             });
             qrContainer.innerHTML = svgString;
-            // Configure SVG elements to scale perfectly inside our container
             const svgEl = qrContainer.querySelector('svg');
             if (svgEl) {
                 svgEl.setAttribute('width', '100%');
                 svgEl.setAttribute('height', '100%');
                 svgEl.style.display = 'block';
             }
-        }
-        else {
+        } else {
             console.warn('qrcode-generator library is undefined');
         }
     }
+
     // Initial QR Code render
     renderQRCode(shareUrl);
+
     // Allow user to click the poster to insert a custom poster URL
     if (posterImgEl) {
         posterImgEl.style.cursor = 'pointer';
@@ -80,12 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const trimmedUrl = newPosterUrl.trim();
                 if (trimmedUrl) {
                     posterImgEl.src = trimmedUrl;
-                    // Update URL in address bar without reloading
                     const params = new URLSearchParams(window.location.search);
                     params.set('poster', trimmedUrl);
                     const newRelativePathQuery = `${window.location.pathname}?${params.toString()}`;
                     history.replaceState(null, '', newRelativePathQuery);
-                    // Update shareUrl and regenerate QR Code
                     shareUrl = `${window.location.origin}${newRelativePathQuery}`;
                     renderQRCode(shareUrl);
                     showToast('Poster updated! Copy browser URL to share.');
@@ -93,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     // Allow user to click QR code container to change QR data/url
     if (qrContainer) {
         qrContainer.style.cursor = 'pointer';
@@ -113,23 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
             supportDrawer.classList.add('active');
         }
     }
-    // Close Drawer
+
     function closeDrawer() {
         if (supportDrawer) {
             supportDrawer.classList.remove('active');
         }
     }
+
     if (supportBannerBtn) {
-        supportBannerBtn.addEventListener('click', () => {
-            openDrawer();
-        });
+        supportBannerBtn.addEventListener('click', openDrawer);
     }
     if (supportDrawer) {
         supportDrawer.addEventListener('click', (e) => {
-            if (e.target === supportDrawer)
-                closeDrawer();
+            if (e.target === supportDrawer) closeDrawer();
         });
     }
+
     if (actionDownload) {
         actionDownload.addEventListener('click', () => {
             closeDrawer();
@@ -143,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).then((canvas) => {
                     const imgData = canvas.toDataURL('image/png');
                     const { jsPDF } = jspdf;
-                    // Set standard width for PDF in mm, and scale height proportionally
                     const imgWidth = 80;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
                     const pdf = new jsPDF({
@@ -161,20 +162,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     if (actionEmail) {
-        actionEmail.addEventListener('click', () => {
-            closeDrawer();
-        });
+        actionEmail.addEventListener('click', closeDrawer);
     }
     if (actionCancel) {
-        actionCancel.addEventListener('click', () => {
-            closeDrawer();
-        });
+        actionCancel.addEventListener('click', closeDrawer);
     }
     if (actionHelp) {
-        actionHelp.addEventListener('click', () => {
-            closeDrawer();
-        });
+        actionHelp.addEventListener('click', closeDrawer);
     }
 
     // ==========================================
@@ -253,16 +249,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Helper: Clean movie slug into search keywords
-    function cleanMovieSlug(slug) {
-        let cleaned = slug.toLowerCase();
-        cleaned = cleaned.replace(/^(?:movie-|cinema-)/, '');
-        cleaned = cleaned.replace(/-[a-z]{2,5}-\d{8}$/, '');
-        cleaned = cleaned.replace(/-(?:bengaluru|mumbai|delhi|hyderabad|chennai|pune|kolkata|chandigarh|ahmedabad|kochi)$/i, '');
-        return cleaned.replace(/-/g, ' ').trim();
+    // Helper: Generate a customized dynamic SVG poster badge if no poster image is found
+    function generatePosterSvg(title, category = 'CINEMA') {
+        const cleanTitle = (title || 'Movie Ticket').replace(/[<>&"']/g, '');
+        const words = cleanTitle.split(' ');
+        let lines = [];
+        let currentLine = '';
+        for (let w of words) {
+            if ((currentLine + ' ' + w).trim().length > 14) {
+                if (currentLine) lines.push(currentLine.trim());
+                currentLine = w;
+            } else {
+                currentLine += ' ' + w;
+            }
+        }
+        if (currentLine) lines.push(currentLine.trim());
+        lines = lines.slice(0, 3);
+
+        const textSvg = lines.map((line, idx) => {
+            const y = 200 + (idx * 32) - ((lines.length - 1) * 16);
+            return `<text x="50%" y="${y}" fill="#ffffff" font-size="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="bold" text-anchor="middle">${line}</text>`;
+        }).join('');
+
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420" viewBox="0 0 300 420"><rect width="100%" height="100%" fill="#18181b"/><circle cx="150" cy="110" r="35" fill="rgba(244,63,94,0.15)"/><text x="50%" y="118" fill="#f43f5e" font-size="24" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" text-anchor="middle">★</text>${textSvg}<rect x="50" y="340" width="200" height="26" rx="13" fill="rgba(255,255,255,0.08)"/><text x="50%" y="357" fill="#f43f5e" font-size="11" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="bold" letter-spacing="1.5" text-anchor="middle">${category}</text></svg>`;
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
-    // Helper: Format cinema slug to Title Case with standard abbreviations
+    // City presets for default theater venues & local languages
+    const CITY_THEATERS = {
+        'mumbai': 'PVR: Phoenix Palladium, Lower Parel, Mumbai',
+        'delhi': 'PVR: Vegas Mall, Dwarka, Delhi',
+        'national-capital-region-ncr': 'PVR: Vegas Mall, Dwarka, Delhi',
+        'ncr': 'PVR: Vegas Mall, Dwarka, Delhi',
+        'bengaluru': 'PVR: Nexus, Koramangala, Bengaluru',
+        'bangalore': 'PVR: Nexus, Koramangala, Bengaluru',
+        'hyderabad': 'Prasads Multiplex, Banjara Hills, Hyderabad',
+        'chennai': 'PVR: Grand Mall, Velachery, Chennai',
+        'kolkata': 'INOX: South City Mall, Kolkata',
+        'pune': 'PVR: Phoenix Marketcity, Viman Nagar, Pune',
+        'ahmedabad': 'PVR: Acropolis Mall, Thaltej, Ahmedabad',
+        'chandigarh': 'PVR: Elante Mall, Industrial Area, Chandigarh',
+        'kochi': 'PVR: LuLu Mall, Edappally, Kochi',
+        'coimbatore': 'PVR: The Marina Mall, Coimbatore',
+        'lucknow': 'PVR: Phoenix Palassio, Lucknow',
+        'jaipur': 'INOX: Crystal Palm, Jaipur',
+        'indore': 'PVR: Treasure Island, Indore'
+    };
+
+    const CITY_LANG = {
+        'mumbai': 'Hindi', 'delhi': 'Hindi', 'national-capital-region-ncr': 'Hindi', 'ncr': 'Hindi',
+        'bengaluru': 'Kannada', 'bangalore': 'Kannada', 'hyderabad': 'Telugu', 'chennai': 'Tamil',
+        'kolkata': 'Bengali', 'pune': 'Marathi', 'ahmedabad': 'Gujarati', 'kochi': 'Malayalam'
+    };
+
+    // Helper: Clean raw slug into Title Case
+    function cleanTitle(str) {
+        if (!str) return '';
+        let s = str.toLowerCase();
+        s = s.replace(/^(?:movie-|cinema-|event-)/i, '');
+        s = s.replace(/-[a-z]{2,5}-\d{8}$/i, '');
+        s = s.replace(/-(?:bengaluru|bangalore|mumbai|delhi|hyderabad|chennai|pune|kolkata|chandigarh|ahmedabad|kochi)$/i, '');
+        s = s.replace(/-/g, ' ');
+        s = s.replace(/\b(part|chapter)\s+(\d+)\b/gi, '$1 $2');
+        s = s.replace(/\s+/g, ' ').trim();
+        return s.replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // Helper: Format cinema slug to Title Case
     function formatTheaterSlug(slug) {
         if (!slug) return '';
         const words = slug.split('-');
@@ -303,91 +356,144 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Main parser for BMS Link or Confirmation Text
+    // Helper: Generate random seat identifier
+    function getRandomSeat() {
+        const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L'];
+        const row = rows[Math.floor(Math.random() * rows.length)];
+        const num = Math.floor(1 + Math.random() * 20).toString().padStart(2, '0');
+        return `SEAT - ${row}${num}`;
+    }
+
+    // Comprehensive Universal Parser
     function parseInputData(raw) {
         const input = raw.trim();
         const extracted = {
+            isUrl: input.startsWith('http'),
             rawUrl: input.startsWith('http') ? input : null,
             movieQuery: '',
-            movieTitle: '',
-            movieMeta: '',
-            posterUrl: '',
-            date: '',
-            time: '06:30 AM',
+            city: '',
             theater: '',
-            screen: 'AUDI 1 IMAX',
-            seats: 'SEAT - K09',
-            bookingId: 'ET' + Math.floor(10000000 + Math.random() * 90000000),
-            price: '1681.42',
-            qrData: input.startsWith('http') ? input : shareUrl
+            screen: 'AUDI 1 (IMAX 2D)',
+            seats: getRandomSeat(),
+            bookingId: '',
+            date: '',
+            time: '07:15 PM',
+            price: (Math.floor(350 + Math.random() * 500)).toFixed(2),
+            language: 'Hindi'
         };
 
-        // 1. Check if input is a URL
-        if (input.startsWith('http')) {
-            // Pattern A: Movie Details: /city/movies/slug/ET00xxxx
-            const m1 = input.match(/bookmyshow\.com\/([^/]+)\/movies\/([^/]+)\/([A-Za-z0-9]+)/i);
-            if (m1) {
-                const city = m1[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-                extracted.movieQuery = cleanMovieSlug(m1[2]);
-                extracted.bookingId = m1[3];
-                extracted.theater = `PVR: Nexus, ${city}`;
-            }
+        // Extract any ET... event code from input string
+        const etMatch = input.match(/\b(ET\d{6,10})\b/i);
+        if (etMatch) {
+            extracted.bookingId = etMatch[1].toUpperCase();
+        }
 
-            // Pattern B: Buy Tickets / Showtimes: /buytickets/{movie-slug}-{city}/movie-{cityCode}-{eventCode}-MT/{date}
-            const m2 = input.match(/buytickets\/([a-z0-9-]+?)-([a-z]+)\/movie-[a-z]+-([A-Za-z0-9]+)-MT\/(\d{8})/i);
-            if (m2) {
-                extracted.movieQuery = cleanMovieSlug(m2[1]);
-                extracted.bookingId = m2[3];
-                const parsedDate = parseBmsDate(m2[4]);
-                if (parsedDate) extracted.date = parsedDate;
-                const city = m2[2].charAt(0).toUpperCase() + m2[2].slice(1);
-                extracted.theater = `PVR: Nexus, ${city}`;
-            }
+        if (extracted.isUrl) {
+            try {
+                const urlObj = new URL(input);
+                const pathname = urlObj.pathname.replace(/\/+$/, '');
+                const parts = pathname.split('/').filter(Boolean);
 
-            // Pattern C: Cinema showtimes: /buytickets/{cinema-slug}/cinema-{cityCode}-{venueCode}-MT/{date}
-            const m3 = input.match(/buytickets\/([a-z0-9-]+)\/cinema-[a-z]+-([A-Za-z0-9]+)-MT\/(\d{8})/i);
-            if (m3) {
-                extracted.theater = formatTheaterSlug(m3[1]);
-                const parsedDate = parseBmsDate(m3[3]);
-                if (parsedDate) extracted.date = parsedDate;
-                if (m3[1].toLowerCase().includes('imax')) extracted.screen = 'AUDI 1 IMAX';
-            }
-
-            // Pattern D: Order summary / booking ID
-            const mBooking = input.match(/bookingId=([A-Za-z0-9]+)/i) || input.match(/order-summary\/([A-Za-z0-9]+)/i);
-            if (mBooking) {
-                extracted.bookingId = mBooking[1];
-            }
-
-            // If no specific movie query yet, extract from path slug
-            if (!extracted.movieQuery) {
-                const slugMatch = input.match(/bookmyshow\.com\/(?:[^/]+\/)?(?:movies|buytickets)\/([^/?#]+)/i);
-                if (slugMatch) {
-                    extracted.movieQuery = cleanMovieSlug(slugMatch[1]);
+                // 1. Identify city if present in path segments
+                for (let p of parts) {
+                    const low = p.toLowerCase();
+                    if (CITY_THEATERS[low]) {
+                        extracted.city = low;
+                        extracted.language = CITY_LANG[low] || 'Hindi';
+                        break;
+                    }
                 }
+
+                // 2. Identify 8-digit date YYYYMMDD
+                for (let p of parts) {
+                    if (/^\d{8}$/.test(p)) {
+                        const parsedDate = parseBmsDate(p);
+                        if (parsedDate) extracted.date = parsedDate;
+                        break;
+                    }
+                }
+
+                // 3. Find ET code index in path
+                let etIndex = -1;
+                for (let i = 0; i < parts.length; i++) {
+                    if (/^ET\d+/i.test(parts[i])) {
+                        etIndex = i;
+                        extracted.bookingId = parts[i].toUpperCase();
+                        break;
+                    }
+                }
+
+                // In BookMyShow, the segment immediately before ET... is ALWAYS the movie/event slug!
+                if (etIndex > 0) {
+                    const candidate = parts[etIndex - 1];
+                    if (!CITY_THEATERS[candidate.toLowerCase()] && candidate !== 'movies' && candidate !== 'events' && candidate !== 'explore') {
+                        extracted.movieQuery = cleanTitle(candidate);
+                    }
+                }
+
+                // 4. Pattern: buytickets movie URL
+                const buyMovieMatch = pathname.match(/buytickets\/([a-z0-9-]+?)(?:-([a-z]+))?\/movie-/i);
+                if (buyMovieMatch) {
+                    extracted.movieQuery = cleanTitle(buyMovieMatch[1]);
+                    if (buyMovieMatch[2] && CITY_THEATERS[buyMovieMatch[2].toLowerCase()]) {
+                        extracted.city = buyMovieMatch[2].toLowerCase();
+                        extracted.language = CITY_LANG[extracted.city] || 'Hindi';
+                    }
+                }
+
+                // 5. Pattern: cinema showtimes URL
+                if (pathname.includes('/cinemas/') || pathname.includes('/cinema-') || (!extracted.movieQuery && parts.includes('buytickets'))) {
+                    for (let i = 0; i < parts.length; i++) {
+                        if (parts[i] === 'cinemas' && parts[i + 1]) {
+                            if (CITY_THEATERS[parts[i + 1].toLowerCase()] && parts[i + 2]) {
+                                extracted.theater = formatTheaterSlug(parts[i + 2]);
+                            } else {
+                                extracted.theater = formatTheaterSlug(parts[i + 1]);
+                            }
+                        }
+                        if (parts[i] === 'buytickets' && parts[i + 1] && !parts[i + 1].startsWith('cinema-') && !/^[A-Z0-9]{4,6}$/.test(parts[i + 1])) {
+                            extracted.theater = formatTheaterSlug(parts[i + 1]);
+                        }
+                    }
+                }
+
+                // Fallback for movie query if still empty
+                if (!extracted.movieQuery) {
+                    for (let i = parts.length - 1; i >= 0; i--) {
+                        const p = parts[i];
+                        if (!CITY_THEATERS[p.toLowerCase()] && !/^(?:movies|events|buytickets|cinemas|in|explore)$/i.test(p) && !/^ET\d+/i.test(p) && !/^\d{8}$/.test(p)) {
+                            extracted.movieQuery = cleanTitle(p);
+                            break;
+                        }
+                    }
+                }
+
+                // Booking ID from query param
+                if (urlObj.searchParams.get('bookingId')) {
+                    extracted.bookingId = urlObj.searchParams.get('bookingId');
+                } else if (urlObj.searchParams.get('id')) {
+                    extracted.bookingId = urlObj.searchParams.get('id');
+                }
+            } catch (err) {
+                console.error('URL parse error:', err);
             }
         } else {
-            // 2. Parse confirmation text (SMS / WhatsApp / Email)
-            // Booking ID
+            // Text parsing (SMS / WhatsApp / Direct movie name)
             const mBid = input.match(/(?:booking\s*(?:id|no\.?)|ticket\s*(?:id|no\.?)|id)\s*[:#-]?\s*([A-Za-z0-9]+)/i);
             if (mBid) extracted.bookingId = mBid[1].toUpperCase();
 
-            // Total Amount / Price
             const mAmt = input.match(/(?:₹|rs\.?|inr)\s*([\d,]+(?:\.\d{1,2})?)/i);
             if (mAmt) extracted.price = mAmt[1].replace(/,/g, '');
 
-            // Seats
             const mSeats = input.match(/(?:seats?|seat\s*no\.?)\s*[:#-]?\s*([A-Za-z0-9,\s-]+?)(?:\s+(?:audi|booking|total|rs|₹|\.|$)|$)/i);
             if (mSeats) {
                 const s = mSeats[1].trim();
                 extracted.seats = s.toUpperCase().startsWith('SEAT') ? s.toUpperCase() : `SEAT - ${s.toUpperCase()}`;
             }
 
-            // Audi / Screen
             const mAudi = input.match(/(audi\s*\d+(?:\s+imax)?|screen\s*\d+|imax\s*2d|imax\s*3d)/i);
             if (mAudi) extracted.screen = mAudi[1].toUpperCase();
 
-            // Cinema / Theater
             const mCinema = input.match(/(?:at|venue|cinema)\s*[:#-]?\s*([^,\n|]+(?:pvr|inox|cinepolis|cine|mall|nexus)[^,\n|]*)/i)
                 || input.match(/((?:pvr|inox|cinepolis|miraj)[^,\n|]+)/i);
             if (mCinema) {
@@ -396,191 +502,184 @@ document.addEventListener('DOMContentLoaded', () => {
                 extracted.theater = c;
             }
 
-            // Time
             const mTime = input.match(/(\d{1,2}:\d{2}\s*(?:am|pm))/i);
             if (mTime) extracted.time = mTime[1].toUpperCase();
 
-            // Movie name from text: "ticket for {Movie} at" or "for {Movie} ("
             const mMovie = input.match(/(?:for|movie|film)\s+([A-Za-z0-9\s:''-]+?)(?:\s*\((?:a|ua|u|pg-13|r)\)|\s+at\s+|\s+on\s+)/i);
             if (mMovie) {
-                extracted.movieQuery = mMovie[1].trim();
-            } else {
-                // First line or non-empty string as search query
-                const firstLine = input.split('\n')[0].trim();
-                if (firstLine.length < 50) extracted.movieQuery = firstLine;
+                extracted.movieQuery = cleanTitle(mMovie[1]);
+            } else if (!extracted.theater) {
+                extracted.movieQuery = cleanTitle(input);
             }
+        }
+
+        // Assign theater if not yet set
+        if (!extracted.theater) {
+            if (extracted.city && CITY_THEATERS[extracted.city]) {
+                extracted.theater = CITY_THEATERS[extracted.city];
+            } else {
+                extracted.theater = 'PVR: Phoenix Palladium, Lower Parel, Mumbai';
+            }
+        }
+
+        // Generate Booking ID if still empty
+        if (!extracted.bookingId) {
+            extracted.bookingId = 'ET' + Math.floor(10000000 + Math.random() * 90000000);
         }
 
         return extracted;
     }
 
-    // Fetch movie details from TMDB API
+    // Fetch movie details from TMDB with multiple fallback queries and AbortController timeout
     async function fetchTmdbDetails(movieQuery) {
         if (!movieQuery) return null;
-        try {
-            const searchUrl = `${TMDB_BASE}/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(movieQuery)}`;
-            const res = await fetch(searchUrl);
-            const data = await res.json();
-            if (!data.results || data.results.length === 0) return null;
 
-            const movie = data.results[0];
-            // Fetch detailed record with release dates for Indian certification
-            const detailUrl = `${TMDB_BASE}/movie/${movie.id}?api_key=${TMDB_KEY}&append_to_response=release_dates`;
-            const detailRes = await fetch(detailUrl);
-            const detailData = await detailRes.json();
-
-            // Determine certification
-            let cert = '';
-            if (detailData.release_dates && detailData.release_dates.results) {
-                const inRelease = detailData.release_dates.results.find(r => r.iso_3166_1 === 'IN');
-                if (inRelease && inRelease.release_dates) {
-                    const c = inRelease.release_dates.find(d => d.certification && d.certification.trim() !== '');
-                    if (c) cert = c.certification.trim();
-                }
-                if (!cert) {
-                    const usRelease = detailData.release_dates.results.find(r => r.iso_3166_1 === 'US');
-                    if (usRelease && usRelease.release_dates) {
-                        const c = usRelease.release_dates.find(d => d.certification && d.certification.trim() !== '');
-                        if (c) cert = c.certification.trim();
-                    }
-                }
-            }
-            if (!cert && detailData.adult) cert = 'A';
-
-            // Determine language
-            const langCode = detailData.original_language || movie.original_language || 'en';
-            const langName = LANG_MAP[langCode] || langCode.toUpperCase();
-
-            // Poster
-            const posterPath = detailData.poster_path || movie.poster_path;
-            const posterFullUrl = posterPath ? `${IMG_BASE}${posterPath}` : null;
-
-            // Release date fallback
-            let releaseDateFormatted = null;
-            if (detailData.release_date) {
-                const d = new Date(detailData.release_date);
-                if (!isNaN(d.getTime())) {
-                    releaseDateFormatted = d.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
-                    });
-                }
-            }
-
-            return {
-                title: detailData.title || movie.title,
-                tagline: detailData.tagline || '',
-                cert: cert,
-                language: langName,
-                posterUrl: posterFullUrl,
-                releaseDate: releaseDateFormatted
-            };
-        } catch (err) {
-            console.error('TMDB fetch error:', err);
-            return null;
+        const queries = [movieQuery];
+        // Simplified query (strip subtitles / punctuation)
+        const simplified = movieQuery.replace(/[:\-–].*$/, '').trim();
+        if (simplified && simplified.toLowerCase() !== movieQuery.toLowerCase()) {
+            queries.push(simplified);
         }
+        // First 2 words fallback
+        const words = movieQuery.split(' ');
+        if (words.length > 2) {
+            queries.push(words.slice(0, 2).join(' '));
+        }
+
+        for (let q of queries) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+                const searchUrl = `${TMDB_BASE}/search/multi?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}`;
+                const res = await fetch(searchUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                const data = await res.json();
+
+                if (data.results && data.results.length > 0) {
+                    const item = data.results.find(r => r.poster_path) || data.results[0];
+                    const title = item.title || item.name || movieQuery;
+                    const posterPath = item.poster_path;
+                    const posterFullUrl = posterPath ? `${IMG_BASE}${posterPath}` : null;
+                    const langCode = item.original_language || 'hi';
+                    const langName = LANG_MAP[langCode] || langCode.toUpperCase();
+
+                    let releaseFormatted = null;
+                    const releaseDate = item.release_date || item.first_air_date;
+                    if (releaseDate) {
+                        const d = new Date(releaseDate);
+                        if (!isNaN(d.getTime())) {
+                            releaseFormatted = d.toLocaleDateString('en-US', {
+                                weekday: 'short',
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                            });
+                        }
+                    }
+
+                    return {
+                        title: title,
+                        language: langName,
+                        posterUrl: posterFullUrl,
+                        releaseDate: releaseFormatted
+                    };
+                }
+            } catch (err) {
+                console.warn(`TMDB search query "${q}" failed:`, err);
+            }
+        }
+
+        return null;
     }
 
-    // Handle Fetch button click
+    // Handle Fetch Details click
     async function handleFetchDetails() {
         const raw = bmsInput.value.trim();
         if (!raw) {
             fetchStatusMsg.className = 'fetch-status-msg error';
-            fetchStatusMsg.textContent = 'Please paste a BookMyShow link or booking confirmation text.';
+            fetchStatusMsg.textContent = 'Please paste a BookMyShow link, movie name, or booking text.';
             return;
         }
 
-        // Show loading state
+        // Loading UI
         const btnText = btnFetchDetails.querySelector('.btn-text');
         const btnLoader = btnFetchDetails.querySelector('.btn-loader');
         btnText.style.display = 'none';
         btnLoader.style.display = 'inline-block';
         btnFetchDetails.disabled = true;
         fetchStatusMsg.className = 'fetch-status-msg info';
-        fetchStatusMsg.textContent = 'Extracting link & fetching movie data...';
+        fetchStatusMsg.textContent = 'Parsing link & fetching details...';
 
         try {
             const parsed = parseInputData(raw);
-            let tmdb = null;
-            if (parsed.movieQuery) {
-                tmdb = await fetchTmdbDetails(parsed.movieQuery);
-            }
+            const tmdb = await fetchTmdbDetails(parsed.movieQuery);
 
-            // Construct title with rating
-            let titleString = '';
-            let metaString = '';
-            let posterSrc = parsed.posterUrl || posterImgEl.src;
-            let dateString = parsed.date || (tmdb && tmdb.releaseDate ? tmdb.releaseDate : 'Wed, 26 Aug, 2026');
-            let fullTimeString = `${dateString} | ${parsed.time}`;
-
-            if (tmdb) {
-                // If TMDB has a catchy tagline and title is brief, display both
-                if (tmdb.tagline && tmdb.tagline.length < 40 && !tmdb.title.toLowerCase().includes(tmdb.tagline.toLowerCase())) {
-                    const cleanTagline = tmdb.tagline.replace(/[.]+$/, '');
-                    titleString = `${tmdb.title}: ${cleanTagline}`;
-                } else {
-                    titleString = tmdb.title;
-                }
-                if (tmdb.cert) {
-                    titleString += ` (${tmdb.cert})`;
-                }
-                metaString = `${tmdb.language}, IMAX 2D`;
-                if (tmdb.posterUrl) {
-                    posterSrc = tmdb.posterUrl;
-                }
+            // Determine Title
+            let finalTitle = '';
+            if (tmdb && tmdb.title) {
+                finalTitle = tmdb.title;
             } else if (parsed.movieQuery) {
-                titleString = parsed.movieQuery.replace(/\b\w/g, c => c.toUpperCase());
-                metaString = 'Kannada, IMAX 2D';
+                finalTitle = parsed.movieQuery;
+            } else if (parsed.theater) {
+                finalTitle = parsed.theater;
             } else {
-                titleString = 'Toxic: A Fairy Tale for Grown-ups (A)';
-                metaString = 'Kannada, IMAX 2D';
+                finalTitle = 'Movie Experience';
             }
 
-            const venueString = parsed.theater
-                ? (parsed.theater.includes('(') ? parsed.theater : `${parsed.theater} (${parsed.screen})`)
-                : 'PVR: Nexus (Formerly Forum), Koramangala (AUDI 1 IMAX)';
+            // Determine Language & Meta
+            const finalLanguage = (tmdb && tmdb.language) ? tmdb.language : (parsed.language || 'Hindi');
+            const finalMeta = `${finalLanguage}, 2D`;
+
+            // Determine Poster (TMDB official poster OR customized dynamic SVG badge)
+            let finalPoster = (tmdb && tmdb.posterUrl) ? tmdb.posterUrl : generatePosterSvg(finalTitle);
+
+            // Determine Date & Time
+            const finalDate = parsed.date || (tmdb && tmdb.releaseDate ? tmdb.releaseDate : 'Sat, 21 Nov, 2026');
+            const finalTime = `${finalDate} | ${parsed.time}`;
+
+            // Venue
+            const finalVenue = parsed.theater ? `${parsed.theater} (${parsed.screen})` : 'PVR Cinemas (AUDI 1)';
 
             // Populate form fields
-            fieldTitle.value = titleString;
-            fieldMeta.value = metaString;
-            fieldTime.value = fullTimeString;
-            fieldVenue.value = venueString;
+            fieldTitle.value = finalTitle;
+            fieldMeta.value = finalMeta;
+            fieldTime.value = finalTime;
+            fieldVenue.value = finalVenue;
             fieldScreen.value = parsed.screen;
             fieldSeats.value = parsed.seats;
             fieldBookingId.value = parsed.bookingId;
             fieldPrice.value = parsed.price;
 
             // Update preview
-            previewPosterImg.src = posterSrc;
-            previewTitle.textContent = titleString;
-            previewMeta.textContent = metaString;
-            previewVenue.textContent = venueString;
-            previewDate.textContent = fullTimeString;
+            previewPosterImg.src = finalPoster;
+            previewTitle.textContent = finalTitle;
+            previewMeta.textContent = finalMeta;
+            previewVenue.textContent = finalVenue;
+            previewDate.textContent = finalTime;
 
             currentFetchedData = {
-                title: titleString,
-                meta: metaString,
-                time: fullTimeString,
-                venue: venueString,
+                title: finalTitle,
+                meta: finalMeta,
+                time: finalTime,
+                venue: finalVenue,
                 screen: parsed.screen,
                 seats: parsed.seats,
                 bookingId: parsed.bookingId,
                 price: parsed.price,
-                posterUrl: posterSrc,
-                qrData: parsed.rawUrl || `https://in.bookmyshow.com/order-summary/${parsed.bookingId}/PVFF?bookingId=${parsed.bookingId}`
+                posterUrl: finalPoster,
+                qrData: parsed.rawUrl || `https://in.bookmyshow.com/order-summary/${parsed.bookingId}`
             };
 
             // Display preview and fields
             previewCard.style.display = 'grid';
             modalFormFields.style.display = 'flex';
             fetchStatusMsg.className = 'fetch-status-msg success';
-            fetchStatusMsg.textContent = 'Details fetched successfully! Review and click Apply.';
+            fetchStatusMsg.textContent = 'Details loaded! Review below and click Apply.';
         } catch (err) {
-            console.error('Fetch failed:', err);
+            console.error('Fetch error:', err);
             fetchStatusMsg.className = 'fetch-status-msg error';
-            fetchStatusMsg.textContent = 'Could not parse link. You can still enter details manually below.';
+            fetchStatusMsg.textContent = 'Could not fetch remote details. You can enter details manually below.';
             modalFormFields.style.display = 'flex';
         } finally {
             btnText.style.display = 'inline';
@@ -601,27 +700,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Apply button: updates the ticket card & QR code
+    // Apply button: updates the ticket card & QR code with the exact fetched data
     if (btnApplyDetails) {
         btnApplyDetails.addEventListener('click', () => {
-            const titleVal = fieldTitle.value.trim() || 'Toxic: A Fairy Tale for Grown-ups (A)';
-            const metaVal = fieldMeta.value.trim() || 'Kannada, IMAX 2D';
-            const timeVal = fieldTime.value.trim() || 'Wed, 26 Aug, 2026 | 06:30 AM';
-            const venueVal = fieldVenue.value.trim() || 'PVR: Nexus, Koramangala (AUDI 1 IMAX)';
-            const screenVal = fieldScreen.value.trim() || 'AUDI 1 IMAX';
-            const seatsVal = fieldSeats.value.trim() || 'SEAT - K09';
-            const bookingIdVal = fieldBookingId.value.trim() || 'ET00513508';
-            const priceVal = fieldPrice.value.trim() || '1681.42';
+            const titleVal = fieldTitle.value.trim() || 'Cinema Ticket';
+            const metaVal = fieldMeta.value.trim() || 'Hindi, 2D';
+            const timeVal = fieldTime.value.trim() || 'Sat, 21 Nov, 2026 | 07:15 PM';
+            const venueVal = fieldVenue.value.trim() || 'PVR Cinemas (AUDI 1)';
+            const screenVal = fieldScreen.value.trim() || 'AUDI 1';
+            const seatsVal = fieldSeats.value.trim() || getRandomSeat();
+            const bookingIdVal = fieldBookingId.value.trim() || ('ET' + Math.floor(10000000 + Math.random() * 90000000));
+            const priceVal = fieldPrice.value.trim() || '450.00';
             const posterSrc = (currentFetchedData && currentFetchedData.posterUrl)
                 ? currentFetchedData.posterUrl
-                : posterImgEl.src;
+                : generatePosterSvg(titleVal);
 
             // 1. Update Poster
             if (posterImgEl) {
                 posterImgEl.src = posterSrc;
             }
 
-            // 2. Update Movie Title (with rating span)
+            // 2. Update Movie Title (with rating span if provided)
             const movieTitleEl = document.querySelector('.movie-title');
             if (movieTitleEl) {
                 const ratingMatch = titleVal.match(/\s*(\([A-Za-z0-9+-]+\))\s*$/);
@@ -681,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentFetchedData && currentFetchedData.qrData) {
                 shareUrl = currentFetchedData.qrData;
             } else {
-                shareUrl = `https://in.bookmyshow.com/order-summary/${bookingIdVal}/PVFF?bookingId=${bookingIdVal}`;
+                shareUrl = `https://in.bookmyshow.com/order-summary/${bookingIdVal}`;
             }
             renderQRCode(shareUrl);
 
@@ -696,7 +795,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Close modal & confirm
             closeAutoFillModal();
-            showToast('Ticket auto-filled from BookMyShow!');
+            showToast(`Ticket updated: ${titleVal}!`);
         });
     }
 });
