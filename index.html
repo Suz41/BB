@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=1.1.0">
+    <link rel="stylesheet" href="css/style.css?v=1.1.2">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -175,7 +175,14 @@
                         </div>
                         <div class="form-group">
                             <label>Language & Format</label>
-                            <input type="text" id="fieldMeta" class="form-input" placeholder="e.g. Kannada, IMAX 2D">
+                            <input type="text" id="fieldMeta" class="form-input" placeholder="e.g. Hindi, IMAX 2D">
+                            <div class="quick-chip-group" id="formatChips">
+                                <button type="button" class="chip-btn" data-type="format" data-val="2D">2D</button>
+                                <button type="button" class="chip-btn" data-type="format" data-val="3D">3D</button>
+                                <button type="button" class="chip-btn" data-type="format" data-val="IMAX 2D">IMAX 2D</button>
+                                <button type="button" class="chip-btn" data-type="format" data-val="IMAX 3D">IMAX 3D</button>
+                                <button type="button" class="chip-btn" data-type="format" data-val="4DX 3D">4DX</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Date & Time</label>
@@ -183,11 +190,24 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Theater / Venue</label>
-                            <input type="text" id="fieldVenue" class="form-input" placeholder="e.g. PVR: Nexus, Koramangala">
+                            <input type="text" id="fieldVenue" class="form-input" placeholder="e.g. PVR: Phoenix Palladium, Mumbai">
+                            <div class="quick-chip-group" id="venueChips">
+                                <button type="button" class="chip-btn" data-type="venue" data-val="PVR: Phoenix Palladium, Lower Parel, Mumbai">PVR Mumbai</button>
+                                <button type="button" class="chip-btn" data-type="venue" data-val="PVR: Vegas Mall, Dwarka, Delhi">PVR Delhi</button>
+                                <button type="button" class="chip-btn" data-type="venue" data-val="PVR: Nexus, Koramangala, Bengaluru">PVR Bengaluru</button>
+                                <button type="button" class="chip-btn" data-type="venue" data-val="Prasads Multiplex, Hyderabad">Prasads Hyd</button>
+                                <button type="button" class="chip-btn" data-type="venue" data-val="INOX: South City Mall, Kolkata">INOX Kolkata</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Screen / Audi</label>
                             <input type="text" id="fieldScreen" class="form-input" placeholder="e.g. AUDI 1 IMAX">
+                            <div class="quick-chip-group" id="screenChips">
+                                <button type="button" class="chip-btn" data-type="screen" data-val="AUDI 1">AUDI 1</button>
+                                <button type="button" class="chip-btn" data-type="screen" data-val="AUDI 2">AUDI 2</button>
+                                <button type="button" class="chip-btn" data-type="screen" data-val="AUDI 3">AUDI 3</button>
+                                <button type="button" class="chip-btn" data-type="screen" data-val="AUDI 1 IMAX">AUDI 1 IMAX</button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Seats & Tickets</label>
@@ -214,6 +234,6 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <script src="js/script.js?v=1.1.1"></script>
+    <script src="js/script.js?v=1.1.2"></script>
 </body>
 </html>

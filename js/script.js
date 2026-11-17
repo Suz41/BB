@@ -373,7 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
             movieQuery: '',
             city: '',
             theater: '',
-            screen: 'AUDI 1 (IMAX 2D)',
+            format: '2D',
+            screen: 'AUDI 1',
             seats: getRandomSeat(),
             bookingId: '',
             date: '',
@@ -381,6 +382,36 @@ document.addEventListener('DOMContentLoaded', () => {
             price: (Math.floor(350 + Math.random() * 500)).toFixed(2),
             language: 'Hindi'
         };
+
+        // Extract format and screen from input text or URL keywords
+        const lowerRaw = input.toLowerCase();
+        if (lowerRaw.includes('imax 3d') || lowerRaw.includes('imax-3d')) {
+            extracted.format = 'IMAX 3D';
+            extracted.screen = 'AUDI 1 IMAX';
+        } else if (lowerRaw.includes('imax 2d') || lowerRaw.includes('imax-2d') || lowerRaw.includes('imax')) {
+            extracted.format = 'IMAX 2D';
+            extracted.screen = 'AUDI 1 IMAX';
+        } else if (lowerRaw.includes('4dx 3d') || lowerRaw.includes('4dx-3d')) {
+            extracted.format = '4DX 3D';
+            extracted.screen = 'AUDI 4DX';
+        } else if (lowerRaw.includes('4dx')) {
+            extracted.format = '4DX';
+            extracted.screen = 'AUDI 4DX';
+        } else if (lowerRaw.includes('ice 3d') || lowerRaw.includes('ice-3d') || lowerRaw.includes('ice')) {
+            extracted.format = 'ICE 3D';
+            extracted.screen = 'ICE AUDI';
+        } else if (lowerRaw.includes('screenx')) {
+            extracted.format = 'ScreenX';
+            extracted.screen = 'AUDI ScreenX';
+        } else if (lowerRaw.includes('3d')) {
+            extracted.format = '3D';
+            extracted.screen = 'AUDI 2 (3D)';
+        }
+
+        const mAudiNum = lowerRaw.match(/(?:audi|screen)\s*[:#-]?\s*(\d+)/i);
+        if (mAudiNum) {
+            extracted.screen = extracted.format.includes('IMAX') ? `AUDI ${mAudiNum[1]} IMAX` : `AUDI ${mAudiNum[1]}`;
+        }
 
         // Extract any ET... event code from input string
         const etMatch = input.match(/\b(ET\d{6,10})\b/i);
@@ -485,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mAmt = input.match(/(?:₹|rs\.?|inr)\s*([\d,]+(?:\.\d{1,2})?)/i);
             if (mAmt) extracted.price = mAmt[1].replace(/,/g, '');
 
-            const mSeats = input.match(/(?:seats?|seat\s*no\.?)\s*[:#-]?\s*([A-Za-z0-9,\s-]+?)(?:\s+(?:audi|booking|total|rs|₹|\.|$)|$)/i);
+            const mSeats = input.match(/(?:seats?|seat\s*no\.?)\s*[:#-]?\s*([A-Za-z0-9,\s-]+?)(?:\\s+(?:audi|booking|total|rs|₹|\.|$)|$)/i);
             if (mSeats) {
                 const s = mSeats[1].trim();
                 extracted.seats = s.toUpperCase().startsWith('SEAT') ? s.toUpperCase() : `SEAT - ${s.toUpperCase()}`;
@@ -535,12 +566,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!movieQuery) return null;
 
         const queries = [movieQuery];
-        // Simplified query (strip subtitles / punctuation)
         const simplified = movieQuery.replace(/[:\-–].*$/, '').trim();
         if (simplified && simplified.toLowerCase() !== movieQuery.toLowerCase()) {
             queries.push(simplified);
         }
-        // First 2 words fallback
         const words = movieQuery.split(' ');
         if (words.length > 2) {
             queries.push(words.slice(0, 2).join(' '));
@@ -593,6 +622,80 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     }
 
+    // Real-time input synchronization between form fields and preview
+    if (fieldTitle) {
+        fieldTitle.addEventListener('input', () => {
+            if (previewTitle) previewTitle.textContent = fieldTitle.value;
+        });
+    }
+    if (fieldMeta) {
+        fieldMeta.addEventListener('input', () => {
+            if (previewMeta) previewMeta.textContent = fieldMeta.value;
+        });
+    }
+    if (fieldVenue) {
+        fieldVenue.addEventListener('input', () => {
+            if (previewVenue) previewVenue.textContent = fieldVenue.value;
+        });
+    }
+    if (fieldTime) {
+        fieldTime.addEventListener('input', () => {
+            if (previewDate) previewDate.textContent = fieldTime.value;
+        });
+    }
+    if (fieldScreen) {
+        fieldScreen.addEventListener('input', () => {
+            const base = fieldVenue.value.replace(/\s*\([^)]*\)$/, '').trim();
+            if (fieldScreen.value.trim()) {
+                fieldVenue.value = `${base} (${fieldScreen.value.trim()})`;
+                if (previewVenue) previewVenue.textContent = fieldVenue.value;
+            }
+        });
+    }
+
+    // Interactive Quick Selection Chips (Format, Screen Audi, Venue)
+    document.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = btn.getAttribute('data-type');
+            const val = btn.getAttribute('data-val');
+
+            const group = btn.closest('.quick-chip-group');
+            if (group) {
+                group.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            if (type === 'format') {
+                const currentLang = (fieldMeta.value.split(',')[0] || 'Hindi').trim();
+                fieldMeta.value = `${currentLang}, ${val}`;
+                if (previewMeta) previewMeta.textContent = fieldMeta.value;
+
+                if (val.includes('IMAX')) {
+                    fieldScreen.value = 'AUDI 1 IMAX';
+                } else if (val.includes('4DX')) {
+                    fieldScreen.value = 'AUDI 4DX';
+                } else if (val.includes('3D')) {
+                    fieldScreen.value = 'AUDI 2 (3D)';
+                } else {
+                    fieldScreen.value = 'AUDI 1';
+                }
+                const baseVenue = fieldVenue.value.replace(/\s*\([^)]*\)$/, '').trim();
+                fieldVenue.value = `${baseVenue} (${fieldScreen.value})`;
+                if (previewVenue) previewVenue.textContent = fieldVenue.value;
+            } else if (type === 'screen') {
+                fieldScreen.value = val;
+                const baseVenue = fieldVenue.value.replace(/\s*\([^)]*\)$/, '').trim();
+                fieldVenue.value = `${baseVenue} (${val})`;
+                if (previewVenue) previewVenue.textContent = fieldVenue.value;
+            } else if (type === 'venue') {
+                const currentScreen = fieldScreen.value.trim() || 'AUDI 1';
+                fieldVenue.value = `${val} (${currentScreen})`;
+                if (previewVenue) previewVenue.textContent = fieldVenue.value;
+            }
+        });
+    });
+
     // Handle Fetch Details click
     async function handleFetchDetails() {
         const raw = bmsInput.value.trim();
@@ -629,7 +732,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Determine Language & Meta
             const finalLanguage = (tmdb && tmdb.language) ? tmdb.language : (parsed.language || 'Hindi');
-            const finalMeta = `${finalLanguage}, 2D`;
+            const finalFormat = parsed.format || '2D';
+            const finalMeta = `${finalLanguage}, ${finalFormat}`;
 
             // Determine Poster (TMDB official poster OR customized dynamic SVG badge)
             let finalPoster = (tmdb && tmdb.posterUrl) ? tmdb.posterUrl : generatePosterSvg(finalTitle);
@@ -638,8 +742,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalDate = parsed.date || (tmdb && tmdb.releaseDate ? tmdb.releaseDate : 'Sat, 21 Nov, 2026');
             const finalTime = `${finalDate} | ${parsed.time}`;
 
-            // Venue
-            const finalVenue = parsed.theater ? `${parsed.theater} (${parsed.screen})` : 'PVR Cinemas (AUDI 1)';
+            // Venue with Screen Audi
+            const finalVenue = parsed.theater ? `${parsed.theater} (${parsed.screen})` : `PVR Cinemas (${parsed.screen})`;
 
             // Populate form fields
             fieldTitle.value = finalTitle;
@@ -650,6 +754,14 @@ document.addEventListener('DOMContentLoaded', () => {
             fieldSeats.value = parsed.seats;
             fieldBookingId.value = parsed.bookingId;
             fieldPrice.value = parsed.price;
+
+            // Highlight matching quick chips
+            document.querySelectorAll('#formatChips .chip-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-val') === finalFormat);
+            });
+            document.querySelectorAll('#screenChips .chip-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-val') === parsed.screen);
+            });
 
             // Update preview
             previewPosterImg.src = finalPoster;
@@ -733,7 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 3. Update Meta
+            // 3. Update Format / Language
             const movieMetaEl = document.querySelector('.movie-meta');
             if (movieMetaEl) {
                 movieMetaEl.textContent = metaVal;
@@ -751,7 +863,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 movieVenueEl.textContent = venueVal;
             }
 
-            // 6. Update Screen
+            // 6. Update Screen / Audi
             const ticketScreenEl = document.querySelector('.ticket-screen');
             if (ticketScreenEl) {
                 ticketScreenEl.textContent = screenVal;
