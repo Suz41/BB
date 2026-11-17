@@ -7,14 +7,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=1.0.8">
+    <link rel="stylesheet" href="css/style.css?v=1.1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <main class="app-container">
-
+        <!-- Header Actions: BMS Auto-Fill -->
+        <div class="ticket-header-actions">
+            <button class="action-btn-import" id="btnOpenAutoFill" title="Auto-fill ticket details from BookMyShow link or text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <span>Auto-Fill from BookMyShow</span>
+            </button>
+        </div>
 
         <!-- Ticket Card -->
         <div class="ticket-card">
@@ -80,6 +88,12 @@
                 <h3>Support & Actions</h3>
             </div>
             <div class="drawer-body">
+                <button class="drawer-item" id="actionAutoFillDrawer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    Auto-Fill from BookMyShow Link
+                </button>
                 <button class="drawer-item" id="actionDownload">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -115,10 +129,91 @@
         </div>
     </div>
 
+    <!-- BookMyShow Auto-Fill Modal -->
+    <div class="modal-overlay" id="autoFillModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <span class="modal-badge">BMS</span>
+                    <h3>Auto-Fill Ticket</h3>
+                </div>
+                <button class="modal-close" id="btnCloseAutoFill">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-subtitle">
+                    Paste any BookMyShow link (movie page, showtimes, booking) or paste your booking SMS / confirmation text.
+                </p>
+
+                <div class="url-input-container">
+                    <input type="text" id="bmsInput" class="modal-input" placeholder="Paste BookMyShow link or booking text..." autocomplete="off">
+                    <button type="button" id="btnFetchDetails" class="modal-btn-fetch">
+                        <span class="btn-text">Fetch</span>
+                        <span class="btn-loader" style="display:none;"></span>
+                    </button>
+                </div>
+
+                <div class="fetch-status-msg" id="fetchStatusMsg"></div>
+
+                <!-- Preview Card -->
+                <div class="modal-preview-card" id="previewCard" style="display: none;">
+                    <img id="previewPosterImg" class="preview-poster" src="" alt="Poster">
+                    <div class="preview-info">
+                        <div class="preview-title" id="previewTitle">Movie Title</div>
+                        <div class="preview-sub" id="previewMeta">Language, Format</div>
+                        <div class="preview-venue" id="previewVenue">Cinema & Screen</div>
+                        <div class="preview-date" id="previewDate">Show Date & Time</div>
+                    </div>
+                </div>
+
+                <!-- Form Fields for Quick Tweaking -->
+                <div class="modal-form-fields" id="modalFormFields" style="display: none;">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Movie Title & Tagline</label>
+                            <input type="text" id="fieldTitle" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Language & Format</label>
+                            <input type="text" id="fieldMeta" class="form-input" placeholder="e.g. Kannada, IMAX 2D">
+                        </div>
+                        <div class="form-group">
+                            <label>Date & Time</label>
+                            <input type="text" id="fieldTime" class="form-input" placeholder="e.g. Wed, 26 Aug, 2026 | 06:30 AM">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Theater / Venue</label>
+                            <input type="text" id="fieldVenue" class="form-input" placeholder="e.g. PVR: Nexus, Koramangala">
+                        </div>
+                        <div class="form-group">
+                            <label>Screen / Audi</label>
+                            <input type="text" id="fieldScreen" class="form-input" placeholder="e.g. AUDI 1 IMAX">
+                        </div>
+                        <div class="form-group">
+                            <label>Seats & Tickets</label>
+                            <input type="text" id="fieldSeats" class="form-input" placeholder="e.g. SEAT - K09">
+                        </div>
+                        <div class="form-group">
+                            <label>Booking ID</label>
+                            <input type="text" id="fieldBookingId" class="form-input" placeholder="e.g. ET00513508">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Price (₹)</label>
+                            <input type="text" id="fieldPrice" class="form-input" placeholder="e.g. 1681.42">
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnApplyDetails" class="modal-btn-apply">
+                        Apply to Ticket
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <script src="js/script.js?v=1.0.9"></script>
+    <script src="js/script.js?v=1.1.0"></script>
 </body>
 </html>
